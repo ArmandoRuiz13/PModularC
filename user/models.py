@@ -33,7 +33,7 @@ class ProblemaEnCurso(models.Model):
     info_adicional = models.TextField(blank=True)
     fecha_aceptado = models.DateTimeField(auto_now_add=True)
     fecha_completado = models.DateTimeField(blank=True, null=True)
-    comentario_completado = models.TextField(blank=True, null=True)
+    comentario_completado = models.TextField(blank=True, null=True, default="")
     def __str__(self):
         return str(self.id_problema)
 
