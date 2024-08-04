@@ -108,7 +108,7 @@ Array.from(document.getElementsByClassName('seguimiento_p')).forEach(function (e
                     if (statusProblema === "Aceptado") {
                         divAdminInfo.innerHTML += `
                             <div class='row h3'><span class='col border border-2'><strong>Aceptado por</strong></span> <span class='col border border-2 text-center'>${data.id_administrador}</span></div>
-                            <div class='row h3'><span class='col border border-2'><strong>Fecha de aceptado</strong></span> <span class='col border border-2 text-center'>${data.fecha_aceptado.slice(0, 10)}</span></div>
+                            <div class='row h3'><span class='col border border-2'><strong>Fecha de aceptado</strong></span> <span class='col border border-2 text-center ${colorEstatus}'>${data.fecha_aceptado.slice(0, 10)}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Información adicional</strong></span> <span class='col border border-2 text-center'>${data.info_adicional}</span></div>
                         `;
                     } else if (statusProblema === "Procesando") {
@@ -120,15 +120,15 @@ Array.from(document.getElementsByClassName('seguimiento_p')).forEach(function (e
                     } else if (statusProblema === "Rechazado") {
                         divAdminInfo.innerHTML += `
                             <div class='row h3'><span class='col border border-2'><strong>Rechazado por</strong></span> <span class='col border border-2 text-center'>${data.id_administrador}</span></div>
-                            <div class='row h3'><span class='col border border-2'><strong>Fecha de rechazo</strong></span> <span class='col border border-2 text-center'>${data.fecha_aceptado.slice(0, 10)}</span></div>
+                            <div class='row h3'><span class='col border border-2'><strong>Fecha de rechazo</strong></span> <span class='col border border-2 text-center ${colorEstatus}'>${data.fecha_aceptado.slice(0, 10)}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Motivo de rechazo</strong></span> <span class='col border border-2 text-center'>${data.info_adicional}</span></div>
                         `;
                     } else if (statusProblema === "Completado") {
                         divAdminInfo.innerHTML += `
                             <div class='row h3'><span class='col border border-2'><strong>Completado por</strong></span> <span class='col border border-2 text-center'>${data.id_administrador}</span></div>
-                            <div class='row h3'><span class='col border border-2'><strong>Fecha de completado</strong></span> <span class='col border border-2 text-center'>${data.fecha_aceptado.slice(0, 10)}</span></div>
+                            <div class='row h3'><span class='col border border-2'><strong>Fecha de aceptado</strong></span> <span class='col border border-2 text-center bg-success text-white'>${data.fecha_aceptado.slice(0, 10)}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Información adicional</strong></span> <span class='col border border-2 text-center'>${data.info_adicional}</span></div>
-                            <div class='row h3'><span class='col border border-2'><strong>Fecha de completado</strong></span> <span class='col border border-2 text-center text-success'>${data.fecha_completado.slice(0, 10)}</span></div>
+                            <div class='row h3'><span class='col border border-2'><strong>Fecha de completado</strong></span> <span class='col border border-2 text-center ${colorEstatus}'>${data.fecha_completado.slice(0, 10)}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Información sobre completado</strong></span> <span class='col border border-2 text-center text-success'>${data.comentario_completado}</span></div>
                         
 

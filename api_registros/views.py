@@ -272,7 +272,7 @@ class ProblemaAPIView(APIView):
         comentario_completado = request.data.get("comentario_completado")
         if id is not None:
             try:
-                instance = Problema.objects.get(id=id)
+                instance = Problema.objects.get(id=id) #accediendo a la tabla problemas
                 problemaEnCurso = ProblemaEnCurso.objects.get(id_problema=instance)
                 problemaEnCurso.id_administrador = request.user
                 instance.estatus_problematica = estatus
@@ -281,7 +281,7 @@ class ProblemaAPIView(APIView):
                                             admin_u=request.user.first_name,
                                              type='Problema',
                                              title='Problema ' + estatus,
-                                             message=f'Su problema ha sido actualizado a {estatus}')
+                                             message=f'Su problema {instance.tipo_edificio} | {instance.tipo_problema} con el ID#{id} fue {estatus} por el administrador {request.user.first_name} {request.last_name}')
                 if info_adicional is not None:
                     problemaEnCurso.info_adicional = info_adicional
 
