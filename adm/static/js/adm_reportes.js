@@ -345,7 +345,7 @@ function addEvents() {
                                 </div>
                                 <div class='row h3 text-start'>
                                     <button type="button" data-idProblema='${idProblema}' id="rechazar_problema" class="btn btn-danger col fs-5 me-2" data-bs-dismiss="modal">
-                                        Cancelar
+                                        Rechazar
                                     </button>
                                     <button type="button" data-idProblema='${idProblema}' id="completar_problema" class="btn btn-primary col fs-5 me-2" data-bs-dismiss="modal">
                                         Completar
