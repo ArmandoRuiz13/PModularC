@@ -2,8 +2,12 @@ let BodyModal = document.querySelector('.modal-body');
 let content = "";
 const currentUrl = window.location.href;
 const url = new URL(currentUrl); // obtiene ruta relativa
-
+// DOM ordenar por
+const thIdReporte = document.querySelector('#th_id_reporte');
+const thFecha = document.querySelector('#th_fecha');
+const thGravedad = document.querySelector('#thGravedad');
 // Select current page on menu to add class 'MenuPicked'
+
 const reportar = document.querySelectorAll('.nav-item a').item(1);
 reportar.id = 'MenuPicked';
 
@@ -13,6 +17,58 @@ const statusColors = {
     "Procesando": 'bg-warning text-dark',
     "Completado": 'bg-info text-white'
 };
+document.addEventListener('DOMContentLoaded', () => {
+    const table = document.querySelector('table');
+    const headers = table.querySelectorAll('th.selecionable');
+    const tbody = table.querySelector('tbody');
+
+    const gravedadOrden = {
+        'Menor': 1,
+        'Moderado': 2,
+        'Serio': 3,
+        'Crítico': 4
+    };
+
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const order = header.dataset.orden;
+            const columnIndex = Array.prototype.indexOf.call(header.parentElement.children, header);
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const sortedRows = rows.sort((a, b) => {
+                const aText = a.children[columnIndex].innerText.trim();
+                const bText = b.children[columnIndex].innerText.trim();
+
+                if (header.id === 'th_id_reporte') {
+                    // Ordenar numéricamente
+                    return order === 'asc' ? parseInt(aText) - parseInt(bText) : parseInt(bText) - parseInt(aText);
+                } else if (header.id === 'thGravedad') {
+                    // Ordenar por fecha y hora
+                    const aDate = new Date(aText);
+                    const bDate = new Date(bText);
+                    return order === 'asc' ? aDate - bDate : bDate - aDate;
+                } else if (header.id === 'th_fecha') {
+                    // Ordenar por gravedad
+                    const aGravedad = gravedadOrden[aText] || 0;
+                    const bGravedad = gravedadOrden[bText] || 0;
+                    return order === 'asc' ? aGravedad - bGravedad : bGravedad - aGravedad;
+                }
+            });
+
+            // Eliminar las filas existentes
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+
+            // Agregar las filas ordenadas
+            sortedRows.forEach(row => tbody.appendChild(row));
+
+            // Alternar el orden para la próxima vez que se haga clic
+            header.dataset.orden = order === 'asc' ? 'desc' : 'asc';
+        });
+    });
+});
+
 
 Array.from(document.getElementsByClassName('seguimiento_p')).forEach(function (element) {
     

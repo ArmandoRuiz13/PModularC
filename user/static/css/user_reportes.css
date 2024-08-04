@@ -47,3 +47,16 @@ body{
   background-color: #90caf9; /* Azul moderado */
   color: #0f3663;
 }
+.selecionable {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.selecionable:hover {
+  background-color: var(--primary-color-light-1); /* o el color que prefieras para el hover */
+}
+
+.selecionable:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
