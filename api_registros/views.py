@@ -276,11 +276,17 @@ class ProblemaAPIView(APIView):
                 problemaEnCurso = ProblemaEnCurso.objects.get(id_problema=instance)
                 problemaEnCurso.id_administrador = request.user
                 instance.estatus_problematica = estatus
+                
+                Notification.objects.create(user=instance.id_usuario,
+                                            admin_u=request.user.first_name,
+                                             type='Problema',
+                                             title='Problema ' + estatus,
+                                             message=f'Su problema ha sido actualizado a {estatus}')
                 if info_adicional is not None:
                     problemaEnCurso.info_adicional = info_adicional
 
                 if estatus == "Completado":
-                    if problemaEnCurso.fecha_aceptado == " ":
+                    if problemaEnCurso.fecha_completado == None:
                         problemaEnCurso.fecha_completado = datetime.now()
                     if comentario_completado is not None:
                         problemaEnCurso.comentario_completado = comentario_completado
@@ -359,7 +365,7 @@ class ProblemaEnCursoAPIView(APIView):
                     dict['fecha_completado'] = instance.fecha_completado.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S')
 
                 dict['adminName'] = instance.id_administrador.first_name
-                dict['id_admnistrador'] = instance.id_administrador.first_name
+                dict['id_administrador'] = instance.id_administrador.first_name
                 dict.pop('id_problema', None)
 
                 return Response(dict)
