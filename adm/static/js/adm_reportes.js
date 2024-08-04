@@ -46,6 +46,9 @@ const btnCambiarEstatus = document.getElementById("btnCambiarEstatus");
 const textAreaInfoAdicional = document.getElementById("infoAdicional");
 const spanNuevoEstatus = document.getElementById("tituloNuevoEstatus");
 
+// Button reload
+
+btnRecargarTabla = document.querySelector('#btnRecargarTabla');
 
 const statusColors = {
     "Aceptado": 'bg-success text-white',
@@ -77,6 +80,14 @@ const gravedadOrden = {
 
 // Seleccionar el elemento del encabezado de la columna de gravedad
 const thGravedad = document.getElementById('thGravedad');
+
+// Evento para el botón de recargar tabla
+
+btnRecargarTabla.addEventListener('click', () => {
+    cargarProblemas();
+    btnProblemaSiguiente.classList.add('invisible');
+    btnProblemaAnterior.classList.add('invisible');
+});
 
 // Barra de búsqueda	
 formBusqueda.addEventListener('submit', (event) => {
@@ -603,6 +614,8 @@ btnCambiarEstatus.addEventListener('click', function() {
 
 // Cargar la información de los problemas en la tabla
 function cargarProblemas() {
+    const iconCargando = btnRecargarTabla.querySelector('.fa-solid');
+    iconCargando.classList.add('fa-spin');
     fetch(`/api_registros/problema/`)
         .then((response) => {
             if (!response.ok) {
@@ -619,7 +632,10 @@ function cargarProblemas() {
         })
         .catch((error) => {
             console.error('There was a problem with the fetch operation:', error);
+        }).finally(() => {
+            iconCargando.classList.remove('fa-spin');
         });
+
 }
 
 function mostrarProblemas(pagina=1, problemas=problemasFiltrados, problemasPorPagina=10){
@@ -808,6 +824,8 @@ document.getElementById('btnCerrarModal').addEventListener('click',()=>{
     const selectedOption = document.getElementById('estatusSelect');
     selectedOption.value = '';  
 });
+
+
 
 addEvents();
 cargarProblemas();
