@@ -24,7 +24,8 @@ class CodigoSeguridad(models.Model):
     codigo = models.CharField(max_length=6)
     codigo_verificado = models.BooleanField(default=False)
     creado_en = models.DateTimeField(auto_now=True)
-    # expira_en = models.DateTimeField()  # Expiration time
+    # utilizado = models.BooleanField(default=False)
+    # expira_en = models.DateTimeField(default="")  # Expiration time
 
     # def save(self, *args, **kwargs):
     #     # Calculate expiration time

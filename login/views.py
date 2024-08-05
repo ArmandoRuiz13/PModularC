@@ -3,6 +3,8 @@ from login.models import CustomUser, CodigoSeguridad
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
+from django.utils import timezone
+from datetime import timedelta
 from mailersend import emails
 import secrets
 import string
@@ -14,6 +16,7 @@ def generar_codigo_seguridad(length=6):
     alphabet = string.ascii_letters + string.digits
     codigo = ''.join(secrets.choice(alphabet) for i in range(length))
     return codigo
+
 
 # Create your views here.
 
@@ -132,16 +135,14 @@ def enviar_codigo_recuperacion(request):
     try:
         usuario = CustomUser.objects.get(email=email)
         request.session['user'] = usuario.id
-        codigo_obj = CodigoSeguridad.objects.get(usuario=usuario)
-        codigo = codigo_obj.codigo
-    except CustomUser.DoesNotExist:
-        return JsonResponse({'message': 'Correo no registrado', 'error': True})
-    except CodigoSeguridad.DoesNotExist:
+        CodigoSeguridad.objects.filter(usuario=usuario).delete()
         codigo = generar_codigo_seguridad()
         CodigoSeguridad.objects.create(usuario=usuario, codigo=codigo)
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'message': 'Correo no registrado', 'error': True})
 
     # Send the email with the code
-    #enviar_correo(usuario.email, usuario.first_name, "Recuperación de contraseña", f"Su código de recuperación es: {codigo}")
+    enviar_correo(usuario.email, usuario.first_name, "Recuperación de contraseña", f"Su código de recuperación es: {codigo}")
 
     return JsonResponse({'message': 'Correo enviado con éxito', 'error': False})
 
@@ -149,7 +150,7 @@ def validar_codigo_recuperacion(request):
     codigo = json.loads(request.body).get('code')
     usuario = request.session['user']
     try:
-        codigo_obj = CodigoSeguridad.objects.get(usuario=usuario, codigo=codigo)
+        codigo_obj = CodigoSeguridad.objects.get(usuario=usuario, codigo=codigo, codigo_verificado=False)
         codigo_obj.codigo_verificado = True
         codigo_obj.save()
         return JsonResponse({'message': 'Código correcto', 'error': False})
@@ -167,7 +168,7 @@ def recuperar_contraseña(request):
             usuario.set_password(nueva_contraseña)
             usuario.save()
             codigo_obj.delete()
-            return HttpResponse('Contraseña actualizada con éxito')
+            return JsonResponse({'message': 'Contraseña actualizada', 'error': False})
         except CodigoSeguridad.DoesNotExist:
-            return HttpResponse('Código incorrecto')
-    return render(request, 'recuperar_contraseña.html')
+            return JsonResponse({'message': 'Código no verificado', 'error': True})
+   

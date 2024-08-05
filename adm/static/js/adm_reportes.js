@@ -1,3 +1,5 @@
+import { getCookie } from './utils.js';
+
 let BodyModal = document.querySelector('#InformacionReportes .modal-body');
 let content = "";
 const currentUrl = window.location.href;
@@ -48,7 +50,7 @@ const spanNuevoEstatus = document.getElementById("tituloNuevoEstatus");
 
 // Button reload
 
-btnRecargarTabla = document.querySelector('#btnRecargarTabla');
+const btnRecargarTabla = document.querySelector('#btnRecargarTabla');
 
 const statusColors = {
     "Aceptado": 'bg-success text-white',
@@ -806,20 +808,7 @@ function updateProblemInfo(divProblemaInfo, problema) {
 }
 
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+
 document.getElementById('btnCerrarModal').addEventListener('click',()=>{
     const selectedOption = document.getElementById('estatusSelect');
     selectedOption.value = '';  

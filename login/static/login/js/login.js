@@ -22,6 +22,7 @@ const inputPasswordConfirmRegister = document.querySelector(
 const inputEmailRegister = document.querySelector("input[name=emailR]"); // Selects the input element with name "emailR"
 
 const divLoginError = document.querySelector(".login-error"); // Selects the element with class "login-error"
+const warningBoxModal = document.querySelector("#warningBoxModal"); // Selects the element with class "warning-box-modal"
 
 // CONSTANTS
 const emailRecoverContent = ` <label for="email_recover" class="col-form-label w-100"
@@ -87,6 +88,7 @@ Array.from(register).forEach((r) => {
 
 // Event listener for the "Forgot Password" button
 btnForgotPassword.addEventListener("click", () => {
+  warningBoxModal.classList.add("invisible");
   btnRecoverPassword.textContent = "Enviar código";
   recoverContainer.innerHTML = emailRecoverContent;
   codeContainer.innerHTML = "";
@@ -94,6 +96,7 @@ btnForgotPassword.addEventListener("click", () => {
 
 // Event listener for the "Recover Password" button
 btnRecoverPassword.addEventListener("click", () => {
+  warningBoxModal.classList.add("invisible");
   if (btnRecoverPassword.textContent === "Enviar código") {
     if (validateField("email")) {
       fetch("/send-code/", {
@@ -114,7 +117,8 @@ btnRecoverPassword.addEventListener("click", () => {
         })
         .then((data) => {
           if (data.error) {
-            alert("El correo no está registrado");
+            warningBoxModal.textContent = "¡El correo no está registrado!";
+            warningBoxModal.classList.remove("invisible");
             return;
           }
           codeContainer.innerHTML = ` <label for="code_recover" class="col-form-label w-100"
@@ -155,10 +159,10 @@ btnRecoverPassword.addEventListener("click", () => {
         })
         .then((data) => {
           if (data.error) {
-            alert("El código es incorrecto");
+            warningBoxModal.textContent = "¡El código es incorrecto!";
+            warningBoxModal.classList.remove("invisible");
             return;
           }
-          alert("Código correcto");
           btnRecoverPassword.textContent = "Cambiar Contraseña";
           codeContainer.innerHTML = "";
           recoverContainer.innerHTML = `<label for="password_recover" class="col-form-label w-100"
@@ -207,17 +211,22 @@ btnRecoverPassword.addEventListener("click", () => {
           })
           .then((data) => {
             if (data.error) {
-              alert("Error al cambiar la contraseña");
+              warningBoxModal.textContent = "¡Error en la solicitud!";
+              warningBoxModal.classList.remove("invisible");
               return;
             }
-            alert("Contraseña cambiada correctamente");
-            window.location.href = "/login/";
+            warningBoxModal.textContent = "¡Contraseña cambiada correctamente!";
+            warningBoxModal.classList.remove("invisible");
+            document.querySelector("#password_recover").value = "";
+            document.querySelector("#password_recover_confirm").value = "";
+            // window.location.href = "/";
           })
           .catch((error) => {
             console.error("Error:", error);
           });
       } else {
-        alert("Las contraseñas no coinciden");
+        warningBoxModal.textContent = "¡Las contraseñas no coinciden!";
+        warningBoxModal.classList.remove("invisible");
       }
     }
   }
