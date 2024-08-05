@@ -142,7 +142,7 @@ def enviar_codigo_recuperacion(request):
         return JsonResponse({'message': 'Correo no registrado', 'error': True})
 
     # Send the email with the code
-    enviar_correo(usuario.email, usuario.first_name, "Recuperación de contraseña", f"Su código de recuperación es: {codigo}")
+    # enviar_correo(usuario.email, usuario.first_name, "Recuperación de contraseña", f"Su código de recuperación es: {codigo}")
 
     return JsonResponse({'message': 'Correo enviado con éxito', 'error': False})
 

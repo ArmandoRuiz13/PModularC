@@ -281,7 +281,7 @@ class ProblemaAPIView(APIView):
                                             admin_u=request.user.first_name,
                                              type='Problema',
                                              title='Problema ' + estatus,
-                                             message=f'Su problema {instance.tipo_edificio} | {instance.tipo_problema} con el ID#{id} fue {estatus} por el administrador {request.user.first_name} {request.last_name}')
+                                             message=f'Su problema {instance.tipo_edificio} | {instance.tipo_problema} con el ID#{id} fue {estatus} por el administrador {request.user.first_name} {request.user.last_name}')
                 if info_adicional is not None:
                     problemaEnCurso.info_adicional = info_adicional
 
