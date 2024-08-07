@@ -40,7 +40,7 @@ const thFecha = document.querySelector('#th_fecha');
 const inputBusqueda = document.querySelector('#inputBusqueda');
 const btnBusqueda = document.querySelector('#btnBusqueda');
 const formBusqueda = document.querySelector('#formBusqueda');
-let problemasBusqueda = [];
+let busquedaGlobal = '';
 
 // Modal Info Adicional
 let modal = new bootstrap.Modal(document.getElementById('InfoAdiccional'));
@@ -91,10 +91,8 @@ btnRecargarTabla.addEventListener('click', () => {
     btnProblemaAnterior.classList.add('invisible');
 });
 
-// Barra de búsqueda	
-formBusqueda.addEventListener('submit', (event) => {
-    event.preventDefault();
-    let busqueda = inputBusqueda.value.toLowerCase();
+function realizarBusqueda(busqueda) {
+    let problemasBusqueda = [];
     if(busqueda === '') {
         problemasBusqueda = problemas;
     } 
@@ -109,16 +107,19 @@ formBusqueda.addEventListener('submit', (event) => {
             });
         } else{
             problemasBusqueda = problemas.filter(p => {
-                return p.user_name.toLowerCase().includes(busqueda)
+                return p.user_name.toLowerCase().includes(busqueda);
             });
         }
     }
+    return problemasBusqueda;
+}
 
-    inputBusqueda.value = '';
-    numResultados.textContent = `${problemasFiltrados.length} resultados encontrados`;
+// Barra de búsqueda	
+formBusqueda.addEventListener('submit', (event) => {
+    event.preventDefault();
+    busquedaGlobal =  inputBusqueda.value;
     filtrar();
-    
-
+    inputBusqueda.value = '';
 });
 
 // Añadir el evento para la columna de gravedad
@@ -181,7 +182,7 @@ function filtrar() {
     btnProblemaSiguiente.classList.add('invisible');
     btnProblemaAnterior.classList.add('invisible');
 
-    problemasFiltrados = problemasBusqueda;
+    problemasFiltrados =  realizarBusqueda(busquedaGlobal.toLowerCase());;
 
     // Obtener los checkboxes seleccionados
     const estatusSeleccionados = [];
@@ -224,7 +225,20 @@ function filtrar() {
         });
     }
 
-    numResultados.textContent = `${problemasFiltrados.length} resultados encontrados`;
+    numResultados.textContent = `${problemasFiltrados.length} resultado` + (problemasFiltrados.length !== 1 ? 's' : '') + // Mostrar el número de resultados
+        ` encontrado` +  (problemasFiltrados.length !== 1 ? 's' : '');
+    
+    
+
+    if(busquedaGlobal !== '') {
+        if(problemasFiltrados.length == 0){
+            numResultados.textContent = "No se encontraron resultados para " + `${busquedaGlobal}`;
+        } else {
+            numResultados.textContent += " para  " + `${busquedaGlobal}`;
+        }
+       
+    } 
+
     numPages = Math.ceil(problemasFiltrados.length / selectReportesPorPagina.value);
     pagina = 1;
     if (numPages > 1) btnProblemaSiguiente.classList.remove('invisible');
