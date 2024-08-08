@@ -93,7 +93,6 @@ def logout_view(request):
     return redirect('login')
 
 
-
 def enviar_correo(destinatario_email, destinatario_nombre, asunto, mensaje):
     mailer = emails.NewEmail("mlsn.a977aab3339211488d1f0a777df5e0666718feb65538b05bb27e12defab96d3a")
 

@@ -192,7 +192,17 @@ btnRecoverPassword.addEventListener("click", () => {
     }
   } else if (btnRecoverPassword.textContent === "Cambiar Contraseña") {
     if (validateField("password_recover") && validateField("password_recover_confirm")) {
-      if (document.querySelector("#password_recover").value === document.querySelector("#password_recover_confirm").value) {
+      if (document.querySelector("#password_recover").value === 
+          document.querySelector("#password_recover_confirm").value) {
+        const password = document.querySelector("#password_recover").value;
+        const password_confirm = document.querySelector("#password_recover_confirm").value;
+        if (password.length < 8) {
+          warningBoxModal.textContent = "¡La contraseña debe tener al menos 8 caracteres!";
+          warningBoxModal.classList.remove("invisible");
+          return;
+        }
+        
+        
         fetch("/change-password/", {
           method: "POST",
           headers: {
