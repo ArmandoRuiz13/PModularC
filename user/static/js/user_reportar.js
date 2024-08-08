@@ -2,7 +2,6 @@
 
 // Select current page on menú to add class 'MenuPicked'
 const reportar = document.querySelectorAll('.nav-item a').item(2);
-let BodyModal = document.querySelector('.modal-body');
 const boton_reportar = document.querySelector('#mandar_reporte_btn');
 reportar.id = 'MenuPicked';
  
@@ -41,6 +40,7 @@ const myModal = new bootstrap.Modal(document.getElementById('datosReportarModal'
 const btnAbrirModal = document.getElementById('btn-abrir-modal');
 const datosEdificioModal = document.getElementById('datos_edificio_modal');
 const datosProblemaModal = document.getElementById('datos_problema_modal');
+let BodyModal = document.querySelector('.modal-body');
 
 // Opciones edificio departamento 
 
@@ -215,9 +215,14 @@ let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
 let qValue = urlParams.get('success');
 
+const myModalConfirmation = new bootstrap.Modal(document.getElementById('sendConfirmationModal'));
+const bodyModalConfirmation = document.querySelector('#sendConfirmationModal .modal-body');
+
 if (qValue === 'true'){
-    alert('Se envío correctamente!');
+    bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Reporte enviado con éxito!</div>`;
+    myModalConfirmation.show();     
 }
 else if (qValue === 'false'){
-    alert('Ocurrio un error');
+    bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Error en el envío!</div>`;
+    myModalConfirmation.show();  
 }

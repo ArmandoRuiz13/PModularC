@@ -48,3 +48,10 @@ def admGetEdificio(request, letra):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
     return render(request, 'adm_edificios_info.html', {"letra": letra})
+
+
+@login_required(login_url='/')
+def admUsuarios(request):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+    return render(request, 'adm_usuarios.html', {})
