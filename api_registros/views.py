@@ -276,21 +276,37 @@ class ProblemaAPIView(APIView):
                 problemaEnCurso = ProblemaEnCurso.objects.get(id_problema=instance)
                 problemaEnCurso.id_administrador = request.user
                 instance.estatus_problematica = estatus
-                
-                Notification.objects.create(user=instance.id_usuario,
-                                            admin_u=request.user.first_name,
-                                             type='Problema',
-                                             title='Problema ' + estatus,
-                                             message=f'Su problema {instance.tipo_edificio} | {instance.tipo_problema} con el ID#{id} fue {estatus} por el administrador {request.user.first_name} {request.user.last_name}')
-                if info_adicional is not None:
+                adminComentario = "Tu problema fue atendido por el administrador"
+                if info_adicional is None or info_adicional == "":
+                    problemaEnCurso.info_adicional = "Tu problema fue atendido por el administrador"
+                if info_adicional is not None and info_adicional != "":
                     problemaEnCurso.info_adicional = info_adicional
+                    adminComentario = info_adicional
+
+
 
                 if estatus == "Completado":
                     if problemaEnCurso.fecha_completado == None:
                         problemaEnCurso.fecha_completado = datetime.now()
-                    if comentario_completado is not None:
+                    if comentario_completado is not None and comentario_completado != "":
                         problemaEnCurso.comentario_completado = comentario_completado
+                        adminComentario = comentario_completado
+                    if comentario_completado is None or comentario_completado == "":
+                        adminComentario = "Tu problema fue completado con exito gracias por reportar"
+                        problemaEnCurso.comentario_completado = adminComentario
                 
+                
+                Notification.objects.create(
+                                            user=instance.id_usuario,
+                                            admin_u=request.user.first_name,
+                                            type='Problema',
+                                            title='Problema ' + estatus,
+                                            message=(
+                                                f'Su problema {instance.tipo_edificio} | {instance.tipo_problema} con el ID#{id} fue {estatus} '
+                                                f'por el administrador {request.user.first_name} {request.user.last_name}. '
+                                                f'El mensaje enviado fue: "{adminComentario}"'
+                                                    )
+                                            )
                 instance.save()
                 problemaEnCurso.save()
                 return Response({'message': 'Estado cambiado'}, status=200)

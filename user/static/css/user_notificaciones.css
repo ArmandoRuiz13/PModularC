@@ -40,3 +40,27 @@ body{
   display: flex;
   height: 100vh;
 }
+.selecionable {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.selecionable:hover {
+  background-color: var(--primary-color-light-1); /* o el color que prefieras para el hover */
+}
+
+.selecionable:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.table-responsive {
+  overflow-y: auto; /* Permitir desplazamiento vertical */
+  max-height: 600px; /* Ajusta según sea necesario */
+}
+
+.table thead th {
+  position: sticky; /* Fijar posición */
+  top: 0; /* Posición en la parte superior */
+  background-color: var(--primary-color-light-2);
+  z-index: 1; /* Asegurarse de que el encabezado esté por encima */
+}

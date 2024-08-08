@@ -12,36 +12,45 @@
   <div class="notifications-container">
     <div class="container" id="mireportes">
       <h1 class="fw-bold display-5" id="newarrivals">Notificaciones</h1>
-      <div class="row">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Título</th>
-              <th scope='col'>Mensaje</th>
-              <th scope="col">Tipo Mensaje</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Hora</th>
-              <th scope="col"> </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for p in notificaciones %}
-            <tr class="vista{{p.id}} {% if p.read_status == True %} estatus-leido{% endif %}
-              {% if p.read_status == False %} estatus-no-leido{% endif %}" href="#!" data-bs-toggle="modal" data-bs-target="#notificaciones_vista">
-              <th scope="row">{{p.title}}</th>
-              <td>{{p.message}}</td>
-              <td>{{p.type}}</td>
-              <td>{{p.created_at|timezone:"America/Mexico_City"|date:"m/d/Y" }}</td>
-              <td>{{p.created_at|timezone:"America/Mexico_City"|time:"H:i:s"}}</td>
-              <td><button id={{p.id}} class="eliminar_notificacion btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#notificaciones_eliminar"> <i class="fa-solid fa-trash-can"></i> </button></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="mb-3">
+        <label>
+          <input type="checkbox" id="mostrarNoLeidas" checked>
+          <label for="mostrarNoLeidas">Mostrar solo notificaciones no leídas</label>
+          <p id="totalResultados"></p>
+        </label>
       </div>
+      <div class="row">
+        <div class="table-responsive"> <!-- Contenedor para permitir el desplazamiento -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Título</th>
+                <th scope='col'>Mensaje</th>
+                <th scope="col">Tipo Mensaje</th>
+                <th class="selecionable" data-orden="asc" id="th_fecha" scope="col">Fecha y Hora</th>
+                <th scope="col"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in notificaciones %}
+              <tr class="vista{{p.id}} {% if p.read_status == True %} estatus-leido{% endif %}
+                {% if p.read_status == False %} estatus-no-leido{% endif %}" href="#!" data-bs-toggle="modal" data-bs-target="#notificaciones_vista">
+                <th scope="row">{{p.title}}</th>
+                <td style="display: none;">{{ p.message }}</td>
+                <td>{{ p.message|truncatechars:70 }}</td>
+                <td>{{p.type}}</td>
+                <td>{{p.created_at|timezone:"America/Mexico_City"|date:"m/d/Y" }} {{p.created_at|timezone:"America/Mexico_City"|time:"H:i:s"}}</td>
+                <td><button id={{p.id}} class="eliminar_notificacion btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#notificaciones_eliminar"> <i class="fa-solid fa-trash-can"></i> </button></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>      
     </div>
   </div>
 {% endblock %}
+
 
 
 {% block modal %}
