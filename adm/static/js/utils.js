@@ -10,9 +10,5 @@ export function getCookie(name) {
             }
         }
     }
-    return cookieValue;
+    return cookieValue;
 }
-document.getElementById('btnCerrarModal').addEventListener('click',()=>{
-    const selectedOption = document.getElementById('estatusSelect');
-    selectedOption.value = '';  
-});

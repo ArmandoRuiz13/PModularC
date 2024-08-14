@@ -5,7 +5,7 @@
 {% block css %} 
   <link rel="stylesheet" href="{% static 'css/adm_reportes.css' %}" /> 
 {% endblock %}
- 
+  
 {% block contenido %}
   <div class="d-flex">
   <section class="d-flex flex-column justify-content-start container reportes">
@@ -107,19 +107,19 @@
     </section>
     <section class="container mx-auto my-5 mb-4" id="mireportes">
     <div class="d-flex justify-space-between w-100">
-      <h1 class="fw-bold display-5 flex-grow-1" id="newarrivals">Mis reportes</h1>
+      <h1 class="fw-bold display-5 flex-grow-1" id="newarrivals">Usuarios</h1>
       <div id="btnRecargarTabla" class="cursor-pointer"><i class="fa-solid fa-rotate-right"></i></div>
     </div>
     <div class="row d-flex flex-column">
       <table class="table">
         <thead>
           <tr>
-            <th class="selecionable" data-orden="asc" id="th_id_reporte" scope="col">Reporte #</th>
-            <th scope="col">User</th>
-            <th scope='col'>Info</th>
-            <th class="selecionable" data-orden="asc" id="thGravedad" scope="col">Gravedad</th>
-            <th scope="col">Estatus</th>
-            <th class="selecionable" data-orden="asc" id="th_fecha" scope="col">Fecha</th>
+            <th class="selecionable" data-orden="asc" id="th_id_reporte" scope="col">ID #</th>
+            <th scope="col">Usuario</th>
+            <th scope='col'>Tipo</th>
+            <th scope="col">Correo</th>
+            <th class="selecionable" data-orden="asc" id="th_fecha" scope="col">Cantidad reportes</th>
+            <th scope="col">Fecha de registro</th>
             <th scope="col">Seguimiento</th>
             <th scope="col">
               <select class="form-select" id="estatusSelect">
@@ -132,19 +132,21 @@
           </tr>
         </thead>
         <tbody id='contenedor_problemas'>
-          {% for p in problemas %}
-          <tr class="
-              {% if p.estatus_problematica == 'Procesando' %}estatus-en-proceso{% endif %}
-              {% if p.estatus_problematica == 'Aceptado' %}estatus-aceptado{% endif %}
-              {% if p.estatus_problematica == 'Rechazado' %}estatus-rechazado{% endif %}
-              {% if p.estatus_problematica == 'Completado' %}estatus-completado{% endif %}
-          ">
-            <th scope="row">{{p.id}}</th>
-            <td>{{p.id_usuario.first_name}}#{{p.id_usuario.id}} </td>
-            <td>{{p.tipo_edificio}} | {{p.tipo_problema}}</td>
-            <td>{{p.gravedad_problema}}</td>
-            <td class='estatus_problematica'>{{p.estatus_problematica}}</td>
-            <td>{{p.fecha_actualizado|timezone:"America/Mexico_City"|date:"d/m/Y H:i:s" }}</td>
+          {% for u in usuarios %}
+          
+          <tr>
+            <th scope="row">{{u.id}}</th>
+            <td>{{u.first_name}} {{u.last_name}} </td>
+            <td> 
+              {% if u.is_staff %} 
+                Admin 
+              {% else %} 
+                Usuario 
+              {% endif %}
+            </td>
+            <td>{{u.email}}</td>
+            <td>{{u.num_reportes}}</td>
+            <td>{{u.date_joined|timezone:"America/Mexico_City"|date:"d/m/Y H:i:s" }}</td>
             <td>
               <button id="p.{{p.id}}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes">
                 <i class="fa-solid fa-arrow-up-long"></i>

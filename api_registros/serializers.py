@@ -21,4 +21,10 @@ class NotificacionSerializer(serializers.ModelSerializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__' 
+        exclude = ['password']  # Excluir el campo 'password'
+        extra_fields = ['num_reportes']  # Agregar 'num_reportes' al serializador
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['num_reportes'] = instance.num_reportes
+        return representation

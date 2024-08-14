@@ -8,7 +8,7 @@ const url = new URL(currentUrl); // obtiene ruta relativa
 // Select current page on menu to add class 'MenuPicked'
 const reportar = document.querySelectorAll('.nav-item a').item(2    );
 reportar.id = 'MenuPicked';
-
+ 
 const btnStatusAceptar = document.createElement('button');
 let idProblema;
 
@@ -43,10 +43,10 @@ const formBusqueda = document.querySelector('#formBusqueda');
 let busquedaGlobal = '';
 
 // Modal Info Adicional
-let modal = new bootstrap.Modal(document.getElementById('InfoAdiccional'));
-const btnCambiarEstatus = document.getElementById("btnCambiarEstatus");
-const textAreaInfoAdicional = document.getElementById("infoAdicional");
-const spanNuevoEstatus = document.getElementById("tituloNuevoEstatus");
+// let modal = new bootstrap.Modal(document.getElementById('InfoAdiccional'));
+// const btnCambiarEstatus = document.getElementById("btnCambiarEstatus");
+// const textAreaInfoAdicional = document.getElementById("infoAdicional");
+// const spanNuevoEstatus = document.getElementById("tituloNuevoEstatus");
 
 // Button reload
 
@@ -86,7 +86,7 @@ const thGravedad = document.getElementById('thGravedad');
 // Evento para el botón de recargar tabla
 
 btnRecargarTabla.addEventListener('click', () => {
-    cargarProblemas();
+    cargarUsuarios();
     btnProblemaSiguiente.classList.add('invisible');
     btnProblemaAnterior.classList.add('invisible');
 });
@@ -123,29 +123,29 @@ formBusqueda.addEventListener('submit', (event) => {
 });
 
 // Añadir el evento para la columna de gravedad
-thGravedad.addEventListener('click', (e) => {
-    let orden = e.target.dataset.orden;
-    console.log('Orden actual:', orden); // Verifica el estado actual
+// thGravedad.addEventListener('click', (e) => {
+//     let orden = e.target.dataset.orden;
+//     console.log('Orden actual:', orden); // Verifica el estado actual
 
-    if (orden === 'asc') {
-        problemasFiltrados = problemasFiltrados.sort((a, b) => {
-            console.log('Comparando:', a.gravedad, b.gravedad); // Verifica los valores de gravedad
-            return gravedadOrden[a.gravedad_problema] - gravedadOrden[b.gravedad_problema];
-        });
-        e.target.dataset.orden = 'desc'; // Cambia a descendente
-    } else {
-        problemasFiltrados = problemasFiltrados.sort((a, b) => {
-            console.log('Comparando:', a.gravedad, b.gravedad); // Verifica los valores de gravedad
-            return gravedadOrden[b.gravedad_problema] - gravedadOrden[a.gravedad_problema];
-        });
-        e.target.dataset.orden = 'asc'; // Cambia a ascendente
-    }
+//     if (orden === 'asc') {
+//         problemasFiltrados = problemasFiltrados.sort((a, b) => {
+//             console.log('Comparando:', a.gravedad, b.gravedad); // Verifica los valores de gravedad
+//             return gravedadOrden[a.gravedad_problema] - gravedadOrden[b.gravedad_problema];
+//         });
+//         e.target.dataset.orden = 'desc'; // Cambia a descendente
+//     } else {
+//         problemasFiltrados = problemasFiltrados.sort((a, b) => {
+//             console.log('Comparando:', a.gravedad, b.gravedad); // Verifica los valores de gravedad
+//             return gravedadOrden[b.gravedad_problema] - gravedadOrden[a.gravedad_problema];
+//         });
+//         e.target.dataset.orden = 'asc'; // Cambia a ascendente
+//     }
 
-    // Actualiza la vista con los problemas ordenados
-    mostrarProblemas(pagina, problemasFiltrados, selectReportesPorPagina.value);
-    // Reaplicar eventos después de actualizar la vista
-    addEvents();
-});
+//     // Actualiza la vista con los problemas ordenados
+//     mostrarProblemas(pagina, problemasFiltrados, selectReportesPorPagina.value);
+//     // Reaplicar eventos después de actualizar la vista
+//     addEvents();
+// });
 
 
 thFecha.addEventListener('click', (e) => {
@@ -185,59 +185,59 @@ function filtrar() {
     problemasFiltrados =  realizarBusqueda(busquedaGlobal.toLowerCase());;
 
     // Obtener los checkboxes seleccionados
-    const estatusSeleccionados = [];
-    document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
-        estatusSeleccionados.push(checkbox.value);
-    });
+    // const estatusSeleccionados = [];
+    // document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
+    //     estatusSeleccionados.push(checkbox.value);
+    // });
 
-    // Filtrar por estatus si no se seleccionan todos los checkboxes
-    if (estatusSeleccionados.length > 0 && estatusSeleccionados.length < 4) {
-        problemasFiltrados = problemasFiltrados.filter(p => estatusSeleccionados.includes(p.estatus_problematica));
-    }
+    // // Filtrar por estatus si no se seleccionan todos los checkboxes
+    // if (estatusSeleccionados.length > 0 && estatusSeleccionados.length < 4) {
+    //     problemasFiltrados = problemasFiltrados.filter(p => estatusSeleccionados.includes(p.estatus_problematica));
+    // }
 
-    if (selectGravedad.value !== 'Todos') {
-        problemasFiltrados = problemasFiltrados.filter(p => p.gravedad_problema === selectGravedad.value);
-    }
-    if (selectTipoProblema.value !== 'Todos') {
-        problemasFiltrados = problemasFiltrados.filter(p => p.tipo_problema === selectTipoProblema.value);
-    }
-    if (selectTipoEdificio.value !== 'Todos') {
-        problemasFiltrados = problemasFiltrados.filter(p => p.tipo_edificio === selectTipoEdificio.value);
-    }
-    if (selectFecha.value !== 'Todos') {
-        problemasFiltrados = problemasFiltrados.filter(p => {
-            const fechaActual = new Date();
-            const partesFecha = p.fecha_actualizado.split('/');
-            const dia = parseInt(partesFecha[0], 10);
-            const mes = parseInt(partesFecha[1], 10) - 1;
-            const anio = parseInt(partesFecha[2], 10);
-            const fechaActualizacion = new Date(anio, mes, dia);
+    // if (selectGravedad.value !== 'Todos') {
+    //     problemasFiltrados = problemasFiltrados.filter(p => p.gravedad_problema === selectGravedad.value);
+    // }
+    // if (selectTipoProblema.value !== 'Todos') {
+    //     problemasFiltrados = problemasFiltrados.filter(p => p.tipo_problema === selectTipoProblema.value);
+    // }
+    // if (selectTipoEdificio.value !== 'Todos') {
+    //     problemasFiltrados = problemasFiltrados.filter(p => p.tipo_edificio === selectTipoEdificio.value);
+    // }
+    // if (selectFecha.value !== 'Todos') {
+    //     problemasFiltrados = problemasFiltrados.filter(p => {
+    //         const fechaActual = new Date();
+    //         const partesFecha = p.fecha_actualizado.split('/');
+    //         const dia = parseInt(partesFecha[0], 10);
+    //         const mes = parseInt(partesFecha[1], 10) - 1;
+    //         const anio = parseInt(partesFecha[2], 10);
+    //         const fechaActualizacion = new Date(anio, mes, dia);
 
-            const diferencia = fechaActual - fechaActualizacion;
-            const diasDiferencia = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    //         const diferencia = fechaActual - fechaActualizacion;
+    //         const diasDiferencia = Math.floor(diferencia / (1000 * 60 * 60 * 24));
 
-            if (selectFecha.value === 'Hoy') return diasDiferencia === 0;
-            if (selectFecha.value === 'Ayer') return diasDiferencia <= 1;
-            if (selectFecha.value === '7 días') return diasDiferencia <= 7;
-            if (selectFecha.value === 'Mes') return diasDiferencia <= 30;
-            if (selectFecha.value === 'Año') return diasDiferencia <= 366;
-            return true;
-        });
-    }
+    //         if (selectFecha.value === 'Hoy') return diasDiferencia === 0;
+    //         if (selectFecha.value === 'Ayer') return diasDiferencia <= 1;
+    //         if (selectFecha.value === '7 días') return diasDiferencia <= 7;
+    //         if (selectFecha.value === 'Mes') return diasDiferencia <= 30;
+    //         if (selectFecha.value === 'Año') return diasDiferencia <= 366;
+    //         return true;
+    //     });
+    // }
 
-    numResultados.textContent = `${problemasFiltrados.length} resultado` + (problemasFiltrados.length !== 1 ? 's' : '') + // Mostrar el número de resultados
-        ` encontrado` +  (problemasFiltrados.length !== 1 ? 's' : '');
+    // numResultados.textContent = `${problemasFiltrados.length} resultado` + (problemasFiltrados.length !== 1 ? 's' : '') + // Mostrar el número de resultados
+    //     ` encontrado` +  (problemasFiltrados.length !== 1 ? 's' : '');
     
     
 
-    if(busquedaGlobal !== '') {
-        if(problemasFiltrados.length == 0){
-            numResultados.textContent = "No se encontraron resultados para " + `${busquedaGlobal}`;
-        } else {
-            numResultados.textContent += " para  " + `${busquedaGlobal}`;
-        }
+    // if(busquedaGlobal !== '') {
+    //     if(problemasFiltrados.length == 0){
+    //         numResultados.textContent = "No se encontraron resultados para " + `${busquedaGlobal}`;
+    //     } else {
+    //         numResultados.textContent += " para  " + `${busquedaGlobal}`;
+    //     }
        
-    } 
+    // } 
 
     numPages = Math.ceil(problemasFiltrados.length / selectReportesPorPagina.value);
     pagina = 1;
@@ -555,84 +555,84 @@ function addEvents() {
 
 // Event listener para el botón de Confirmar cambio de estatus
 
-btnCambiarEstatus.addEventListener('click', function() {
-            const selectedOption = document.getElementById('estatusSelect');
+// btnCambiarEstatus.addEventListener('click', function() {
+//             const selectedOption = document.getElementById('estatusSelect');
 
-            // let mensajeConfirmacion = '';
-            let nuevoEstatus = '';
-            let infoAdicional = textAreaInfoAdicional.value;
+//             // let mensajeConfirmacion = '';
+//             let nuevoEstatus = '';
+//             let infoAdicional = textAreaInfoAdicional.value;
 
-            // Determinar el mensaje de confirmación y el nuevo estatus basado en la opción seleccionada
-            switch (selectedOption.value) {
-                case 'Aceptar':
-                    nuevoEstatus = 'Aceptado';
-                    break;
-                case 'Rechazar':
-                    nuevoEstatus = 'Rechazado';
-                    break;
-                case 'Completar':
-                    nuevoEstatus = 'Completado';
-                    break;
-                default:
-                    return; // Salir si la opción seleccionada no es válida
-            }
+//             // Determinar el mensaje de confirmación y el nuevo estatus basado en la opción seleccionada
+//             switch (selectedOption.value) {
+//                 case 'Aceptar':
+//                     nuevoEstatus = 'Aceptado';
+//                     break;
+//                 case 'Rechazar':
+//                     nuevoEstatus = 'Rechazado';
+//                     break;
+//                 case 'Completar':
+//                     nuevoEstatus = 'Completado';
+//                     break;
+//                 default:
+//                     return; // Salir si la opción seleccionada no es válida
+//             }
          
 
 
-            const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-            selectedCheckboxes.forEach(checkbox => {
-                let row = checkbox.closest('tr');
-                let idProblema = row.querySelector('th').textContent;
+//             const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+//             selectedCheckboxes.forEach(checkbox => {
+//                 let row = checkbox.closest('tr');
+//                 let idProblema = row.querySelector('th').textContent;
     
-                fetch(`/api_registros/problema/${idProblema}/`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({
-                        estatus: nuevoEstatus,
-                        info_adicional: infoAdicional, // Aquí podrías recoger la información adicional si es necesario
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const problemaActualizado = problemas.find(p => p.id == idProblema);
-                    console.log(problemaActualizado);
-                    if (problemaActualizado) {
-                        problemaActualizado.estatus_problematica = nuevoEstatus;
-                        const fecha_actual = new Date();
-                        const dia = fecha_actual.getDate();
-                        const mes = (fecha_actual.getMonth() + 1).toString().padStart(2, '0');
-                        const anio = fecha_actual.getFullYear();
-                        const horas = fecha_actual.getHours().toString().padStart(2, '0');
-                        const minutos = fecha_actual.getMinutes().toString().padStart(2, '0');
-                        const segundos = fecha_actual.getSeconds().toString().padStart(2, '0');
-                        const fechaStr = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
-                        problemaActualizado.fecha_actualizado = fechaStr;
-                        filtrar(); // Actualizar la tabla o la vista según sea necesario
-                    }
-                })
-                .catch(error => {
-                    console.error('Hubo un problema con la operación fetch:', error);
-                });
-            });
+//                 fetch(`/api_registros/problema/${idProblema}/`, {
+//                     method: 'PUT',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                         'X-CSRFToken': getCookie('csrftoken')
+//                     },
+//                     body: JSON.stringify({
+//                         estatus: nuevoEstatus,
+//                         info_adicional: infoAdicional, // Aquí podrías recoger la información adicional si es necesario
+//                     })
+//                 })
+//                 .then(response => {
+//                     if (!response.ok) {
+//                         throw new Error('Network response was not ok');
+//                     }
+//                     return response.json();
+//                 })
+//                 .then(data => {
+//                     const problemaActualizado = problemas.find(p => p.id == idProblema);
+//                     console.log(problemaActualizado);
+//                     if (problemaActualizado) {
+//                         problemaActualizado.estatus_problematica = nuevoEstatus;
+//                         const fecha_actual = new Date();
+//                         const dia = fecha_actual.getDate();
+//                         const mes = (fecha_actual.getMonth() + 1).toString().padStart(2, '0');
+//                         const anio = fecha_actual.getFullYear();
+//                         const horas = fecha_actual.getHours().toString().padStart(2, '0');
+//                         const minutos = fecha_actual.getMinutes().toString().padStart(2, '0');
+//                         const segundos = fecha_actual.getSeconds().toString().padStart(2, '0');
+//                         const fechaStr = `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+//                         problemaActualizado.fecha_actualizado = fechaStr;
+//                         filtrar(); // Actualizar la tabla o la vista según sea necesario
+//                     }
+//                 })
+//                 .catch(error => {
+//                     console.error('Hubo un problema con la operación fetch:', error);
+//                 });
+//             });
     
-            // Restablecer el select box a la opción por defecto
-            selectedOption.value = '';  
+//             // Restablecer el select box a la opción por defecto
+//             selectedOption.value = '';  
 
-});
+// });
 
 // Cargar la información de los problemas en la tabla
-function cargarProblemas() {
+function cargarUsuarios() {
     const iconCargando = btnRecargarTabla.querySelector('.fa-solid');
     iconCargando.classList.add('fa-spin');
-    fetch(`/api_registros/problema/`)
+    fetch(`/api_registros/usuario/`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -642,7 +642,7 @@ function cargarProblemas() {
         .then((data) => {
             problemas = data;
             problemasFiltrados = problemas;
-            problemasBusqueda = problemas;
+            // problemasBusqueda = problemas;
             filtrar();
             addEvents();
         })
@@ -661,28 +661,24 @@ function mostrarProblemas(pagina=1, problemas=problemasFiltrados, problemasPorPa
     estatusCheckboxSeleccionado = '';
     problemasPagina.forEach((p) => {
         let tr = document.createElement('tr');
-        let claseEstatus;
+        let tipoUsuario;
         
-       // Condiciones en JavaScript para asignar el valor a claseEstatus
-        if (p.estatus_problematica === 'Procesando') {
-            claseEstatus = 'estatus-en-proceso';
-        } else if (p.estatus_problematica === 'Aceptado') {
-            claseEstatus = 'estatus-aceptado';
-        } else if (p.estatus_problematica === 'Rechazado') {
-            claseEstatus = 'estatus-rechazado';
-        } else if (p.estatus_problematica === 'Completado') {
-            claseEstatus = 'estatus-completado';
-        }
+       // Condiciones en JavaScript para asignar el valor a tipoUsuario
+        if (p.is_staff) {
+            tipoUsuario = 'Admin';
+        } else{
+            tipoUsuario = 'Usuario';
+        } 
  
-        tr.classList.add(claseEstatus);
+        tr.classList.add(tipoUsuario); 
 
         tr.innerHTML = `
-           <th scope="row row-9">${p.id}</th>
-              <td>${p.user_name}#${p.id_usuario} </td>
-              <td>${p.tipo_edificio} | ${p.tipo_problema}</td>
-              <td>${p.gravedad_problema}</td>
-              <td class="estatus_problematica">${p.estatus_problematica}</td>
-              <td>${p.fecha_actualizado}</td>
+              <th scope="row row-9">${p.id}</th>
+              <td>${p.first_name} ${p.last_name} </td>
+              <td>${tipoUsuario}</td>
+              <td>${p.email}</td>
+              <td>${p.num_reportes}</td>
+              <td>${p.date_joined}</td>
               <td>
                 <button id="p.${p.id}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes"> 
                   <i class="fa-solid fa-arrow-up-long"></i>
@@ -823,12 +819,12 @@ function updateProblemInfo(divProblemaInfo, problema) {
 
 
 
-document.getElementById('btnCerrarModal').addEventListener('click',()=>{
-    const selectedOption = document.getElementById('estatusSelect');
-    selectedOption.value = '';  
-});
+// document.getElementById('btnCerrarModal').addEventListener('click',()=>{
+//     const selectedOption = document.getElementById('estatusSelect');
+//     selectedOption.value = '';  
+// });
 
 
 
 addEvents();
-cargarProblemas();
+cargarUsuarios();

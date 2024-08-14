@@ -16,6 +16,7 @@ from drf_yasg import openapi
 from login.forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.db.models import Count, Q, F
 
 # Zona horaria de México
 timezone = pytz.timezone('America/Mexico_City')
@@ -405,7 +406,12 @@ class UsuariosAPIView(APIView):
     )
     def get(self, request, *args, **kwargs):
         # Listar todos los objetos
-        queryset = CustomUser.objects.all().order_by('id')
+        queryset = CustomUser.objects.annotate(
+            num_reportes=Count('problema', filter=Q(problema__id_usuario=F('id')))
+        ).order_by('id')
+        
+        # for(user) in queryset:
+        #     user.num_reportes = Problema.objects.filter(id_usuario=user).count()
         serializer = UsuarioSerializer(queryset, many=True)
         return Response(serializer.data)
     
