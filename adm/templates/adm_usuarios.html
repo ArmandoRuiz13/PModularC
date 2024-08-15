@@ -13,37 +13,10 @@
     <div>
       <div class="row  d-flex justify-content-center w-100 text-center">
 
-        <div class="col flex-grow-0 ">
-          <h2 class="fw-bold display-5 fs-3">Estatus</h2>
-          <div class="form-check w-75 m-auto mt-4 fs-5">
-              <input class="form-check-input" type="checkbox" value="Procesando" id="estatusProcesando" checked>
-              <label class="form-check-label" for="estatusProcesando">
-                  Procesando
-              </label>
-          </div>
-          <div class="form-check w-75 m-auto mt-2 fs-5">
-              <input class="form-check-input" type="checkbox" value="Aceptado" id="estatusAceptado">
-              <label class="form-check-label" for="estatusAceptado">
-                  Aceptado
-              </label>
-          </div>
-          <div class="form-check w-75 m-auto mt-2 fs-5">
-              <input class="form-check-input" type="checkbox" value="Rechazado" id="estatusRechazado">
-              <label class="form-check-label" for="estatusRechazado">
-                  Rechazado
-              </label>
-          </div>
-          <div class="form-check w-75 m-auto mt-2 fs-5">
-              <input class="form-check-input" type="checkbox" value="Completado" id="estatusCompletado">
-              <label class="form-check-label" for="estatusCompletado">
-                  Completado
-              </label>
-          </div>
-        </div>
         <div class="col">
           <div class="row">
           <div class="col">
-            <h2 class="fw-bold display-5 fs-3">Fecha</h2>
+            <h2 class="fw-bold display-5 fs-3">Fecha registro</h2>
             <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="fecha">
               <option value="Todos">Todos</option>
               <option value="Hoy">Hoy</option>
@@ -54,36 +27,15 @@
             </select>
           </div>
           <div class="col">
-            <h2 class="fw-bold display-5 fs-3">Tipo edificio</h2>
+            <h2 class="fw-bold display-5 fs-3">Tipo usuario</h2>
             <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="tipo_edificio">
               <option value="Todos">Todos</option>
-              <option value="Academico">Academico</option>
-              <option value="Baños">Baños</option>
-              <option value="Áreas comunes">Áreas comunes</option>
-              <option value="Departamento">Departamento</option>
+              <option value="Academico">Usuario</option>
+              <option value="Baños">Administrador</option>
             </select>
           </div>
           <div class="col">
-            <h2 class="fw-bold display-5 fs-3">Gravedad</h2>
-            <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="gravedad">
-              <option value="Todos">Todos</option>
-              <option value="Menor">Menor</option>
-              <option value="Moderado">Moderado</option>
-              <option value="Serio">Serio</option>
-              <option value="Crítico">Crítico</option>
-            </select>
-          </div>
-          <div class="col">
-            <h2 class="fw-bold display-5 fs-3">Tipo problema</h2>
-            <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="tipo_problema">
-              <option value="Todos">Todos</option>
-              <option value="Eléctrico">Eléctrico</option>
-              <option value="Físico">Físico</option>
-              <!-- <option value="Otro">Otro</option> -->
-            </select>
-          </div>
-          <div class="col">
-            <h2 class="fw-bold display-5 fs-3">Reportes por página</h2>
+            <h2 class="fw-bold display-5 fs-3">Usuarios por página</h2>
             <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="reportes_pagina">
               <option selected value="10">10</option>
               <option value="15">15</option>
@@ -94,7 +46,7 @@
           </div>
           <form class="row w-100 d-flex align-items-end h-50 mt-3" id="formBusqueda">
             <div class="input-group mb-3 w-50 m-auto">
-              <input type="text" id="inputBusqueda" class="form-control" placeholder="Usuario/Usuario#ID o ID de reporte" aria-label="Recipient's username" aria-describedby="btnBusqueda">
+              <input type="text" id="inputBusqueda" class="form-control" placeholder="Usuario, ID o correo" aria-label="Recipient's username" aria-describedby="btnBusqueda">
               <button class="btn btn-outline-secondary" type="submit" id="btnBusqueda">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
@@ -146,9 +98,9 @@
             </td>
             <td>{{u.email}}</td>
             <td>{{u.num_reportes}}</td>
-            <td>{{u.date_joined|timezone:"America/Mexico_City"|date:"d/m/Y H:i:s" }}</td>
+            <td>{{u.date_joined|timezone:"America/Mexico_City"|date:"d/m/Y" }}</td>
             <td>
-              <button id="p.{{p.id}}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes">
+              <button id="p.{{p.id}}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#SeguimientoUsuario">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </button>
             </td>
@@ -182,7 +134,7 @@
 {% endblock %}
 {% block modal %}
 
- 
+ {% include 'partials/modal_adm-usuario.html'%}
 
 {% endblock %}
 

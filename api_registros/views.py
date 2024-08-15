@@ -410,10 +410,24 @@ class UsuariosAPIView(APIView):
             num_reportes=Count('problema', filter=Q(problema__id_usuario=F('id')))
         ).order_by('id')
         
-        # for(user) in queryset:
-        #     user.num_reportes = Problema.objects.filter(id_usuario=user).count()
-        serializer = UsuarioSerializer(queryset, many=True)
-        return Response(serializer.data)
+         # Preparar la lista de usuarios
+        usuarios_data = []
+        for user in queryset:
+            usuarios_data.append({
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'is_superuser': user.is_superuser,
+                'is_staff': user.is_staff,
+                'is_active': user.is_active,
+                'date_joined': user.date_joined.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S'),
+                'num_reportes': user.num_reportes,
+                # Agrega otros campos necesarios aquí
+            })
+        
+        # Devolver la respuesta en formato JSON
+        return JsonResponse(usuarios_data, safe=False)
     
     @swagger_auto_schema(
         operation_summary="Cambiar datos de usuario y contraseña",
