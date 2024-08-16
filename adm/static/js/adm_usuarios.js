@@ -381,17 +381,17 @@ function addEvents() {
                 <span class='col border border-2'><strong>${data.date_joined}</strong></span> 
             </div>
             <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
+                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
                     Enviar notificación
                 </button>
             </div>
             <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
+                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
                     Administrar usuario
                 </button>
             </div>
             <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
+                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
                     Hacer admin
                 </button>
             </div>
@@ -433,17 +433,32 @@ function addEvents() {
             <strong>Administrar usuario</strong>
             </div>
             <div class='row h3 text-center'>
-                <div data-bs-toggle="collapse" data-bs-target="#collapseUsuario" aria-expanded="false" aria-controls="collapseUsuario">
+
+                <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseUsuario" aria-expanded="false" aria-controls="collapseUsuario">
                     Cambiar usuario
                 </div>
                 <div class="collapse collapse-horizontal" id="collapseUsuario">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">@</span>
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
                         <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
-               <div>Modificar contraseña</div>
-               <div>Actualizar correo</div>
+
+               <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#colapseContraseña" aria-expanded="false" aria-controls="colapseContraseña">Modificar contraseña</div>
+               <div class="collapse collapse-horizontal" id="colapseContraseña">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
+                        <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="basic-addon2">
+                    </div>
+                </div>
+
+               <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseCorreo" aria-expanded="false" aria-controls="collapseCorreo">Actualizar correo</div>
+               <div class="collapse collapse-horizontal" id="collapseCorreo">
+                   <div class="input-group mb-3">
+                      <span class="input-group-text" id="basic-addon1">@</span>
+                      <input type="text" class="form-control" placeholder="Correo" aria-label="Correo" aria-describedby="basic-addon3">
+                   </div>
+               </div>
             </div>
             <div class='row h3 text-start'>
                 <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
