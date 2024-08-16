@@ -65,3 +65,15 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
+.bg-dark {
+    background-color: #343a40 !important; /* Color oscuro para Admin */
+  }
+  
+  .bg-primary {
+    background-color: #007bff !important; /* Color azul para Usuario */
+  }
+  
+  .text-white {
+    color: white !important;
+  }
+  

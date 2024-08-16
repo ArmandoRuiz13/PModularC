@@ -36,6 +36,7 @@ const numResultados = document.querySelector("#num_resultados");
 // DOM ordenar por
 const thIdReporte = document.querySelector("#th_id_reporte");
 const thFecha = document.querySelector("#th_fecha");
+const thReportNum = document.querySelector("#th_reportnum");
 
 // Búsqueda
 
@@ -144,35 +145,41 @@ formBusqueda.addEventListener("submit", (event) => {
 //     addEvents();
 // });
 
-thFecha.addEventListener("click", (e) => {
-  let orden = e.target.dataset.orden;
+document.addEventListener("DOMContentLoaded", function() {
+  thFecha.addEventListener("click", (e) => {
+    let orden = e.target.dataset.orden;
 
-  const parseFechaHora = (fechaHoraStr) => {
-    const [fecha, hora] = fechaHoraStr.split(" ");
-    const [dia, mes, anio] = fecha.split("/");
-    const [horas, minutos, segundos] = hora.split(":");
-    return new Date(anio, mes - 1, dia, horas, minutos, segundos);
-  };
+    const parseFecha = (fechaStr) => {
+      const [dia, mes, anio] = fechaStr.split("/");
+      return new Date(anio, mes - 1, dia);
+    };
 
-  if (orden === "asc") {
-    usuariosFiltrados = usuariosFiltrados.sort((a, b) => {
-      const fechaA = parseFechaHora(a.fecha_actualizado);
-      const fechaB = parseFechaHora(b.fecha_actualizado);
-      return fechaA - fechaB;
+    usuariosFiltrados.sort((a, b) => {
+      const fechaA = parseFecha(a.fecha_actualizado);
+      const fechaB = parseFecha(b.fecha_actualizado);
+      return orden === "asc" ? fechaA - fechaB : fechaB - fechaA;
     });
-    e.target.dataset.orden = "desc";
-  } else {
-    usuariosFiltrados = usuariosFiltrados.sort((a, b) => {
-      const fechaA = parseFechaHora(a.fecha_actualizado);
-      const fechaB = parseFechaHora(b.fecha_actualizado);
-      return fechaB - fechaA;
-    });
-    e.target.dataset.orden = "asc";
-  }
 
-  mostrarProblemas(pagina, usuariosFiltrados, selectReportesPorPagina.value);
-  addEvents();
+    e.target.dataset.orden = orden === "asc" ? "desc" : "asc";
+    mostrarProblemas(pagina, usuariosFiltrados, selectReportesPorPagina.value);
+    addEvents();
+  });
+
+  thReportNum.addEventListener("click", (e) => {
+    let orden = e.target.dataset.orden;
+
+    usuariosFiltrados.sort((a, b) => {
+      const reportesA = a.num_reportes;
+      const reportesB = b.num_reportes;
+      return orden === "asc" ? reportesA - reportesB : reportesB - reportesA;
+    });
+
+    e.target.dataset.orden = orden === "asc" ? "desc" : "asc";
+    mostrarProblemas(pagina, usuariosFiltrados, selectReportesPorPagina.value);
+    addEvents();
+  });
 });
+
 
 function filtrar() {
   btnProblemaSiguiente.classList.add("invisible");
@@ -299,16 +306,16 @@ function addEvents() {
         
 
         let idUsuario = datosUser.querySelector("th").textContent; // Utilizamos let para evitar usuarios de alcance
-        let colorEstatus = statusColors[tipoUsuario] || "";
+        let tipoUser = statusColors[tipoUsuario] || "";
         const data = usuariosFiltrados.find((p) => p.id == idUsuario);
-
+        const tipoClase = tipoUsuario === "Admin" ? "bg-dark text-white" : "bg-primary text-white";
         divAdminInfo.innerHTML = `
-                <div class='text-center h2'><strong>USUARIO ID#${idUsuario}</strong></div>
-                <div class='row h3'>
-                    <span class='col border border-2'><strong>Estatus</strong></span> 
-                    <span class='col border border-2 text-center ${colorEstatus}'>${tipoUsuario}
-                    </span></div>
-            `;
+        <div class='text-center h2'><strong>Usuario ID#${idUsuario}</strong></div>
+        <div class='row h3 text-center'>
+            <span class='col border border-2'><strong>Estatus</strong></span> 
+            <span class='col border border-2 text-center ${tipoClase}'>${tipoUsuario}</span>
+        </div>
+      `;
         divProblemaInfo.innerHTML = `<div class='text-center h2'><strong>INFORMACION ENVIADA</strong></div>`;
       
 
@@ -321,86 +328,86 @@ function addEvents() {
 
           if (tipoUsuario === "Admin") {
             divAdminInfo.innerHTML += `
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.id}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.first_name} ${data.last_name}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.is_staff ? "Admin" : "User"}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.email}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.num_reportes}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.date_joined}</strong></span> 
-            </div>
-            <div class='row h3 text-start' id='btnEnviarNotificacion'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Enviar notificación
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Nombre de Usuario</strong></span> 
+                <span class='col border border-2 text-center'>${data.first_name} ${data.last_name}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Correo</strong></span> 
+                <span class='col border border-2 text-center'>${data.email}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Número de Reportes</strong></span> 
+                <span class='col border border-2 text-center'>${data.num_reportes}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Fecha de Creación</strong></span> 
+                <span class='col border border-2 text-center'>${data.date_joined}</span>
+              </div>
+              <div class='row h3 text-start' id='btnEnviarNotificacion'>
+                <button type="button" class="btn btn-outline-warning col fs-5 me-2">
+                  <i class="fas fa-bell"></i> Enviar notificación
                 </button>
-            </div>
-            <div class='row h3 text-start' id ='btnAdministrarUsuario'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Administrar usuario
+              </div>
+              <div class='row h3 text-start' id='btnAdministrarUsuario'>
+                <button type="button" class="btn btn-outline-primary col fs-5 me-2">
+                  <i class="fas fa-cog"></i> Administrar usuario
                 </button>
-            </div>
-            <div class='row h3 text-start' id = 'btnQuitarAdmin'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Quitar admin
+              </div>
+              <div class='row h3 text-start' id='btnQuitarAdmin'>
+                <button type="button" class="btn btn-outline-danger col fs-5 me-2">
+                  <i class="fas fa-user-minus"></i> Quitar admin
                 </button>
-            </div>
-            <div class='row h3 text-start id = 'btnBloquearUsuario'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Bloquear usuario
+              </div>
+              <div class='row h3 text-start' id='btnBloquearUsuario'>
+                <button type="button" class="btn btn-danger col fs-5 me-2">
+                  <i class="fas fa-ban"></i> Bloquear usuario
                 </button>
-            </div>
-                                            `;
+              </div>
+            `;
           } else if (tipoUsuario === "Usuario") {
             divAdminInfo.innerHTML += `
               <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.id}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.first_name} ${data.last_name}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.is_staff ? "Admin" : "User"}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.email}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.num_reportes}</strong></span> 
-            </div>
-            <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>${data.date_joined}</strong></span> 
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
-                    Enviar notificación
+                <span class='col border border-2'><strong>ID</strong></span> 
+                <span class='col border border-2 text-center'>${data.id}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Nombre</strong></span> 
+                <span class='col border border-2 text-center'>${data.first_name} ${data.last_name}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Correo</strong></span> 
+                <span class='col border border-2 text-center'>${data.email}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Número de Reportes</strong></span> 
+                <span class='col border border-2 text-center'>${data.num_reportes}</span>
+              </div>
+              <div class='row h3 text-center'>
+                <span class='col border border-2'><strong>Fecha de Creación</strong></span> 
+                <span class='col border border-2 text-center'>${data.date_joined}</span>
+              </div>
+              <div class='row h3 text-start'>
+                <button type="button" class="btn btn-outline-warning col fs-5 me-2">
+                  <i class="fas fa-bell"></i> Enviar notificación
                 </button>
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
-                    Administrar usuario
+              </div>
+              <div class='row h3 text-start'>
+                <button type="button" class="btn btn-outline-primary col fs-5 me-2">
+                  <i class="fas fa-cog"></i> Administrar usuario
                 </button>
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-secondary col fs-5 me-2">
-                    Hacer admin
+              </div>
+              <div class='row h3 text-start'>
+                <button type="button" class="btn btn-outline-success col fs-5 me-2">
+                  <i class="fas fa-user-plus"></i> Hacer admin
                 </button>
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Bloquear usuario
+              </div>
+              <div class='row h3 text-start'>
+                <button type="button" class="btn btn-danger col fs-5 me-2">
+                  <i class="fas fa-ban"></i> Bloquear usuario
                 </button>
-            </div>
-        `;
+              </div>
+            `;
           }
 
         //   updateProblemInfo(divProblemaInfo, data);
