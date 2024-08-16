@@ -25,11 +25,9 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         exclude = ['password']  # Excluir el campo 'password'
-        extra_fields = ['num_reportes']  # Agregar 'num_reportes' al serializador
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if instance.date_joined:
             representation['date_joined'] = instance.date_joined.astimezone(timezone).strftime('%d/%m/%Y')
-        representation['num_reportes'] = instance.num_reportes
         return representation
