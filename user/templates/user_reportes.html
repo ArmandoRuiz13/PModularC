@@ -37,7 +37,7 @@
               {% if p.estatus_problematica == 'Rechazado' %}estatus-rechazado{% endif %}
               {% if p.estatus_problematica == 'Completado' %}estatus-completado{% endif %}
           ">{{p.estatus_problematica}}</span></td>
-            <td>{{p.fecha_creacion|timezone:"America/Mexico_City"|date:"m/d/Y" }} {{p.fecha_creacion|timezone:"America/Mexico_City"|time:"H:i:s"}}</td>
+            <td>{{p.fecha_actualizado|timezone:"America/Mexico_City"|date:"m/d/Y" }} {{p.fecha_actualizado|timezone:"America/Mexico_City"|time:"H:i:s"}}</td>
             <td>{{p.gravedad_problema}}</td>
             <td><button id="p.{{p.id}}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes"> 
               <i class="fa-solid fa-arrow-up-long"></i>
