@@ -479,6 +479,11 @@ class UsuarioAPIView(APIView):
         }
     )
     def get(self, request, *args, **kwargs):
+
+        if not request.user.is_staff:
+            return Response({'error': 'No tienes permiso para realizar esta acción'}, status=status.HTTP_403_FORBIDDEN)
+        
+
         id = kwargs.get('id')
         if id is not None:
             # Retrieve a single object
@@ -495,10 +500,13 @@ class UsuarioAPIView(APIView):
             operation_summary="Cambiar datos de usuario y contraseña desde el Administrador",
             request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
-            required=['password', 'current_password'],  # Especificar los campos requeridos aquí
             properties={
+                'first_name': openapi.Schema(type=openapi.TYPE_STRING, description='Nombres'),
+                'last_name': openapi.Schema(type=openapi.TYPE_STRING, description='Apellidos'),
+                'email': openapi.Schema(type=openapi.TYPE_STRING, description='Nueva contraseña'),
                 'password': openapi.Schema(type=openapi.TYPE_STRING, description='Nueva contraseña'),
-                'current_password': openapi.Schema(type=openapi.TYPE_STRING, description='Contraseña actual'),
+                'is_staff': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Administrador/booleano'),
+                'is_active': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Activo/booleano'),
             },
         ),
         responses={
@@ -507,17 +515,37 @@ class UsuarioAPIView(APIView):
         }
     )
     def put(self, request, *args, **kwargs):
+
+        if not request.user.is_staff:
+            return Response({'error': 'No tienes permiso para realizar esta acción'}, status=status.HTTP_403_FORBIDDEN)
+        
+        if len(request.data) == 0:
+            return Response({'error': 'No se proporcionaron datos'}, status=status.HTTP_400_BAD_REQUEST)
+        
         id = kwargs.get('id')
-        password = request.data['password']
-        current_password = request.data['current_password']
+        password =  request.data.get('password', None)
+        first_name = request.data.get('first_name', None)
+        last_name = request.data.get('last_name', None)
+        email = request.data.get('email', None)
+        is_staff = request.data.get('is_staff', None)
+        is_active = request.data.get('is_active', None)
+
+        for data in request.data:
+            if data == "":
+                data = None
+
         if id is not None:
             try:
                 instance = CustomUser.objects.get(id=id)
-                if not instance.check_password(current_password):
-                    return Response({'error': 'Contraseña inválida'}, status=status.HTTP_400_BAD_REQUEST)
-                instance.set_password(password)
+                instance.first_name = first_name if first_name is not None else instance.first_name
+                instance.last_name = last_name if last_name is not None else instance.last_name
+                instance.email = email if email is not None else instance.email
+                instance.is_staff = is_staff if is_staff is not None else instance.is_staff
+                instance.is_active = is_active if is_active is not None else instance.is_active
+                if(password is not None):
+                    instance.set_password(password )
                 instance.save()
-                return Response({'message': 'Contraseña cambiada'}, status=200)
+                return Response({'message': 'Datos del usuario cambiados'}, status=200)
                 
             except CustomUser.DoesNotExist:
                 return Response({'error': 'Objeto no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
