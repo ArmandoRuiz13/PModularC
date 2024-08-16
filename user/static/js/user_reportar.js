@@ -217,12 +217,16 @@ let qValue = urlParams.get('success');
 
 const myModalConfirmation = new bootstrap.Modal(document.getElementById('sendConfirmationModal'));
 const bodyModalConfirmation = document.querySelector('#sendConfirmationModal .modal-body');
-
+const url = new URL(window.location);
+url.searchParams.delete('qValue'); // Elimina el parámetro 'qValue'
+    
 if (qValue === 'true'){
     bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Reporte enviado con éxito!</div>`;
-    myModalConfirmation.show();     
+    myModalConfirmation.show();   
+    window.history.replaceState({}, document.title, url.pathname);
 }
 else if (qValue === 'false'){
     bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Error en el envío!</div>`;
     myModalConfirmation.show();  
+    window.history.replaceState({}, document.title, url.pathname);
 }

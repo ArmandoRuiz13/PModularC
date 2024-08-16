@@ -16,6 +16,7 @@ from drf_yasg import openapi
 from login.forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.db.models import Count, Q, F
 
 # Zona horaria de México
 timezone = pytz.timezone('America/Mexico_City')
@@ -405,9 +406,28 @@ class UsuariosAPIView(APIView):
     )
     def get(self, request, *args, **kwargs):
         # Listar todos los objetos
-        queryset = CustomUser.objects.all().order_by('id')
-        serializer = UsuarioSerializer(queryset, many=True)
-        return Response(serializer.data)
+        queryset = CustomUser.objects.annotate(
+            num_reportes=Count('problema', filter=Q(problema__id_usuario=F('id')))
+        ).order_by('id')
+        
+         # Preparar la lista de usuarios
+        usuarios_data = []
+        for user in queryset:
+            usuarios_data.append({
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'is_superuser': user.is_superuser,
+                'is_staff': user.is_staff,
+                'is_active': user.is_active,
+                'date_joined': user.date_joined.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S'),
+                'num_reportes': user.num_reportes,
+                # Agrega otros campos necesarios aquí
+            })
+        
+        # Devolver la respuesta en formato JSON
+        return JsonResponse(usuarios_data, safe=False)
     
     @swagger_auto_schema(
         operation_summary="Cambiar datos de usuario y contraseña",

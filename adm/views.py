@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from user.models import Problema, ProblemaEnCurso
+from login.models import CustomUser as User
+from django.db.models import Count, Q, F
 
 
 # Create your views here.
@@ -19,7 +21,6 @@ def admReportes(request):
         return HttpResponseForbidden("Access denied")
     current_problemas = Problema.objects.filter(estatus_problematica='Procesando').order_by('id').iterator()
     current_problemas = list(current_problemas)[:10]
-    print(current_problemas)
     return render(request, 'adm_reportes.html', {'problemas':current_problemas}) 
 
 @login_required(login_url='/')
@@ -54,4 +55,8 @@ def admGetEdificio(request, letra):
 def admUsuarios(request):
     if not request.user.is_staff:
         return HttpResponseForbidden("Access denied")
-    return render(request, 'adm_usuarios.html', {})
+    current_usuarios = queryset = User.objects.annotate(
+            num_reportes=Count('problema', filter=Q(problema__id_usuario=F('id')))
+        ).order_by('id')
+    current_usuarios = list(current_usuarios)[:10]
+    return render(request, 'adm_usuarios.html', {'usuarios':current_usuarios})
