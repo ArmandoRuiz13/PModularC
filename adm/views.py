@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from user.models import Problema, ProblemaEnCurso
+from user.models import Problema
 from login.models import CustomUser as User
 from django.db.models import Count, Q, F
+from user.models import Notification
 
 
 # Create your views here.
@@ -41,6 +42,12 @@ def admSeguimiento(request):
         return HttpResponseForbidden("Access denied")
     return render(request, 'adm_seguimiento.html', {})
 
+@login_required(login_url='/')
+def admNotificaciones(request):
+    current_user = request.user
+    current_notificacion = Notification.objects.filter(user =current_user)
+    return render(request, 'adm_notificaciones.html',{'notificaciones':current_notificacion})
+    
 def admTerminados(request):
     return render(request, 'adm_terminados.html', {})
 
@@ -50,6 +57,13 @@ def admGetEdificio(request, letra):
         return HttpResponseForbidden("Access denied")
     return render(request, 'adm_edificios_info.html', {"letra": letra})
 
+
+@login_required(login_url='/')
+def admCuenta(request):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+    current_user = request.user
+    return render(request, 'adm_cuenta.html', {'user':current_user})
 
 @login_required(login_url='/')
 def admUsuarios(request):
