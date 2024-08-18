@@ -1,0 +1,52 @@
+{% extends 'adm_base.html' %} 
+{% load static %} {% load tz %} 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/user_cuenta.css' %}" />
+{% endblock %} 
+
+{% block titulo %}{% endblock %} 
+
+{% block contenido %}
+  <div class="cuenta-container">
+  <div class="container cont1">
+    <h1 class="Titulo">Perfil Inicio</h1>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th scope="row">Nombre</th>
+          <th>{{user.first_name}} {{user.last_name}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Correo</th>
+          <th>{{user.email}}</th>
+        </tr>
+        <tr>
+          <th scope="row">Contraseña</th>
+          <td>**************</td>
+          <td scope="row">
+            <button
+              href="#!"
+              data-bs-toggle="modal"
+              data-bs-target="#forgotPasswordModal"
+              class="link form-forgot-password"
+              id = "btnOpenModalPassword"
+            >
+              Cambiar contraseña
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+{% endblock %} 
+
+{% block modal %} 
+  {% include './partials/modal_cuenta.html'%} 
+{%endblock %} 
+
+{% block scripts %}
+  <script src="{% static 'js/user_cuenta.js' %}"></script>
+{% endblock %}
