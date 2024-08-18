@@ -26,7 +26,7 @@ let estatusCheckboxSeleccionado = "";
 
 const selectEstatus = document.querySelector("#estatus");
 const selectGravedad = document.querySelector("#gravedad");
-const selectTipoProblema = document.querySelector("#tipo_problema");
+const selectTipoUsuario = document.querySelector("#tipo_usuario");
 const selectTipoEdificio = document.querySelector("#tipo_edificio");
 const selectFecha = document.querySelector("#fecha");
 const selectReportesPorPagina = document.querySelector("#reportes_pagina");
@@ -309,10 +309,23 @@ function addEvents() {
         let tipoUser = statusColors[tipoUsuario] || "";
         const data = usuariosFiltrados.find((p) => p.id == idUsuario);
         const tipoClase = tipoUsuario === "Admin" ? "bg-dark text-white" : "bg-primary text-white";
+        if (tipoUsuario === "Admin") {
+          divAdminInfo.style.backgroundColor = "rgba(211, 211, 211, 0.3)"; // Gris claro transparente al 30%
+          divAdminInfo.style.color = "#000000"; // Texto negro
+          divAdminInfo.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Sombra difusa
+          divAdminInfo.style.marginRight = "10px"; // Margen derecho de 10 píxeles
+      } else if (tipoUsuario === "Usuario") {
+          divAdminInfo.style.backgroundColor = "rgba(214, 228, 255, 0.3)"; // Azul pastel transparente al 30%
+          divAdminInfo.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Sombra difusa
+          divAdminInfo.style.marginRight = "10px"; // Margen derecho de 10 píxeles
+      }
+      
+      
+        
         divAdminInfo.innerHTML = `
         <div class='text-center h2'><strong>Usuario ID#${idUsuario}</strong></div>
         <div class='row h3 text-center'>
-            <span class='col border border-2'><strong>Estatus</strong></span> 
+            <span class='col border border-2'><strong>Tipo de Usuario</strong></span> 
             <span class='col border border-2 text-center ${tipoClase}'>${tipoUsuario}</span>
         </div>
       `;
@@ -345,17 +358,17 @@ function addEvents() {
                 <span class='col border border-2 text-center'>${data.date_joined}</span>
               </div>
               <div class='row h3 text-start' id='btnEnviarNotificacion'>
-                <button type="button" class="btn btn-outline-warning col fs-5 me-2">
+                <button type="button" class="btn btn-warning col fs-5 me-2">
                   <i class="fas fa-bell"></i> Enviar notificación
                 </button>
               </div>
               <div class='row h3 text-start' id='btnAdministrarUsuario'>
-                <button type="button" class="btn btn-outline-primary col fs-5 me-2">
+                <button type="button" class="btn btn-outline-dark col fs-5 me-2">
                   <i class="fas fa-cog"></i> Administrar usuario
                 </button>
               </div>
               <div class='row h3 text-start' id='btnQuitarAdmin'>
-                <button type="button" class="btn btn-outline-danger col fs-5 me-2">
+                <button type="button" class="btn btn-secondary col fs-5 me-2">
                   <i class="fas fa-user-minus"></i> Quitar admin
                 </button>
               </div>
@@ -367,10 +380,6 @@ function addEvents() {
             `;
           } else if (tipoUsuario === "Usuario") {
             divAdminInfo.innerHTML += `
-              <div class='row h3 text-center'>
-                <span class='col border border-2'><strong>ID</strong></span> 
-                <span class='col border border-2 text-center'>${data.id}</span>
-              </div>
               <div class='row h3 text-center'>
                 <span class='col border border-2'><strong>Nombre</strong></span> 
                 <span class='col border border-2 text-center'>${data.first_name} ${data.last_name}</span>
@@ -387,22 +396,22 @@ function addEvents() {
                 <span class='col border border-2'><strong>Fecha de Creación</strong></span> 
                 <span class='col border border-2 text-center'>${data.date_joined}</span>
               </div>
-              <div class='row h3 text-start'>
-                <button type="button" class="btn btn-outline-warning col fs-5 me-2">
+              <div class='row h3 text-start' id='btnEnviarNotificacion'>
+                <button type="button" class="btn btn-warning col fs-5 me-2">
                   <i class="fas fa-bell"></i> Enviar notificación
                 </button>
               </div>
-              <div class='row h3 text-start'>
-                <button type="button" class="btn btn-outline-primary col fs-5 me-2">
+              <div class='row h3 text-start' id='btnAdministrarUsuario'>
+                <button type="button" class="btn btn-outline-dark col fs-5 me-2">
                   <i class="fas fa-cog"></i> Administrar usuario
                 </button>
               </div>
-              <div class='row h3 text-start'>
-                <button type="button" class="btn btn-outline-success col fs-5 me-2">
+              <div class='row h3 text-start' id='btnDarAdmin'>
+                <button type="button" class="btn btn-info col fs-5 me-2">
                   <i class="fas fa-user-plus"></i> Hacer admin
                 </button>
               </div>
-              <div class='row h3 text-start'>
+              <div class='row h3 text-start' id='btnBloquearUsuario'>
                 <button type="button" class="btn btn-danger col fs-5 me-2">
                   <i class="fas fa-ban"></i> Bloquear usuario
                 </button>
@@ -416,64 +425,173 @@ function addEvents() {
           BodyModal.insertAdjacentElement("afterbegin", divAdminInfo);
           const btnEnviarNotificacion = document.getElementById("btnEnviarNotificacion");
           const btnAdministrarUsuario = document.getElementById("btnAdministrarUsuario");
+          const btnDarAdmin = document.getElementById("btnDarAdmin");
           const btnQuitarAdmin = document.getElementById("btnQuitarAdmin");
           const btnBloquearUsuario = document.getElementById("btnBloquearUsuario");
           const problemaInfo = document.querySelector(".ProblemaInfo");
 
           btnEnviarNotificacion.addEventListener("click", function () {
-            problemaInfo.innerHTML =  `<div class='text-center h2'>
-            <strong>Enviar notificación</strong>
-            </div>
-            <div class='row h3 text-center'>
-               <textarea class='text-center' placeholder='Escribe un mensaje '></textarea>
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Enviar
-                </button>
-            </div>
+            problemaInfo.innerHTML = `
+                <div class='text-center h2 mb-4'>
+                    <strong >Enviar notificación</strong>
+                </div>
+                <div class='row justify-content-center'>
+                    <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+                              placeholder='Escribe un mensaje' 
+                              rows='4'
+                              style='margin-right: 10px;' 
+                              style='resize: none; border-radius: 10px;'></textarea>
+                </div>
+                <div class='row justify-content-center'>
+                    <button type="button" class="btn btn-primary col-4 fs-5 shadow-sm">
+                        <i class="fas fa-paper-plane"></i> Enviar
+                    </button>
+                </div>
             `;
-          });
+        });  
+        btnAdministrarUsuario.addEventListener("click", function () {
+          problemaInfo.innerHTML = `
+              <div class='text-center h2 mb-4'>
+                  <strong>Administrar usuario</strong>
+              </div>
+              <div class='row justify-content-center mb-4'>
+                  <div class="cursor-pointer text-dark mb-3" 
+                       data-bs-toggle="collapse" 
+                       data-bs-target="#collapseUsuario" 
+                       aria-expanded="false" 
+                       aria-controls="collapseUsuario" 
+                       style="transition: color 0.3s ease; font-weight: bold;" 
+                       onmouseover="this.style.color='#333';" 
+                       onmouseout="this.style.color='black';">
+                      Cambiar nombre de usuario
+                  </div>
+                  <div class="collapse" id="collapseUsuario">
+                      <div class="input-group mb-4 shadow-sm">
+                          <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                          <input type="text" class="form-control no-radius-left" placeholder="Nombre de usuario">
+                      </div>
+                  </div>
+      
+                  <div class="cursor-pointer text-dark mb-3" 
+                       data-bs-toggle="collapse" 
+                       data-bs-target="#colapseContraseña" 
+                       aria-expanded="false" 
+                       aria-controls="colapseContraseña" 
+                       style="transition: color 0.3s ease; font-weight: bold;" 
+                       onmouseover="this.style.color='#333';" 
+                       onmouseout="this.style.color='black';">
+                      Modificar contraseña
+                  </div>
+                  <div class="collapse" id="colapseContraseña">
+                      <div class="input-group mb-4 shadow-sm">
+                          <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                          <input type="password" class="form-control no-radius-left" placeholder="Contraseña">
+                      </div>
+                  </div>
+      
+                  <div class="cursor-pointer text-dark mb-3" 
+                       data-bs-toggle="collapse" 
+                       data-bs-target="#collapseCorreo" 
+                       aria-expanded="false" 
+                       aria-controls="collapseCorreo" 
+                       style="transition: color 0.3s ease; font-weight: bold;" 
+                       onmouseover="this.style.color='#333';" 
+                       onmouseout="this.style.color='black';">
+                      Actualizar correo
+                  </div>
+                  <div class="collapse" id="collapseCorreo">
+                      <div class="input-group mb-4 shadow-sm">
+                          <span class="input-group-text">@</span>
+                          <input type="email" class="form-control no-radius-left" placeholder="Correo">
+                      </div>
+                  </div>
+              </div>
+              <div class='row justify-content-center'>
+                  <button type="button" class="btn btn-dark col-4 fs-5 shadow-sm">
+                      <i class="fas fa-save"></i> Guardar cambios
+                  </button>
+              </div>
+          `;
+      });
+    //   btnQuitarAdmin.addEventListener("click", function () {
+    //     problemaInfo.innerHTML = `
+    //         <div class='text-center h2 mb-4'>
+    //             <strong>Quitar Administrador</strong>
+    //         </div>
+    //         <div class='row justify-content-center mb-3'>
+    //             <div class='text-center'>
+    //                 <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+    //                           placeholder='Razón de quitar admin (opcional)' 
+    //                           rows='4'
+    //                           style='resize: none; border-radius: 10px;'></textarea>
+    //             </div>
+    //         </div>
+    //         <div class='row justify-content-center'>
+    //             <button type="button" class="btn btn-outline-danger col-4 fs-5 shadow-sm">
+    //                 <i class="fas fa-exclamation-triangle"></i> Confirmar
+    //             </button>
+    //         </div>
+    //     `;
+    // });
+    // btnDarAdmin.addEventListener("click", function () {
+    //     problemaInfo.innerHTML = `
+    //         <div class='text-center h2 mb-4'>
+    //             <strong>Dar Administrador</strong>
+    //         </div>
+    //         <div class='row justify-content-center mb-3'>
+    //             <div class='text-center'>
+    //                 <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+    //                           placeholder='Razón de dar admin (opcional)' 
+    //                           rows='4'
+    //                           style='resize: none; border-radius: 10px;'></textarea>
+    //             </div>
+    //         </div>
+    //         <div class='row justify-content-center'>
+    //             <button type="button" class="btn btn-outline-info col-4 fs-5 shadow-sm">
+    //                 <i class="fas fa-exclamation-triangle"></i> Confirmar
+    //             </button>
+    //         </div>
+    //     `;
+    // });
+    btnBloquearUsuario.addEventListener("click", function () {
+      problemaInfo.innerHTML = `
+          <div class='text-center h2 mb-4'>
+              <strong>Bloquear Usuario</strong>
+          </div>
+          <div class='row justify-content-center mb-3'>
+              <div class='text-center'>
+                  <select class='form-select mb-3 shadow-sm' style='border-radius: 10px; font-size: 1.25rem; font-weight: bold;'>
+                      <option value='1d'>1 Día</option>
+                      <option value='1w'>1 Semana</option>
+                      <option value='1m'>1 Mes</option>
+                      <option value='perm'>Permanente</option>
+                  </select>
+              </div>
+          </div>
+          <div class='row justify-content-center mb-3'>
+              <div class='text-center'>
+                  <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+                            placeholder='Razón del baneo (opcional)' 
+                            rows='4'
+                            style='resize: none; border-radius: 10px; font-size: 1.25rem; font-weight: bold;'></textarea>
+              </div>
+          </div>
+          <div class='row justify-content-center'>
+              <button type="button" class="btn btn-outline-danger col-4 fs-5 shadow-sm">
+                  <i class="fas fa-ban"></i> Bloquear
+              </button>
+          </div>
+      `;
+  });
+  
+  
+    
 
-          btnAdministrarUsuario.addEventListener("click", function () {
-            problemaInfo.innerHTML =  `<div class='text-center h2'>
-            <strong>Administrar usuario</strong>
-            </div>
-            <div class='row h3 text-center'>
-
-                <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseUsuario" aria-expanded="false" aria-controls="collapseUsuario">
-                    Cambiar usuario
-                </div>
-                <div class="collapse collapse-horizontal" id="collapseUsuario">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-
-               <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#colapseContraseña" aria-expanded="false" aria-controls="colapseContraseña">Modificar contraseña</div>
-               <div class="collapse collapse-horizontal" id="colapseContraseña">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
-                        <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="basic-addon2">
-                    </div>
-                </div>
-
-               <div class="cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapseCorreo" aria-expanded="false" aria-controls="collapseCorreo">Actualizar correo</div>
-               <div class="collapse collapse-horizontal" id="collapseCorreo">
-                   <div class="input-group mb-3">
-                      <span class="input-group-text" id="basic-addon1">@</span>
-                      <input type="text" class="form-control" placeholder="Correo" aria-label="Correo" aria-describedby="basic-addon3">
-                   </div>
-               </div>
-            </div>
-            <div class='row h3 text-start'>
-                <button type="button" data-idProblema='' id="rechazar_problema" class="btn btn-danger col fs-5 me-2">
-                    Enviar
-                </button>
-            </div>
-            `;
-          });
+  
+      
+      
+      
+        
 
           
 
