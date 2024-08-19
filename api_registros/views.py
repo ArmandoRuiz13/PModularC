@@ -28,6 +28,47 @@ class NotificacionesAPIView(APIView):
     permission_classes = [IsAuthenticated]  # Asegura que solo los usuarios autenticados puedan acceder
 
     @swagger_auto_schema(
+        operation_summary="Crear notificación",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['type', 'title', 'message', 'user'],  # Especificar los campos requeridos aquí
+            properties={
+                'type': openapi.Schema(type=openapi.TYPE_STRING, description='Tipo de notificación'),
+                'title': openapi.Schema(type=openapi.TYPE_STRING, description='Título de la notificación'),
+                'message': openapi.Schema(type=openapi.TYPE_STRING, description='Mensaje de la notificación'),
+                'user': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID del usuario'),
+            },
+        ),
+        responses={
+            201: NotificacionSerializer,
+            400: "Datos inválidos"
+        }
+    )
+
+    def post(self, request, *args, **kwargs):
+        type = request.data.get('type')
+        title = request.data.get('title')
+        message = request.data.get('message')
+        user = CustomUser.objects.get(id=request.data.get('user'))
+        admin_u = request.user.first_name + " " +  request.user.last_name
+        if type is not None and title is not None and message is not None:
+            try:
+                instance = Notification.objects.create(
+                    user=user,
+                    type=type,
+                    title=title,
+                    message=message,
+                    admin_u=admin_u
+                )
+                serializer = NotificacionSerializer(instance)
+                return Response(serializer.data, status=201)
+            except Exception as e:
+                return Response({'error': str(e)}, status=500)
+        else:
+            return Response({'error': 'Datos inválidos'}, status)
+        
+    
+    @swagger_auto_schema(
         operation_summary="Listar todos los objetos Notificación",
     )
 
@@ -44,6 +85,8 @@ class NotificacionAPIView(APIView):
     Vista para manejar operaciones de listado y recuperación de notificaciones basadas en el tipo de solicitud.
     """
     permission_classes = [IsAuthenticated]  # Asegura que solo los usuarios autenticados puedan acceder
+    
+    
     @swagger_auto_schema(
         operation_summary="Recuperar un solo objeto Notificación",
         responses={

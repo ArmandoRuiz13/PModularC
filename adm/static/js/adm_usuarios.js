@@ -429,17 +429,32 @@ function addEvents() {
           const btnQuitarAdmin = document.getElementById("btnQuitarAdmin");
           const btnBloquearUsuario = document.getElementById("btnBloquearUsuario");
           const problemaInfo = document.querySelector(".ProblemaInfo");
-
+          
           btnEnviarNotificacion.addEventListener("click", function () {
             problemaInfo.innerHTML = `
                 <div class='text-center h2 mb-4'>
-                    <strong >Enviar notificación</strong>
+                    <strong>Enviar notificación</strong>
+                </div>
+                <div class='row justify-content-center mb-3'>
+                    <div class='col-md-6'>
+                        <label for='tipoNotificacion' class='form-label fw-bold'>Tipo de Notificación</label>
+                        <select id='tipoNotificacion' class='form-select mb-3' style='font-weight: bold;'>
+                            <option value='Notificacion'>Notificación</option>
+                            <option value='Alerta'>Alerta</option>
+                            <option value='Advertencia'>Advertencia</option>
+                            <option value='Anuncio'>Anuncio</option>
+                            <option value='Confirmacion'>Confirmación</option>
+                            <option value='Solicitud'>Solicitud de Información</option>
+                            <option value='Instruccion'>Instrucción</option>
+                            <option value='Felicitacion'>Felicitación</option>
+                            <option value='Recomendacion'>Recomendación</option>
+                        </select>
+                    </div>
                 </div>
                 <div class='row justify-content-center'>
                     <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
                               placeholder='Escribe un mensaje' 
                               rows='4'
-                              style='margin-right: 10px;' 
                               style='resize: none; border-radius: 10px;'></textarea>
                 </div>
                 <div class='row justify-content-center'>
@@ -448,111 +463,231 @@ function addEvents() {
                     </button>
                 </div>
             `;
-        });  
+        
+            const btnEnviar = problemaInfo.querySelector(".btn-primary");
+        
+            btnEnviar.addEventListener("click", function () {
+                const mensaje = problemaInfo.querySelector("textarea");
+                const tipo = problemaInfo.querySelector("#tipoNotificacion");
+                const titulo = tipo.value + " Administrador";
+        
+                fetch(`/api_registros/notificacion/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"),
+                    },
+                    body: JSON.stringify({
+                        message: mensaje.value,
+                        user: idUsuario,
+                        type: tipo.value,
+                        title: titulo,
+                    }),
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    mensaje.value = "";
+                    tipo.value = "Notificacion";
+                })
+                .catch((error) => {
+                    console.error("There was a problem with the fetch operation:", error);
+                });
+            });
+        });
+          
         btnAdministrarUsuario.addEventListener("click", function () {
           problemaInfo.innerHTML = `
-              <div class='text-center h2 mb-4'>
-                  <strong>Administrar usuario</strong>
+          <div class='text-center h2 mb-4'>
+              <strong>Administrar usuario</strong>
+          </div>
+          <div class='row justify-content-center mb-4'>
+              <div class="cursor-pointer text-dark mb-3" 
+                   data-bs-toggle="collapse" 
+                   data-bs-target="#collapseUsuario" 
+                   aria-expanded="false" 
+                   aria-controls="collapseUsuario" 
+                   style="transition: color 0.3s ease; font-weight: bold;" 
+                   onmouseover="this.style.color='#333';" 
+                   onmouseout="this.style.color='black';">
+                  Cambiar nombre de usuario
               </div>
-              <div class='row justify-content-center mb-4'>
-                  <div class="cursor-pointer text-dark mb-3" 
-                       data-bs-toggle="collapse" 
-                       data-bs-target="#collapseUsuario" 
-                       aria-expanded="false" 
-                       aria-controls="collapseUsuario" 
-                       style="transition: color 0.3s ease; font-weight: bold;" 
-                       onmouseover="this.style.color='#333';" 
-                       onmouseout="this.style.color='black';">
-                      Cambiar nombre de usuario
+              <div class="collapse" id="collapseUsuario">
+                  <div class="input-group mb-4 shadow-sm">
+                      <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                      <input maxLength="50" type="text" class="form-control no-radius-left" placeholder="Nombre">
                   </div>
-                  <div class="collapse" id="collapseUsuario">
-                      <div class="input-group mb-4 shadow-sm">
-                          <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                          <input type="text" class="form-control no-radius-left" placeholder="Nombre de usuario">
-                      </div>
+                  <div class="input-group mb-4 shadow-sm">
+                      <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                      <input maxLength="50" type="text" class="form-control no-radius-left" placeholder="Apellido">
                   </div>
-      
-                  <div class="cursor-pointer text-dark mb-3" 
-                       data-bs-toggle="collapse" 
-                       data-bs-target="#colapseContraseña" 
-                       aria-expanded="false" 
-                       aria-controls="colapseContraseña" 
-                       style="transition: color 0.3s ease; font-weight: bold;" 
-                       onmouseover="this.style.color='#333';" 
-                       onmouseout="this.style.color='black';">
-                      Modificar contraseña
+              </div>
+  
+              <div class="cursor-pointer text-dark mb-3" 
+                   data-bs-toggle="collapse" 
+                   data-bs-target="#colapseContraseña" 
+                   aria-expanded="false" 
+                   aria-controls="colapseContraseña" 
+                   style="transition: color 0.3s ease; font-weight: bold;" 
+                   onmouseover="this.style.color='#333';" 
+                   onmouseout="this.style.color='black';">
+                  Modificar contraseña
+              </div>
+              <div class="collapse" id="colapseContraseña">
+                  <div class="input-group mb-4 shadow-sm">
+                      <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                      <input type="password" class="form-control no-radius-left" placeholder="Nueva contraseña">
                   </div>
-                  <div class="collapse" id="colapseContraseña">
-                      <div class="input-group mb-4 shadow-sm">
-                          <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
-                          <input type="password" class="form-control no-radius-left" placeholder="Contraseña">
-                      </div>
+                  <div class="input-group mb-4 shadow-sm">
+                      <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                      <input type="password" class="form-control no-radius-left" placeholder="Confirmar nueva contraseña">
                   </div>
-      
-                  <div class="cursor-pointer text-dark mb-3" 
-                       data-bs-toggle="collapse" 
-                       data-bs-target="#collapseCorreo" 
-                       aria-expanded="false" 
-                       aria-controls="collapseCorreo" 
-                       style="transition: color 0.3s ease; font-weight: bold;" 
-                       onmouseover="this.style.color='#333';" 
-                       onmouseout="this.style.color='black';">
-                      Actualizar correo
+              </div>
+  
+              <div class="cursor-pointer text-dark mb-3" 
+                   data-bs-toggle="collapse" 
+                   data-bs-target="#collapseCorreo" 
+                   aria-expanded="false" 
+                   aria-controls="collapseCorreo" 
+                   style="transition: color 0.3s ease; font-weight: bold;" 
+                   onmouseover="this.style.color='#333';" 
+                   onmouseout="this.style.color='black';">
+                  Actualizar correo
+              </div>
+              <div class="collapse" id="collapseCorreo">
+                  <div class="input-group mb-4 shadow-sm">
+                      <span class="input-group-text">@</span>
+                      <input type="email" class="form-control no-radius-left" maxLength="50" placeholder="Correo">
                   </div>
-                  <div class="collapse" id="collapseCorreo">
-                      <div class="input-group mb-4 shadow-sm">
-                          <span class="input-group-text">@</span>
-                          <input type="email" class="form-control no-radius-left" placeholder="Correo">
-                      </div>
+              </div>
+          </div>
+          <div class='row justify-content-center'>
+              <button type="button" class="btn btn-dark col-4 fs-5 shadow-sm">
+                  <i class="fas fa-save"></i> Guardar cambios
+              </button>
+          </div>
+      `;
+
+          const btnGuardarCambios = problemaInfo.querySelector(".btn-dark");
+
+          btnGuardarCambios.addEventListener("click", function () {
+
+              const nombre = problemaInfo.querySelectorAll("input")[0];
+              const apellido = problemaInfo.querySelectorAll("input")[1];
+              const nuevaContrasena = problemaInfo.querySelectorAll("input")[2];
+              const confirmarContrasena = problemaInfo.querySelectorAll("input")[3];
+              const correo = problemaInfo.querySelectorAll("input")[4];
+              const inputs = problemaInfo.querySelectorAll("input");
+
+              for(const input of inputs) {
+                if (!input.checkValidity()) {
+                  input.reportValidity();
+                  return;
+                }
+              }
+             
+              if(nuevaContrasena.value !== confirmarContrasena.value) {
+                  alert("Las contraseñas no coinciden");
+                  return;
+              }
+
+
+
+              if(nuevaContrasena.value.length < 8  && confirmarContrasena.value.length != 0) {
+                  alert("La contraseña debe tener al menos 8 caracteres");
+                  return;
+              }
+
+              const requestObj = {};
+
+              if(nombre.value) {
+                  requestObj.first_name = nombre.value;
+              }
+
+              if(apellido.value) {
+                  requestObj.last_name = apellido.value;
+              }
+
+              if(nuevaContrasena.value) {
+                  requestObj.password = nuevaContrasena.value;
+              }
+
+              if(correo.value) {
+                requestObj.email = correo.value;
+              }
+
+
+              fetch(`/api_registros/usuario/${idUsuario}/`, {
+                  method: "PUT",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "X-CSRFToken": getCookie("csrftoken"),
+                  },
+                  body: JSON.stringify(requestObj),
+              })
+              .then((response) => {
+                  if (!response.ok) {
+                      throw new Error("Network response was not ok");
+                  }
+                  nombre.value = "";
+                  apellido.value = "";
+                  nuevaContrasena.value = "";
+                  confirmarContrasena.value = "";
+                  correo.value = "";
+              })
+              .catch((error) => {
+                  console.error("There was a problem with the fetch operation:", error);
+              });
+          });
+
+      });
+
+      if(btnQuitarAdmin){
+        btnQuitarAdmin.addEventListener("click", function () {
+          problemaInfo.innerHTML = `
+              <div class='text-center h2 mb-4'>
+                  <strong>Quitar Administrador</strong>
+              </div>
+              <div class='row justify-content-center mb-3'>
+                  <div class='text-center'>
+                      <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+                                placeholder='Razón de quitar admin (opcional)' 
+                                rows='4'
+                                style='resize: none; border-radius: 10px;'></textarea>
                   </div>
               </div>
               <div class='row justify-content-center'>
-                  <button type="button" class="btn btn-dark col-4 fs-5 shadow-sm">
-                      <i class="fas fa-save"></i> Guardar cambios
+                  <button type="button" class="btn btn-outline-danger col-4 fs-5 shadow-sm">
+                      <i class="fas fa-exclamation-triangle"></i> Confirmar
+                  </button>
+              </div>
+          `;
+        });
+    }
+
+    if(btnDarAdmin){
+      btnDarAdmin.addEventListener("click", function () {
+          problemaInfo.innerHTML = `
+              <div class='text-center h2 mb-4'>
+                  <strong>Dar Administrador</strong>
+              </div>
+              <div class='row justify-content-center mb-3'>
+                  <div class='text-center'>
+                      <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+                                placeholder='Razón de dar admin (opcional)' 
+                                rows='4'
+                                style='resize: none; border-radius: 10px;'></textarea>
+                  </div>
+              </div>
+              <div class='row justify-content-center'>
+                  <button type="button" class="btn btn-outline-info col-4 fs-5 shadow-sm">
+                      <i class="fas fa-exclamation-triangle"></i> Confirmar
                   </button>
               </div>
           `;
       });
-    //   btnQuitarAdmin.addEventListener("click", function () {
-    //     problemaInfo.innerHTML = `
-    //         <div class='text-center h2 mb-4'>
-    //             <strong>Quitar Administrador</strong>
-    //         </div>
-    //         <div class='row justify-content-center mb-3'>
-    //             <div class='text-center'>
-    //                 <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
-    //                           placeholder='Razón de quitar admin (opcional)' 
-    //                           rows='4'
-    //                           style='resize: none; border-radius: 10px;'></textarea>
-    //             </div>
-    //         </div>
-    //         <div class='row justify-content-center'>
-    //             <button type="button" class="btn btn-outline-danger col-4 fs-5 shadow-sm">
-    //                 <i class="fas fa-exclamation-triangle"></i> Confirmar
-    //             </button>
-    //         </div>
-    //     `;
-    // });
-    // btnDarAdmin.addEventListener("click", function () {
-    //     problemaInfo.innerHTML = `
-    //         <div class='text-center h2 mb-4'>
-    //             <strong>Dar Administrador</strong>
-    //         </div>
-    //         <div class='row justify-content-center mb-3'>
-    //             <div class='text-center'>
-    //                 <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
-    //                           placeholder='Razón de dar admin (opcional)' 
-    //                           rows='4'
-    //                           style='resize: none; border-radius: 10px;'></textarea>
-    //             </div>
-    //         </div>
-    //         <div class='row justify-content-center'>
-    //             <button type="button" class="btn btn-outline-info col-4 fs-5 shadow-sm">
-    //                 <i class="fas fa-exclamation-triangle"></i> Confirmar
-    //             </button>
-    //         </div>
-    //     `;
-    // });
+  }
     btnBloquearUsuario.addEventListener("click", function () {
       problemaInfo.innerHTML = `
           <div class='text-center h2 mb-4'>
