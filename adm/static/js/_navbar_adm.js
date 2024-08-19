@@ -98,7 +98,7 @@ function displayNotifications(notifications) {
                 },
             })
                 .then(response => {
-                    window.location = "/user/notificaciones?id=" + notification.id;
+                    window.location = "/adm/notificaciones?id=" + notification.id;
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -119,12 +119,12 @@ function updateBell(notifications) {
     const unreadCount = notifications.filter(notification => !notification.read_status).length;
 
     if (unreadCount > 0) {
-        // alertBell.classList.add('notifications'); // Agregar clase si hay notificaciones no leídas
+        alertBell.classList.add('notifications'); // Agregar clase si hay notificaciones no leídas
         // Opcional: puedes mostrar el conteo de notificaciones no leídas en la campana
         alertBell.innerHTML = `    <i class="fs-3 fa-regular fa-bell"></i>
           (${unreadCount})`; // Muestra el conteo en la campana
     } else {
-        // alertBell.classList.remove('notifications'); // Remover clase si no hay notificaciones no leídas
+        alertBell.classList.remove('notifications'); // Remover clase si no hay notificaciones no leídas
         alertBell.innerHTML = `   <i class="fs-3 fa-regular fa-bell"></i>
            `; // Solo mostrar la campana sin conteo
     }
