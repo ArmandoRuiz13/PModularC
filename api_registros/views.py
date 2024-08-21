@@ -49,8 +49,24 @@ class NotificacionesAPIView(APIView):
         type = request.data.get('type')
         title = request.data.get('title')
         message = request.data.get('message')
+        print(message)
         user = CustomUser.objects.get(id=request.data.get('user'))
         admin_u = request.user.first_name + " " +  request.user.last_name
+
+        if(type == "Promoción"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0] + " " +  user.last_name.split(" ")[0]}:
+
+                Quería informarte que has sido promovido a la posición de administrador por {admin_u}.
+                ¡Felicidades por el ascenso! Estamos seguros de que harás un excelente trabajo en tu nuevo rol.
+                Si tienes alguna preguna o necesitas ayuda con la transición, no dudes en contactarnos.
+                ¡Enhorabuena y mucho éxito en esta nueva etapa!
+
+                {"Razón: " + message if message is not None and message != "" else ""}
+
+                Saludos,
+                {admin_u}
+            """
         if type is not None and title is not None and message is not None:
             try:
                 instance = Notification.objects.create(

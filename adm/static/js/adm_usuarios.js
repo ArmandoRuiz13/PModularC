@@ -663,6 +663,11 @@ function addEvents() {
                   </button>
               </div>
           `;
+
+          const btnQuitarAdmin = problemaInfo.querySelector(".btn-outline-danger");
+
+          btnQuitarAdmin.addEventListener("click", cambiarEstatusAdmin(idUsuario, false, problemaInfo));
+         
         });
     }
 
@@ -686,6 +691,9 @@ function addEvents() {
                   </button>
               </div>
           `;
+          const btnDarAdmin = problemaInfo.querySelector(".btn-outline-info");
+
+          btnDarAdmin.addEventListener("click", cambiarEstatusAdmin(idUsuario, true, problemaInfo));
       });
   }
     btnBloquearUsuario.addEventListener("click", function () {
@@ -1110,6 +1118,53 @@ function mostrarProblemas(
     contenedorProblemas.appendChild(tr);
   });
 }
+
+async function cambiarEstatusAdmin(idUsuario, nuevoEstatus, problemaInfo) {
+
+  const razon = problemaInfo.querySelector("textarea");
+
+  try{
+
+    const response = await fetch(`/api_registros/usuario/${idUsuario}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        is_staff: nuevoEstatus,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    console.log(razon.value);
+    const sendNotification = await fetch(`/api_registros/notificacion/`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+          message: razon.value,
+          user: idUsuario,
+          type: "Promoción",
+          title: (nuevoEstatus ? "Promover a" : "Quitar") + " administrador",
+      }),
+    });
+
+    if (!sendNotification.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    razon.value = "";
+    
+  } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+  };
+}
+
 
 // function updateProblemInfo(divProblemaInfo, problema) {
 //   problema.id = null;
