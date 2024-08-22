@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
 
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    fecha_baneo = models.DateTimeField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

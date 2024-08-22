@@ -704,10 +704,10 @@ function addEvents() {
           <div class='row justify-content-center mb-3'>
               <div class='text-center'>
                   <select class='form-select mb-3 shadow-sm' style='border-radius: 10px; font-size: 1.25rem; font-weight: bold;'>
-                      <option value='1d'>1 Día</option>
-                      <option value='1w'>1 Semana</option>
-                      <option value='1m'>1 Mes</option>
-                      <option value='perm'>Permanente</option>
+                      <option value='1'>1 Día</option>
+                      <option value='7'>1 Semana</option>
+                      <option value='31'>1 Mes</option>
+                      <option value='4000'>Permanente</option>
                   </select>
               </div>
           </div>
@@ -725,6 +725,37 @@ function addEvents() {
               </button>
           </div>
       `;
+
+      const btnBloquear = problemaInfo.querySelector(".btn-outline-danger");
+
+      btnBloquear.addEventListener("click", function () {
+          alert("baneo");
+
+          const razon = problemaInfo.querySelector("textarea");
+          const duracion = problemaInfo.querySelector("select");
+
+          fetch(`/api_registros/usuario/ban/${idUsuario}/`, {
+              method: "PUT",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": getCookie("csrftoken"),
+              },
+              body: JSON.stringify({
+                  razon: razon.value,
+                  duracion: duracion.value,
+              }),
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  throw new Error("Network response was not ok");
+              }
+              razon.value = "";
+              duracion.value = "1";
+          })
+          .catch((error) => {
+              console.error("There was a problem with the fetch operation:", error);
+          });
+      });
   });
   
   

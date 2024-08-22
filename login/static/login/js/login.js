@@ -278,8 +278,23 @@ btnLogin.addEventListener("click", (e) => {
       if (data.logged_in) {
         // Redirect the user to the user page
         window.location.href = data.is_staff ? '/adm/':"/user/";
-      } else {
+      } else if (data.fecha_baneo){
         // Display an error message if login is unsuccessful
+        const duracionRestanteDelBaneo = new Date(data.fecha_baneo) - new Date();
+        const diasRestantes = Math.ceil(duracionRestanteDelBaneo / (1000 * 60 * 60 * 24));
+        const razon = data.mensaje.match(/Razón: (.+?)\n/);
+        console.log(razon);
+        if(diasRestantes > 31){
+          divLoginError.textContent = `¡Usuario bloqueado permanentemente! | Razón: ${razon[1]}`;
+          
+        } else{
+          divLoginError.textContent = `¡Usuario bloqueado por ${diasRestantes} días! | Razón: ${razon[1]}`;
+        }
+        divLoginError.classList.remove("invisible");
+
+      
+      } else {
+        divLoginError.textContent = "¡Usuario o contraseña incorrectos!";
         divLoginError.classList.remove("invisible");
       }
     })

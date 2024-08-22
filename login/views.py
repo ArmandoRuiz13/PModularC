@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.utils import timezone
 from datetime import timedelta
+from user.models import Notification
 from mailersend import emails
 import secrets
 import string
@@ -32,24 +33,39 @@ class Login(View):
 
     def post(self, request):
         form = LoginForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
-           email = form.cleaned_data["emailL"]
-           password = form.cleaned_data["passwordL"]
+            email = form.cleaned_data["emailL"]
+            password = form.cleaned_data["passwordL"]
 
-           user = authenticate(email = email,  password =  password)
-           
-           validUser = {'email': email}
+            # Buscar al usuario en la base de datos
+            user = CustomUser.objects.filter(email=email).first()
+            validUser = {'email': email}
 
-           if user is not None:
-                validUser['logged_in'] = True
-                validUser['is_staff'] = user.is_staff
-                login(request, user)
-             
-           else:
-               validUser['logged_in'] = False
+            if user is not None:
+                # Verificar si el usuario tiene una fecha de baneo y si ya ha pasado
+                if user.fecha_baneo and user.fecha_baneo <= timezone.now():
+                    # Si la fecha de baneo ya pasó, se elimina el baneo
+                    user.is_active = True
+                    user.fecha_baneo = None
+                    user.save()
+                elif user.fecha_baneo:
+                    # Si la fecha de baneo no ha pasado, se le notifica al usuario
+                    validUser['fecha_baneo'] = user.fecha_baneo 
+                    validUser['mensaje'] = Notification.objects.filter(user=user, type="Ban").last().message
+                    return JsonResponse(validUser)
+                    
+                # Intentar autenticar al usuario
+                user = authenticate(email=email, password=password)
+                if user is not None:
+                    validUser['logged_in'] = True
+                    validUser['is_staff'] = user.is_staff
+                    login(request, user)
+                else:
+                    validUser['logged_in'] = False
+            else:
+                validUser['logged_in'] = False
 
-           return JsonResponse(validUser)
+            return JsonResponse(validUser)
                
 def register(request):
     if request.method == "POST":

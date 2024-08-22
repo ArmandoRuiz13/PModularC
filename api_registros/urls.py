@@ -5,6 +5,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
 
+
 class CustomSchemaGenerator(OpenAPISchemaGenerator):
     def get_schema(self, request=None, public=False):
         schema = super().get_schema(request, public)
@@ -34,6 +35,6 @@ urlpatterns = [
     path('problema_en_curso/<int:id_problema>/', views.ProblemaEnCursoAPIView.as_view(), name="problema_en_curso_con_id"),
     path('usuario/', views.UsuariosAPIView.as_view(), name="usuarios"),
     path('usuario/<int:id>/', views.UsuarioAPIView.as_view(), name="usuario_con_id"),
+    path('usuario/ban/<int:id>/', views.BanUser.as_view(), name="usuario_problemas"),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-
 ]

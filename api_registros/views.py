@@ -15,7 +15,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from login.forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Count, Q, F
 
 # Zona horaria de México
@@ -605,6 +605,62 @@ class UsuarioAPIView(APIView):
                     instance.set_password(password )
                 instance.save()
                 return Response({'message': 'Datos del usuario cambiados'}, status=200)
+                
+            except CustomUser.DoesNotExist:
+                return Response({'error': 'Objeto no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'error': 'ID no proporcionado.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+class BanUser(APIView):
+    """
+    Vista para manejar operaciones de banear usuarios basadas en el tipo de solicitud.
+    """
+    permission_classes = [IsAuthenticated]  # Asegura que solo los usuarios autenticados puedan acceder
+    @swagger_auto_schema(
+        operation_summary="Banear un usuario",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['duracion', 'razon'],  # Especificar los campos requeridos aquí
+            properties={
+                'duracion': openapi.Schema(type=openapi.TYPE_INTEGER, description='Tiempo de baneo en días'),
+                'razon': openapi.Schema(type=openapi.TYPE_STRING, description='Razón del baneo'),
+            },
+        ),
+        responses={
+            200: "Usuario baneado",
+            400: "Datos inválidos"
+        }
+    )
+    def put(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return Response({'error': 'No tienes permiso para realizar esta acción'}, status=status.HTTP_403_FORBIDDEN)
+         
+        id = kwargs.get('id')
+        duracion = request.data.get('duracion', None)
+        razon = request.data.get('razon', None)
+
+        if id is not None:
+            try:
+                instance = CustomUser.objects.get(id=id)
+                instance.is_active = False
+                instance.fecha_baneo = datetime.now() 
+                if duracion is not None:
+                    instance.fecha_baneo += timedelta(days=int(duracion))
+                instance.save()
+
+                Notification.objects.create(
+                    user=instance,
+                    admin_u=request.user.first_name + " " + request.user.last_name,
+                    type='Ban',
+                    title='Usuario baneado',
+                    message=(
+                        f"""  Usuario: {instance.first_name} {instance.last_name}
+                              Razón: {razon}
+                              Duración del Baneo: Actualmente estás baneado por {duracion} días.
+                        """
+                    )
+                )
+                return Response({'message': 'Usuario baneado'}, status=200)
                 
             except CustomUser.DoesNotExist:
                 return Response({'error': 'Objeto no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
