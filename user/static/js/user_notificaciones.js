@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = Array.from(tbody.querySelectorAll('tr'));
 
         const sortedRows = rows.sort((a, b) => {
-            const aDateText = a.cells[4].textContent; // La fecha está en la quinta celda (índice 4)
-            const bDateText = b.cells[4].textContent;
+            const aDateText = a.cells[5].textContent; // La fecha está en la quinta celda (índice 4)
+            const bDateText = b.cells[5].textContent;
 
             const aDate = new Date(aDateText);
             const bDate = new Date(bDateText);
