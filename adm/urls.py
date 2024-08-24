@@ -13,4 +13,6 @@ urlpatterns = [
     path('edificios/<str:letra>/', views.admGetEdificio, name="get_edificio"),
     path('notificaciones/', views.admNotificaciones, name="notificaciones"),
     path('cuenta/', views.admCuenta, name="seguimiento"),
+    path('reporte/<int:id>/', views.admReporte, name="reporte"),
+    path('IA/', views.asistenteDatosIA, name="datosIA"),
 ]

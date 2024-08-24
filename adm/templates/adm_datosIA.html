@@ -1,0 +1,185 @@
+{% extends 'adm_base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Inicio{% endblock %}
+{% block css %} 
+  <link rel="stylesheet" href="{% static 'css/adm_datosIA.css' %}" /> 
+  <style>
+    .dynamic-table {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}
+ 
+{% block contenido %}
+
+
+    <header class="bg-success text-white text-center py-3">
+        <h1>Asistente de Datos IA</h1>
+    </header>
+
+    <div class="container mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="lugares-tab" data-bs-toggle="tab" data-bs-target="#lugares" type="button" role="tab" aria-controls="lugares" aria-selected="false">Top 10 Lugares</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analisis-tab" data-bs-toggle="tab" data-bs-target="#analisis" type="button" role="tab" aria-controls="analisis" aria-selected="false">Análisis de Causas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas Detalladas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="alertas-tab" data-bs-toggle="tab" data-bs-target="#alertas" type="button" role="tab" aria-controls="alertas" aria-selected="false">Alertas y Notificaciones</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="simulacion-tab" data-bs-toggle="tab" data-bs-target="#simulacion" type="button" role="tab" aria-controls="simulacion" aria-selected="false">Simulación de Escenarios</button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Dashboard -->
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <h2>Dashboard de Pronósticos</h2>
+                <canvas id="dashboardChart"></canvas>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Pronósticos Relevantes</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="dashboard-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 10 Lugares -->
+            <div class="tab-pane fade" id="lugares" role="tabpanel" aria-labelledby="lugares-tab">
+                <h2>Top 10 Lugares Más Reportados</h2>
+                <canvas id="topLugaresChart"></canvas>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Resumen de Lugares</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="lugares-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Análisis de Causas -->
+            <div class="tab-pane fade" id="analisis" role="tabpanel" aria-labelledby="analisis-tab">
+                <h2>Análisis de Causas</h2>
+                <canvas id="analisisCausasChart"></canvas>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Conclusiones del Análisis</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="analisis-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estadísticas Detalladas -->
+            <div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+                <h2>Estadísticas Detalladas</h2>
+                <canvas id="estadisticasChart"></canvas>
+                <canvas id="frecuenciaReportesChart" class="mt-4"></canvas>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Análisis Estadístico</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="estadisticas-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas y Notificaciones -->
+            <div class="tab-pane fade" id="alertas" role="tabpanel" aria-labelledby="alertas-tab">
+                <h2>Alertas y Notificaciones</h2>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Descripción</th>
+                            <th>Prioridad</th>
+                            <th>Acciones Recomendadas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertas-tbody">
+                        <tr>
+                            <td>23/08/2024</td>
+                            <td>Fallas eléctricas recurrentes en Edificio B</td>
+                            <td>Alta</td>
+                            <td>Revisión inmediata por parte del equipo técnico</td>
+                        </tr>
+                        <tr>
+                            <td>20/08/2024</td>
+                            <td>Fugas de agua en la Biblioteca</td>
+                            <td>Media</td>
+                            <td>Inspección y reparación dentro de 24 horas</td>
+                        </tr>
+                        <tr>
+                            <td>18/08/2024</td>
+                            <td>Problemas estructurales en el Edificio C</td>
+                            <td>Alta</td>
+                            <td>Evaluación estructural y cierre temporal del área</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Resumen de Alertas</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="alertas-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulación de Escenarios -->
+            <div class="tab-pane fade" id="simulacion" role="tabpanel" aria-labelledby="simulacion-tab">
+                <h2>Simulación de Escenarios</h2>
+                <canvas id="simulacionChart"></canvas>
+                <div class="mt-3 bg-light p-3 border rounded">
+                    <h5>Resultados de la Simulación</h5>
+                    <div class="dynamic-table">
+                        <table class="table table-striped table-sm">
+                            <tbody id="simulacion-conclusiones">
+                                <!-- Nuevas conclusiones se agregan aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+{% endblock %}
+{% block modal %}
+
+  {% include 'partials/modal_adm-reportes.html' %}
+  {% include 'partials/modal_adm-infoAdiccional.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/adm_datosIA.js' %}"></script>
+{% endblock %}
