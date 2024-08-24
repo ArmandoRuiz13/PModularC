@@ -71,3 +71,7 @@ body {
     max-height: 150px;
     overflow-y: auto;
 }
+
+canvas{
+    max-height: 70vh;
+}
