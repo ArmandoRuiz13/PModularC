@@ -65,6 +65,20 @@ def admCuenta(request):
     current_user = request.user
     return render(request, 'adm_cuenta.html', {'user':current_user})
 
+
+@login_required(login_url='/')
+def admReporte(request, id):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+    current_problema = Problema.objects.get(id=id)
+    return render(request, 'adm_reporte.html', {'problema':current_problema})
+
+@login_required(login_url='/')
+def asistenteDatosIA(request):
+    if not request.user.is_staff:
+        return HttpResponseForbidden("Access denied")
+    return render(request, 'adm_datosIA.html', {})
+
 @login_required(login_url='/')
 def admUsuarios(request):
     if not request.user.is_staff:
