@@ -27,6 +27,7 @@
                 <th scope="col">Título</th>
                 <th scope='col'>Mensaje</th>
                 <th scope="col">Tipo Mensaje</th>
+                <th scope="col">Enviado por</th>
                 <th class="selecionable" data-orden="asc" id="th_fecha" scope="col">Fecha y Hora</th>
                 <th scope="col"> </th>
               </tr>
@@ -39,6 +40,7 @@
                 <td style="display: none;">{{ p.message }}</td>
                 <td>{{ p.message|truncatechars:70 }}</td>
                 <td>{{p.type}}</td>
+                <td>{{p.admin_u}}</td>
                 <td>{{p.created_at|timezone:"America/Mexico_City"|date:"m/d/Y" }} {{p.created_at|timezone:"America/Mexico_City"|time:"H:i:s"}}</td>
                 <td><button id={{p.id}} class="eliminar_notificacion btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#notificaciones_eliminar"> <i class="fa-solid fa-trash-can"></i> </button></td>
               </tr>

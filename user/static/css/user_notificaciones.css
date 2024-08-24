@@ -55,11 +55,7 @@ body{
 }
 .table-responsive {
   overflow-y: auto; /* Permitir desplazamiento vertical */
-<<<<<<< HEAD
   max-height: 60vh; /* Ajusta según sea necesario */
-=======
-  max-height: 60vh /* Ajusta según sea necesario */
->>>>>>> 8d6167b0c6142072b7450cd2834187113e3701ca
 }
 
 .table thead th {

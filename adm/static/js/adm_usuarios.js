@@ -663,11 +663,6 @@ function addEvents() {
                   </button>
               </div>
           `;
-
-          const btnQuitarAdmin = problemaInfo.querySelector(".btn-outline-danger");
-
-          btnQuitarAdmin.addEventListener("click", cambiarEstatusAdmin(idUsuario, false, problemaInfo));
-         
         });
     }
 
@@ -691,9 +686,6 @@ function addEvents() {
                   </button>
               </div>
           `;
-          const btnDarAdmin = problemaInfo.querySelector(".btn-outline-info");
-
-          btnDarAdmin.addEventListener("click", cambiarEstatusAdmin(idUsuario, true, problemaInfo));
       });
   }
     btnBloquearUsuario.addEventListener("click", function () {
@@ -704,10 +696,10 @@ function addEvents() {
           <div class='row justify-content-center mb-3'>
               <div class='text-center'>
                   <select class='form-select mb-3 shadow-sm' style='border-radius: 10px; font-size: 1.25rem; font-weight: bold;'>
-                      <option value='1'>1 Día</option>
-                      <option value='7'>1 Semana</option>
-                      <option value='31'>1 Mes</option>
-                      <option value='4000'>Permanente</option>
+                      <option value='1d'>1 Día</option>
+                      <option value='1w'>1 Semana</option>
+                      <option value='1m'>1 Mes</option>
+                      <option value='perm'>Permanente</option>
                   </select>
               </div>
           </div>
@@ -725,37 +717,6 @@ function addEvents() {
               </button>
           </div>
       `;
-
-      const btnBloquear = problemaInfo.querySelector(".btn-outline-danger");
-
-      btnBloquear.addEventListener("click", function () {
-          alert("baneo");
-
-          const razon = problemaInfo.querySelector("textarea");
-          const duracion = problemaInfo.querySelector("select");
-
-          fetch(`/api_registros/usuario/ban/${idUsuario}/`, {
-              method: "PUT",
-              headers: {
-                  "Content-Type": "application/json",
-                  "X-CSRFToken": getCookie("csrftoken"),
-              },
-              body: JSON.stringify({
-                  razon: razon.value,
-                  duracion: duracion.value,
-              }),
-          })
-          .then((response) => {
-              if (!response.ok) {
-                  throw new Error("Network response was not ok");
-              }
-              razon.value = "";
-              duracion.value = "1";
-          })
-          .catch((error) => {
-              console.error("There was a problem with the fetch operation:", error);
-          });
-      });
   });
   
   
@@ -1149,53 +1110,6 @@ function mostrarProblemas(
     contenedorProblemas.appendChild(tr);
   });
 }
-
-async function cambiarEstatusAdmin(idUsuario, nuevoEstatus, problemaInfo) {
-
-  const razon = problemaInfo.querySelector("textarea");
-
-  try{
-
-    const response = await fetch(`/api_registros/usuario/${idUsuario}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify({
-        is_staff: nuevoEstatus,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    console.log(razon.value);
-    const sendNotification = await fetch(`/api_registros/notificacion/`, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify({
-          message: razon.value,
-          user: idUsuario,
-          type: "Promoción",
-          title: (nuevoEstatus ? "Promover a" : "Quitar") + " administrador",
-      }),
-    });
-
-    if (!sendNotification.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    razon.value = "";
-    
-  } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-  };
-}
-
 
 // function updateProblemInfo(divProblemaInfo, problema) {
 //   problema.id = null;
