@@ -6,7 +6,7 @@ const currentUrl = window.location.href;
 const url = new URL(currentUrl); // obtiene ruta relativa
  
 // Select current page on menu to add class 'MenuPicked'
-const reportar = document.querySelectorAll('.nav-item a').item(1);
+const reportar = document.querySelectorAll('.nav-item a').item(2);
 reportar.id = 'MenuPicked';
 
 const btnStatusAceptar = document.createElement('button');

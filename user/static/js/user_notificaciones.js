@@ -69,41 +69,42 @@ Array.from(document.querySelectorAll('tr')).forEach(function (element) {
 
         modal_mostrar.querySelector('.modal-title-mostrar').innerHTML = '<strong>Título:</strong> ' + this.querySelector('th').innerHTML;
         // Obtener el contenido de la celda
-        const mensajeCompleto = this.querySelector('td').innerHTML; // Suponiendo que todos los datos están en la única columna
+        const mensajeCompleto = this.querySelectorAll('td').item(0).innerHTML;
+        const tipoMensaje = this.querySelectorAll('td').item(2).innerHTML;
 
         // Extraer información usando expresiones regulares
         const regex = /Su problema (.+?) \| (.+?) con el ID#(\d+) fue (.+?) por el administrador (.+?)\. El mensaje enviado fue: "(.*)"/;
-        const match = mensajeCompleto.match(regex);
+            const match = mensajeCompleto.match(regex);
 
-        if (match) {
-            const tipoEdificio = match[1]; // Tipo de edificio
-            const tipoProblema = match[2]; // Tipo de problema
-            const id = match[3]; // ID
-            const estado = match[4]; // Estado
-            const administrador = match[5]; // Administrador
-            const mensajeEnviado = match[6]; // Mensaje enviado
+            if (match) {
+                const tipoEdificio = match[1]; // Tipo de edificio
+                const tipoProblema = match[2]; // Tipo de problema
+                const id = match[3]; // ID
+                const estado = match[4]; // Estado
+                const administrador = match[5]; // Administrador
+                const mensajeEnviado = match[6]; // Mensaje enviado
 
-            // Definir el color según el estado
-            let color;
-            switch (estado) {
-                case 'Completado':
-                    color = 'blue';
-                    break;
-                case 'Aceptado':
-                    color = 'green';
-                    break;
-                case 'Rechazado':
-                    color = 'red';
-                    break;
-                default:
-                    color = 'black'; // Color por defecto
-            }
+                // Definir el color según el estado
+                let color;
+                switch (estado) {
+                    case 'Completado':
+                        color = 'blue';
+                        break;
+                    case 'Aceptado':
+                        color = 'green';
+                        break;
+                    case 'Rechazado':
+                        color = 'red';
+                        break;
+                    default:
+                        color = 'black'; // Color por defecto
+                }
 
-            // Crear el mensaje formateado
-            const contenido = `
-                <div>
-                    <p><strong> Mensaje: </strong><br> Su problema <strong>${tipoEdificio}</strong> | <strong>${tipoProblema}</strong> con el <strong>ID#${id}</strong> fue <strong style="color: ${color};">${estado}</strong> por el administrador <strong>${administrador}</strong>.<br> El mensaje enviado fue: "<em>${mensajeEnviado}</em>"</p>
-                </div>`;
+                // Crear el mensaje formateado
+                const contenido = `
+                    <div>
+                        <p><strong> Mensaje: </strong><br> Su problema <strong>${tipoEdificio}</strong> | <strong>${tipoProblema}</strong> con el <strong>ID#${id}</strong> fue <strong style="color: ${color};">${estado}</strong> por el administrador <strong>${administrador}</strong>.<br> El mensaje enviado fue: "<em>${mensajeEnviado}</em>"</p>
+                    </div>`;
 
             // Asignar el mensaje al cuerpo del modal
             modal_mostrar.querySelector('.modal-body-mostrar').innerHTML = contenido;
@@ -113,6 +114,7 @@ Array.from(document.querySelectorAll('tr')).forEach(function (element) {
         }
     });
 });
+
 
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
