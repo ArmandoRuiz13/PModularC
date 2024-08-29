@@ -24,12 +24,11 @@ let estatusCheckboxSeleccionado = "";
 
 // DOM filtro de usuarios
 
-const selectEstatus = document.querySelector("#estatus");
-const selectGravedad = document.querySelector("#gravedad");
-const selectTipoUsuario = document.querySelector("#tipo_usuario");
-const selectTipoEdificio = document.querySelector("#tipo_edificio");
+
 const selectFecha = document.querySelector("#fecha");
 const selectReportesPorPagina = document.querySelector("#reportes_pagina");
+const selectTipoUsuario = document.querySelector("#tipo_usuario");
+const selectEstatusUsuario = document.querySelector("#estatus_usuario");
 const btnFiltrar = document.querySelector("#btn_filtrar");
 const numResultados = document.querySelector("#num_resultados");
 
@@ -182,51 +181,52 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function filtrar() {
+  
   btnProblemaSiguiente.classList.add("invisible");
   btnProblemaAnterior.classList.add("invisible");
 
   usuariosFiltrados = realizarBusqueda(busquedaGlobal.toLowerCase());
 
   // Obtener los checkboxes seleccionados
-  // const estatusSeleccionados = [];
-  // document.querySelectorAll('.form-check-input:checked').forEach(checkbox => {
-  //     estatusSeleccionados.push(checkbox.value);
-  // });
+  if(selectTipoUsuario.value !== 'Todos') {
+    if(selectTipoUsuario.value === 'Admin') {
+        usuariosFiltrados = usuariosFiltrados.filter(p => p.is_staff);
+    } else if(selectTipoUsuario.value === 'Usuario') {
+        usuariosFiltrados = usuariosFiltrados.filter(p => !p.is_staff);
+    }
+  }
 
-  // // Filtrar por estatus si no se seleccionan todos los checkboxes
-  // if (estatusSeleccionados.length > 0 && estatusSeleccionados.length < 4) {
-  //     usuariosFiltrados = usuariosFiltrados.filter(p => estatusSeleccionados.includes(p.estatus_problematica));
-  // }
+  if(selectEstatusUsuario.value !== 'Todos') {
+    if(selectEstatusUsuario.value === 'Inactivo') {
+        usuariosFiltrados = usuariosFiltrados.filter(p => !p.is_active);
+    } else if(selectEstatusUsuario.value === 'Activo') {
+        usuariosFiltrados = usuariosFiltrados.filter(p => p.is_active);
+    }
+  }
 
-  // if (selectGravedad.value !== 'Todos') {
-  //     usuariosFiltrados = usuariosFiltrados.filter(p => p.gravedad_problema === selectGravedad.value);
-  // }
-  // if (selectTipoProblema.value !== 'Todos') {
-  //     usuariosFiltrados = usuariosFiltrados.filter(p => p.tipo_problema === selectTipoProblema.value);
-  // }
-  // if (selectTipoEdificio.value !== 'Todos') {
-  //     usuariosFiltrados = usuariosFiltrados.filter(p => p.tipo_edificio === selectTipoEdificio.value);
-  // }
-  // if (selectFecha.value !== 'Todos') {
-  //     usuariosFiltrados = usuariosFiltrados.filter(p => {
-  //         const fechaActual = new Date();
-  //         const partesFecha = p.fecha_actualizado.split('/');
-  //         const dia = parseInt(partesFecha[0], 10);
-  //         const mes = parseInt(partesFecha[1], 10) - 1;
-  //         const anio = parseInt(partesFecha[2], 10);
-  //         const fechaActualizacion = new Date(anio, mes, dia);
 
-  //         const diferencia = fechaActual - fechaActualizacion;
-  //         const diasDiferencia = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  if (selectFecha.value !== 'Todos') {
+      usuariosFiltrados = usuariosFiltrados.filter(p => {
+          const fechaActual = new Date();
+          const partesFecha = p.date_joined.split('/');
+          const dia = parseInt(partesFecha[0], 10);
+          const mes = parseInt(partesFecha[1], 10) - 1;
+          const anio = parseInt(partesFecha[2], 10);
+          const fechaActualizacion = new Date(anio, mes, dia);
 
-  //         if (selectFecha.value === 'Hoy') return diasDiferencia === 0;
-  //         if (selectFecha.value === 'Ayer') return diasDiferencia <= 1;
-  //         if (selectFecha.value === '7 días') return diasDiferencia <= 7;
-  //         if (selectFecha.value === 'Mes') return diasDiferencia <= 30;
-  //         if (selectFecha.value === 'Año') return diasDiferencia <= 366;
-  //         return true;
-  //     });
-  // }
+          const diferencia = fechaActual - fechaActualizacion;
+          const diasDiferencia = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+
+          if (selectFecha.value === 'Hoy') return diasDiferencia === 0;
+          if (selectFecha.value === 'Ayer') return diasDiferencia <= 1;
+          if (selectFecha.value === '7 días') return diasDiferencia <= 7;
+          if (selectFecha.value === 'Mes') return diasDiferencia <= 30;
+          if (selectFecha.value === 'Año') return diasDiferencia <= 366;
+          return true;
+      });
+  }
+
+  
 
   // numResultados.textContent = `${usuariosFiltrados.length} resultado` + (usuariosFiltrados.length !== 1 ? 's' : '') + // Mostrar el número de resultados
   //     ` encontrado` +  (usuariosFiltrados.length !== 1 ? 's' : '');
@@ -249,6 +249,9 @@ function filtrar() {
   mostrarProblemas(pagina, usuariosFiltrados, selectReportesPorPagina.value);
   addEvents();
 }
+
+selectEstatusUsuario.addEventListener("change", filtrar);
+selectTipoUsuario.addEventListener("change", filtrar);  
 
 // Escuchar cambios en los checkboxes
 document.querySelectorAll(".form-check-input").forEach((checkbox) => {
@@ -291,6 +294,7 @@ btnProblemaAnterior.addEventListener("click", () => {
   addEvents();
 });
 
+// const abrirModal = 
 function addEvents() {
   // Manejo de eventos para el botón de seguimiento
   Array.from(document.getElementsByClassName("seguimiento_p")).forEach(
@@ -338,8 +342,69 @@ function addEvents() {
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
                                         </div>`;
+          if(!data.is_active){
 
-          if (tipoUsuario === "Admin") {
+            // Asegúrate de que 'data.fecha_baneo' sea una instancia válida de fecha (Date)
+            // const fechaBaneo = new Date(data.fecha_baneo);
+
+          
+            // // Función para convertir la cadena de fecha en un objeto Date
+            // function convertirFecha(fechaStr) {
+            //   const [dia, mes, anio] = fechaStr.split(" ")[0].split("/"); // Dividimos la parte de la fecha (día, mes, año)
+            //   return new Date(`${anio}-${mes}-${dia}`); // Creamos un objeto Date en formato YYYY-MM-DD
+            // }
+
+            // // Convertimos la fecha futura a un objeto Date
+            // const dateFutura = convertirFecha(fechaBaneo);
+
+            // // Obtenemos la fecha actual sin considerar la hora
+            // const dateActual = new Date();
+            // dateActual.setHours(0, 0, 0, 0); // Establecemos las horas, minutos, segundos y milisegundos a 0
+
+            // // Calculamos la diferencia en milisegundos y luego la convertimos a días
+            // const diferenciaMilisegundos = dateFutura - dateActual;
+            // const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+            const mensajeBaneoRestante = `${""} días.`;
+
+            divAdminInfo.innerHTML += `
+            <div class='row h3 text-center'>
+              <span class='col border border-2'><strong>Nombre de Usuario</strong></span> 
+              <span class='col border border-2 text-center'>${data.first_name} ${data.last_name}</span>
+            </div>
+            <div class='row h3 text-center'>
+              <span class='col border border-2'><strong>Correo</strong></span> 
+              <span class='col border border-2 text-center'>${data.email}</span>
+            </div>
+            <div class='row h3 text-center'>
+              <span class='col border border-2'><strong>Número de Reportes</strong></span> 
+              <span class='col border border-2 text-center'>${data.num_reportes}</span>
+            </div>
+            <div class='row h3 text-center'>
+              <span class='col border border-2'><strong>Fecha de Creación</strong></span> 
+              <span class='col border border-2 text-center'>${data.date_joined}</span>
+            </div>
+            <div class='row h3 text-center'>
+            <span class='col border border-2'><strong>Tiempo de bloqueo</strong></span> 
+            <span class='col border border-2 text-center'>${mensajeBaneoRestante}</span>
+            </div>
+            <div class='row h3 text-center'>
+              <span class='col border border-2'><strong>Fin de baneo</strong></span> 
+              <span class='col border border-2 text-center'>${data.fecha_baneo}</span>
+            </div>
+            <div class='row h3 text-start' id='btnBloquearUsuario'>
+              <button type="button" class="btn btn-danger col fs-5 me-2">
+                <i class="fas fa-ban"></i> Extender Bloqueo
+              </button>
+            </div>
+            <div class='row h3 text-start' id='btnDesbloquearUsuario'>
+              <button type="button" class="btn btn-info col fs-5 me-2">
+                <i class="fa-solid fa-unlock"></i> Desbloquear usuario
+              </button>
+            </div>
+            
+          `;
+
+          } else if (tipoUsuario === "Admin") {
             divAdminInfo.innerHTML += `
               <div class='row h3 text-center'>
                 <span class='col border border-2'><strong>Nombre de Usuario</strong></span> 
@@ -428,9 +493,11 @@ function addEvents() {
           const btnDarAdmin = document.getElementById("btnDarAdmin");
           const btnQuitarAdmin = document.getElementById("btnQuitarAdmin");
           const btnBloquearUsuario = document.getElementById("btnBloquearUsuario");
+          const btnDesbloquearUsuario = document.getElementById("btnDesbloquearUsuario");
           const problemaInfo = document.querySelector(".ProblemaInfo");
           
-          btnEnviarNotificacion.addEventListener("click", function () {
+          if(btnEnviarNotificacion){
+            btnEnviarNotificacion.addEventListener("click", function () {
             problemaInfo.innerHTML = `
                 <div class='text-center h2 mb-4'>
                     <strong>Enviar notificación</strong>
@@ -462,6 +529,9 @@ function addEvents() {
                         <i class="fas fa-paper-plane"></i> Enviar
                     </button>
                 </div>
+                <div id="mensaje" class="alert alert-secondary invisible mt-3 text-center mx-4" role="alert">
+                    Notificación enviada a ${data.first_name} ${data.last_name}
+                </div>
             `;
         
             const btnEnviar = problemaInfo.querySelector(".btn-primary");
@@ -470,7 +540,13 @@ function addEvents() {
                 const mensaje = problemaInfo.querySelector("textarea");
                 const tipo = problemaInfo.querySelector("#tipoNotificacion");
                 const titulo = tipo.value + " Administrador";
-        
+
+                btnEnviar.disabled = true;
+                btnEnviar.innerHTML = `<div class="spinner-border spinner-border-sm text-light"  role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>`;
+
+                document.getElementById("mensaje").classList.add("invisible");
                 fetch(`/api_registros/notificacion/`, {
                     method: "POST",
                     headers: {
@@ -488,16 +564,107 @@ function addEvents() {
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
                     }
+                    document.getElementById("mensaje").textContent = `Notificación enviada a ${data.first_name} ${data.last_name}`;
+                    document.getElementById("mensaje").classList.remove("invisible");
                     mensaje.value = "";
                     tipo.value = "Notificacion";
                 })
                 .catch((error) => {
+                    document.getElementById("mensaje").textContent = "Hubo un problema al enviar la notificación";
+                    document.getElementById("mensaje").classList.remove("invisible");
                     console.error("There was a problem with the fetch operation:", error);
+                }).finally(() => {
+                    btnEnviar.disabled = false;
+                    btnEnviar.innerHTML = `<i class="fas fa-paper-plane"></i> Enviar`;
                 });
             });
-        });
+          });}
+
+          if(btnDesbloquearUsuario){
+          btnDesbloquearUsuario.addEventListener("click", function () {
+            problemaInfo.innerHTML = `
+                <div class='text-center h2 mb-4'>
+                    <strong>Desbloquear Usuario</strong>
+                </div>
+                <div class='row justify-content-center mb-3'>
+                    <div class='text-center'>
+                        <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
+                                  placeholder='Razón de desbloqueo' 
+                                  rows='4'
+                                  style='resize: none; border-radius: 10px;'></textarea>
+                    </div>
+                </div>
+                <div class='row justify-content-center'>
+                    <button type="button" class="btn btn-outline-info col-4 fs-5 shadow-sm">
+                        <i class="fa-solid fa-key"></i></i> Desbloquear
+                    </button>
+                </div>
+            `;
+
+            const btnBloquear = problemaInfo.querySelector(".btn-outline-info");
+
+            btnBloquear.addEventListener("click", function () {
+      
+                const razon = problemaInfo.querySelector("textarea");
+
+                btnBloquear.disabled = true;
+                btnBloquear.innerHTML = `<div class="spinner-border spinner-border-sm text-info"  role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>`;
+      
+                fetch(`/api_registros/usuario/ban/${idUsuario}/`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"),
+                    },
+                    body: JSON.stringify({
+                        razon: razon.value,
+                        duracion: 0,
+                    }),
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+
+                    const usuario = usuarios.find((u) => u.id == idUsuario);
+              
+                    usuario.is_active = true;
+      
+                    filtrar();
+      
+                    const btnUsuarioActual = document.getElementById(`p.${idUsuario}`);
+                    const btnCerrarModal = document.getElementById("btnCerrarModal");
+      
+                    btnCerrarModal.click();
+      
+                    setTimeout(() => {
+                      btnUsuarioActual.click();
+                    }, 400);
+      
+                    setTimeout(() => {
+                      document.getElementById("btnBloquearUsuario").click();
+                    }, 400);
+
+                    razon.value = "";
+                })
+                .catch((error) => {
+                    console.error("There was a problem with the fetch operation:", error);
+                }).finally(() => {
+                    btnBloquear.disabled = false;
+                    btnBloquear.innerHTML = `<i class="fas fa-ban"></i> Bloquear`;
+                });
+            });
+
+            
+    
+  
+          });
+          }
           
-        btnAdministrarUsuario.addEventListener("click", function () {
+          if(btnAdministrarUsuario){
+          btnAdministrarUsuario.addEventListener("click", function () {
           problemaInfo.innerHTML = `
           <div class='text-center h2 mb-4'>
               <strong>Administrar usuario</strong>
@@ -617,6 +784,10 @@ function addEvents() {
                 requestObj.email = correo.value;
               }
 
+              btnGuardarCambios.disabled = true;
+              btnGuardarCambios.innerHTML = `<div class="spinner-border spinner-border-sm text-light"  role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>`;
 
               fetch(`/api_registros/usuario/${idUsuario}/`, {
                   method: "PUT",
@@ -630,6 +801,41 @@ function addEvents() {
                   if (!response.ok) {
                       throw new Error("Network response was not ok");
                   }
+
+                  const usuario = usuarios.find((u) => u.id == idUsuario);
+
+
+                  if (usuario) {
+                      if(nombre.value) {
+                          usuario.first_name = nombre.value;
+                      }
+
+                      if(apellido.value) {
+                          usuario.last_name = apellido.value;
+                      }
+
+                      if(correo.value) {
+                          usuario.email = correo.value;
+                      }
+                  }
+
+                  filtrar();
+
+                  const btnUsuarioActual = document.getElementById(`p.${idUsuario}`);
+                  const btnCerrarModal = document.getElementById("btnCerrarModal");
+
+                
+
+                  btnCerrarModal.click();
+                  
+                  setTimeout(() => {
+                    btnUsuarioActual.click();
+                  }, 400);
+
+                  setTimeout(() => {
+                    document.getElementById("btnAdministrarUsuario").click();
+                  }, 400);
+
                   nombre.value = "";
                   apellido.value = "";
                   nuevaContrasena.value = "";
@@ -638,10 +844,13 @@ function addEvents() {
               })
               .catch((error) => {
                   console.error("There was a problem with the fetch operation:", error);
+              }).finally(() => {
+                  btnGuardarCambios.disabled = false;
+                  btnGuardarCambios.innerHTML = `<i class="fas fa-save"></i> Guardar cambios`;
               });
           });
 
-      });
+      });}
 
       if(btnQuitarAdmin){
         btnQuitarAdmin.addEventListener("click", function () {
@@ -663,6 +872,11 @@ function addEvents() {
                   </button>
               </div>
           `;
+
+          const btnQuitarAdmin = problemaInfo.querySelector(".btn-outline-danger");
+
+          btnQuitarAdmin.addEventListener("click", () => cambiarEstatusAdmin(idUsuario, false, problemaInfo));
+         
         });
     }
 
@@ -686,8 +900,12 @@ function addEvents() {
                   </button>
               </div>
           `;
+          const btnDarAdmin = problemaInfo.querySelector(".btn-outline-info");
+
+          btnDarAdmin.addEventListener("click", () => cambiarEstatusAdmin(idUsuario, true, problemaInfo));
       });
   }
+  if(btnBloquearUsuario){
     btnBloquearUsuario.addEventListener("click", function () {
       problemaInfo.innerHTML = `
           <div class='text-center h2 mb-4'>
@@ -696,19 +914,21 @@ function addEvents() {
           <div class='row justify-content-center mb-3'>
               <div class='text-center'>
                   <select class='form-select mb-3 shadow-sm' style='border-radius: 10px; font-size: 1.25rem; font-weight: bold;'>
-                      <option value='1d'>1 Día</option>
-                      <option value='1w'>1 Semana</option>
-                      <option value='1m'>1 Mes</option>
-                      <option value='perm'>Permanente</option>
+                      <option value='1'>1 Día</option>
+                      <option value='7'>1 Semana</option>
+                      <option value='31'>1 Mes</option>
+                      <option value='4000'>Permanente</option>
                   </select>
               </div>
           </div>
           <div class='row justify-content-center mb-3'>
               <div class='text-center'>
                   <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
-                            placeholder='Razón del baneo (opcional)' 
+                            placeholder='Razón del baneo' 
                             rows='4'
-                            style='resize: none; border-radius: 10px; font-size: 1.25rem; font-weight: bold;'></textarea>
+                            style='resize: none; border-radius: 10px; font-size: 1.25rem; font-weight: bold;'
+                            required>
+                  </textarea>
               </div>
           </div>
           <div class='row justify-content-center'>
@@ -717,7 +937,63 @@ function addEvents() {
               </button>
           </div>
       `;
-  });
+
+      const btnBloquear = problemaInfo.querySelector(".btn-outline-danger");
+
+      btnBloquear.addEventListener("click", function () {
+
+          const razon = problemaInfo.querySelector("textarea");
+          const duracion = problemaInfo.querySelector("select");
+          btnBloquear.disabled = true;
+          btnBloquear.innerHTML = `<div class="spinner-border spinner-border-sm text-danger"  role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>`;
+
+          fetch(`/api_registros/usuario/ban/${idUsuario}/`, {
+              method: "PUT",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": getCookie("csrftoken"),
+              },
+              body: JSON.stringify({
+                  razon: razon.value,
+                  duracion: duracion.value,
+              }),
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  throw new Error("Network response was not ok");
+              }
+              const usuario = usuarios.find((u) => u.id == idUsuario);
+              
+              usuario.is_active = false;
+
+              filtrar();
+
+              const btnUsuarioActual = document.getElementById(`p.${idUsuario}`);
+              const btnCerrarModal = document.getElementById("btnCerrarModal");
+
+              btnCerrarModal.click();
+
+              setTimeout(() => {
+                btnUsuarioActual.click();
+              }, 400);
+
+              setTimeout(() => {
+                document.getElementById("btnDesbloquearUsuario").click();
+              }, 400);
+
+              razon.value = "";
+              duracion.value = "1";
+          })
+          .catch((error) => {
+              console.error("There was a problem with the fetch operation:", error);
+          }).finally(() => {
+              btnBloquear.disabled = false;
+              btnBloquear.innerHTML = `<i class="fas fa-ban"></i> Bloquear`;
+          });
+      });
+  });}
   
   
     
@@ -1032,10 +1308,14 @@ function mostrarProblemas(
     }
 
     tr.classList.add(tipoUsuario);
+    tr.id = `usuario-${p.id}`;
 
     tr.innerHTML = `
               <th scope="row row-9">${p.id}</th>
-              <td>${p.first_name} ${p.last_name} </td>
+              <td><span class=${p.is_active ? "": "text-danger"}>
+              ${p.is_active ? "<i class='fa-solid fa-user'></i>" : "<i class='fa-solid fa-user-slash'></i>"}
+              ${p.first_name} ${p.last_name}
+              </span> </td>
               <td>${tipoUsuario}</td>
               <td>${p.email}</td>
               <td>${p.num_reportes}</td>
@@ -1110,6 +1390,88 @@ function mostrarProblemas(
     contenedorProblemas.appendChild(tr);
   });
 }
+
+async function cambiarEstatusAdmin(idUsuario, nuevoEstatus, problemaInfo) {
+  console.log(idUsuario, nuevoEstatus, "In");
+  const razon = problemaInfo.querySelector("textarea");
+  const btnEnviar = problemaInfo.querySelector(".btn");
+  btnEnviar.disabled = true;
+  btnEnviar.innerHTML = `<div class="spinner-border spinner-border-sm text-${nuevoEstatus ? 'info':'danger'}"  role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>`;
+
+  
+  try{
+
+    const response = await fetch(`/api_registros/usuario/${idUsuario}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        is_staff: nuevoEstatus,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const usuario = usuarios.find((u) => u.id == idUsuario);
+
+
+    if (usuario) {
+      usuario.is_staff = nuevoEstatus;
+    }
+
+    filtrar();
+
+    const btnUsuarioActual = document.getElementById(`p.${idUsuario}`);
+    const btnCerrarModal = document.getElementById("btnCerrarModal");
+
+    btnCerrarModal.click();
+    
+    setTimeout(() => {
+      btnUsuarioActual.click();
+    }, 400);
+
+
+    setTimeout(() => {
+      document.getElementById(`btn${nuevoEstatus ? "Quitar" : "Dar"}Admin`).click();
+    }, 400);
+
+
+    
+    const sendNotification = await fetch(`/api_registros/notificacion/`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+          message: razon.value,
+          user: idUsuario,
+          type: "Promoción",
+          title: (nuevoEstatus ? "Promover a" : "Quitar") + " administrador",
+      }),
+    });
+
+    if (!sendNotification.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+
+    razon.value = "";
+    
+  } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+  }
+
+  btnEnviar.disabled = false;
+  btnEnviar.textContent = "Confirmar";
+}
+
 
 // function updateProblemInfo(divProblemaInfo, problema) {
 //   problema.id = null;

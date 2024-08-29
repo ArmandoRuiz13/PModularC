@@ -12,7 +12,7 @@ urlpatterns = [
     path('terminados/', views.admTerminados, name="terminados"),
     path('edificios/<str:letra>/', views.admGetEdificio, name="get_edificio"),
     path('notificaciones/', views.admNotificaciones, name="notificaciones"),
-    path('cuenta/', views.admCuenta, name="seguimiento"),
+    path('cuenta/', views.admCuenta, name="cuentaAdmin"),
     path('reporte/<int:id>/', views.admReporte, name="reporte"),
     path('IA/', views.asistenteDatosIA, name="datosIA"),
 ]

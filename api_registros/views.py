@@ -472,6 +472,8 @@ class UsuariosAPIView(APIView):
          # Preparar la lista de usuarios
         usuarios_data = []
         for user in queryset:
+            if (user.fecha_baneo is not None):
+                user.fecha_baneo = user.fecha_baneo.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S')
             usuarios_data.append({
                 'id': user.id,
                 'first_name': user.first_name,
@@ -482,6 +484,7 @@ class UsuariosAPIView(APIView):
                 'is_active': user.is_active,
                 'date_joined': user.date_joined.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S'),
                 'num_reportes': user.num_reportes,
+                'fecha_baneo' : user.fecha_baneo
                 # Agrega otros campos necesarios aquí
             })
         
@@ -642,8 +645,9 @@ class BanUser(APIView):
         if id is not None:
             try:
                 instance = CustomUser.objects.get(id=id)
-                instance.is_active = False
-                instance.fecha_baneo = datetime.now() 
+                banUser = int(duracion) > 0;
+                instance.is_active = False if banUser else True
+                instance.fecha_baneo = datetime.now()
                 if duracion is not None:
                     instance.fecha_baneo += timedelta(days=int(duracion))
                 instance.save()
@@ -651,12 +655,15 @@ class BanUser(APIView):
                 Notification.objects.create(
                     user=instance,
                     admin_u=request.user.first_name + " " + request.user.last_name,
-                    type='Ban',
-                    title='Usuario baneado',
+                    type='Ban' if banUser else 'Unban',
+                    title='Usuario baneado' if banUser else 'Usuario desbaneado',
                     message=(
                         f"""  Usuario: {instance.first_name} {instance.last_name}
                               Razón: {razon}
                               Duración del Baneo: Actualmente estás baneado por {duracion} días.
+                        """ if banUser else f"""  Usuario: {instance.first_name} {instance.last_name}
+                              Razón: {razon}
+                              Duración del Baneo: Actualmente estás desbaneado.
                         """
                     )
                 )

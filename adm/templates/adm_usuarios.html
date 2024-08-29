@@ -30,8 +30,16 @@
             <h2 class="fw-bold display-5 fs-3">Tipo usuario</h2>
             <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="tipo_usuario">
               <option value="Todos">Todos</option>
-              <option value="Academico">Usuario</option>
-              <option value="Baños">Administrador</option>
+              <option value="Usuario">Usuario</option>
+              <option value="Admin">Administrador</option>
+            </select>
+          </div>
+          <div class="col">
+            <h2 class="fw-bold display-5 fs-3">Estatus</h2>
+            <select class="form-select w-75 m-auto mt-4 fs-5 text-center" id="estatus_usuario">
+              <option  value="Todos">Todos</option>
+              <option selected value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
             </select>
           </div>
           <div class="col">
@@ -86,9 +94,21 @@
         <tbody id='contenedor_problemas'>
           {% for u in usuarios %}
           
-          <tr>
+          <tr id="usuario-{{u.id}}">
             <th scope="row">{{u.id}}</th>
-            <td>{{u.first_name}} {{u.last_name}} </td>
+            <td>
+              {% if not u.is_active %}
+                <span class="text-danger">
+                  <i class="fa-solid fa-user-slash"></i> 
+                  {{ u.first_name }} {{ u.last_name }}
+                </span>
+              {% else %}
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                  {{ u.first_name }} {{ u.last_name }}
+                </span>
+              {% endif %}
+            </td>
             <td> 
               {% if u.is_staff %} 
                 Admin 
@@ -140,4 +160,4 @@
 
 {% block scripts %}
  <script src="{% static 'js/adm_usuarios.js' %}" type="module"></script>
-{% endblock %}
+{% endblock %} 
