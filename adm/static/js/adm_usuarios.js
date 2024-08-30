@@ -393,7 +393,7 @@ function addEvents() {
             </div>
             <div class='row h3 text-start' id='btnBloquearUsuario'>
               <button type="button" class="btn btn-danger col fs-5 me-2">
-                <i class="fas fa-ban"></i> Extender Bloqueo
+                <i class="fas fa-ban"></i> Cambiar Bloqueo
               </button>
             </div>
             <div class='row h3 text-start' id='btnDesbloquearUsuario'>
@@ -589,7 +589,7 @@ function addEvents() {
                 <div class='row justify-content-center mb-3'>
                     <div class='text-center'>
                         <textarea class='form-control text-center mb-3 p-3 shadow-sm fs-4' 
-                                  placeholder='Razón de desbloqueo' 
+                                  placeholder='Razón de desbloqueo (Opcional)' 
                                   rows='4'
                                   style='resize: none; border-radius: 10px;'></textarea>
                     </div>
