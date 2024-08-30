@@ -343,28 +343,28 @@ function addEvents() {
                                             </div>
                                         </div>`;
           if(!data.is_active){
-
+            
             // Asegúrate de que 'data.fecha_baneo' sea una instancia válida de fecha (Date)
-            // const fechaBaneo = new Date(data.fecha_baneo);
+            const fechaBaneo = data.fecha_baneo;
 
           
-            // // Función para convertir la cadena de fecha en un objeto Date
-            // function convertirFecha(fechaStr) {
-            //   const [dia, mes, anio] = fechaStr.split(" ")[0].split("/"); // Dividimos la parte de la fecha (día, mes, año)
-            //   return new Date(`${anio}-${mes}-${dia}`); // Creamos un objeto Date en formato YYYY-MM-DD
-            // }
+            // Función para convertir la cadena de fecha en un objeto Date
+            function convertirFecha(fechaStr) {
+              const [dia, mes, anio] = fechaStr.split(" ")[0].split("/"); // Dividimos la parte de la fecha (día, mes, año)
+              return new Date(`${anio}-${mes}-${dia}`); // Creamos un objeto Date en formato YYYY-MM-DD
+            }
 
-            // // Convertimos la fecha futura a un objeto Date
-            // const dateFutura = convertirFecha(fechaBaneo);
+            // Convertimos la fecha futura a un objeto Date
+            const dateFutura = convertirFecha(fechaBaneo);
 
-            // // Obtenemos la fecha actual sin considerar la hora
-            // const dateActual = new Date();
-            // dateActual.setHours(0, 0, 0, 0); // Establecemos las horas, minutos, segundos y milisegundos a 0
+            // Obtenemos la fecha actual sin considerar la hora
+            const dateActual = new Date();
+            dateActual.setHours(0, 0, 0, 0); // Establecemos las horas, minutos, segundos y milisegundos a 0
 
-            // // Calculamos la diferencia en milisegundos y luego la convertimos a días
-            // const diferenciaMilisegundos = dateFutura - dateActual;
-            // const diferenciaDias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
-            const mensajeBaneoRestante = `${""} días.`;
+            // Calculamos la diferencia en milisegundos y luego la convertimos a días
+            const diferenciaMilisegundos = dateFutura - dateActual;
+            const diferenciaDias = Math.ceil(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+            const mensajeBaneoRestante = `${diferenciaDias} días`;
 
             divAdminInfo.innerHTML += `
             <div class='row h3 text-center'>
@@ -967,6 +967,25 @@ function addEvents() {
               const usuario = usuarios.find((u) => u.id == idUsuario);
               
               usuario.is_active = false;
+              const fechaActual = new Date();
+              const fechaBaneo = new Date(fechaActual.getTime() + duracion.value * 24 * 60 * 60 * 1000);
+
+              // Obtener la fecha en formato local de México con formato personalizado
+              const opciones = {
+                timeZone: 'America/Mexico_City',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false // Formato de 24 horas  
+              };
+
+              const fechaFormateada = fechaBaneo.toLocaleDateString('es-MX', opciones).replace(",", '');
+              // const horaFormateada = fechaBaneo.toLocaleTimeString('es-MX', opciones);
+
+              usuario.fecha_baneo = `${fechaFormateada}`;
 
               filtrar();
 
