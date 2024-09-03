@@ -7,9 +7,10 @@ from .models import Problema, ProblemaEnCurso, Notification
 from login.models import CustomUser
 from django.core.exceptions import ObjectDoesNotExist
 import json
+from .populate import crear_reportes_falsos
 
 # Create your views here.
-
+    
 @login_required(login_url='/')
 def user_index(request):
     current_user = request.user
@@ -51,3 +52,8 @@ def change_password(request):
         else:
             return JsonResponse({'error': 'Contraseña actual incorrecta'}, status=400)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+@login_required(login_url='/')
+def crear_reportes(request):
+    crear_reportes_falsos(10)
+    return JsonResponse({'message': 'Reportes creados exitosamente'}, status=200)

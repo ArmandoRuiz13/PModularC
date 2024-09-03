@@ -8,4 +8,5 @@ urlpatterns = [
     path('cuenta/', views.user_cuenta, name = "user_cuenta"),
     path('cuenta/cambiar-contraseña/', views.change_password, name='change_password'),
     path('notificaciones',views.user_notificaciones, name='notificaciones'),
+    path('crear-reportes/', views.crear_reportes, name='crear_reportes'),
     ]
