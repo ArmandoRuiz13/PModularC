@@ -439,9 +439,9 @@ class ProblemaEnCursoAPIView(APIView):
                     dict['fecha_aceptado'] = instance.fecha_aceptado.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S')
                 if dict['fecha_completado'] is not None:
                     dict['fecha_completado'] = instance.fecha_completado.astimezone(timezone).strftime('%d/%m/%Y %H:%M:%S')
-
-                dict['adminName'] = instance.id_administrador.first_name
-                dict['id_administrador'] = instance.id_administrador.first_name
+                if instance.id_administrador is not None:
+                    dict['adminName'] = instance.id_administrador.first_name
+                    dict['id_administrador'] = instance.id_administrador.first_name
                 dict.pop('id_problema', None)
 
                 return Response(dict)

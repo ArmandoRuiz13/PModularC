@@ -13,6 +13,7 @@ const btnStatusAceptar = document.createElement("button");
 let idProblema;
 
 const btnStatusRechazar = document.createElement("button");
+let problemasBusqueda;
 const btnProblemaSiguiente = document.querySelector("#btn_problem_siguiente");
 const btnProblemaAnterior = document.querySelector("#btn_problema_anterior");
 const contenedorProblemas = document.querySelector("#contenedor_problemas");

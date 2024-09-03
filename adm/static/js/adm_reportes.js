@@ -642,7 +642,7 @@ function cargarProblemas() {
         .then((data) => {
             problemas = data;
             problemasFiltrados = problemas;
-            problemasBusqueda = problemas;
+            // problemasBusqueda = problemas;
             filtrar();
             addEvents();
         })
@@ -718,8 +718,8 @@ function mostrarProblemas(pagina=1, problemas=problemasFiltrados, problemasPorPa
                         break   
                 }
                 document.querySelectorAll('table tbody tr').forEach(tr => {
-                    estatus_problematica = tr.querySelector('.estatus_problematica').textContent;
-                    checkbox = tr.querySelector('.form-check-input');
+                    const estatus_problematica = tr.querySelector('.estatus_problematica').textContent;
+                    const checkbox = tr.querySelector('.form-check-input');
                     if (estatus_problematica !== estatusCheckboxSeleccionado) {
                         // console.log(estatus_problematica, estatusCheckboxSeleccionado);
                         checkbox.disabled = true;
