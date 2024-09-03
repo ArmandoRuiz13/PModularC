@@ -46,17 +46,65 @@ let BodyModal = document.querySelector('.modal-body');
 
 const opcionesEdificioDepartamento = {
     "Administrativos": 
-     `<option value="" selected>Seleccionar</option>
-      <option value="1">Oficina de Servicio Social</option>
-      <option value="2">Oficina de Graduados</option>
-      <option value="3">etc.</option>
-      <option value="4">etc</option>
-      <option value="5">etc</option>`,
+        `<option value="" selected>Seleccionar</option>
+        <option value="Unidad de Planeación">Unidad de Planeación</option>
+        <option value="Unidad de Presupuesto">Unidad de Presupuesto</option>
+        <option value="Unidad de Servicio Social">Unidad de Servicio Social</option>
+        <option value="Auditorio Antonio Rodríguez">Auditorio Antonio Rodríguez</option>
+        <option value="Jefatura del departamento de Ingeniería Química">Jefatura del departamento de Ingeniería Química</option>
+        <option value="Museo de mineralogía">Museo de mineralogía</option>
+        <option value="Servicios médicos integrales">Servicios médicos integrales</option>
+        <option value="COMITÉ DE ALUMOS DE LA DIVISIÓN DE CIENCIAS BÁSICAS">COMITÉ DE ALUMOS DE LA DIVISIÓN DE CIENCIAS BÁSICAS</option>
+        <option value="MAESTRÍA EN CIENCIAS QUÍMICAS">MAESTRÍA EN CIENCIAS QUÍMICAS</option>
+        <option value="UNIDAD DE VINCULACIÓN">UNIDAD DE VINCULACIÓN</option>
+        <option value="UNIDAD INTERNA DE PROTECCIÓN CIVIL">UNIDAD INTERNA DE PROTECCIÓN CIVIL</option>
+        <option value="DIVISIÓN DE CIENCIAS BÁSICAS">DIVISIÓN DE CIENCIAS BÁSICAS</option>
+        <option value="RADIO CUCEI">RADIO CUCEI</option>
+        <option value="Auditorio Antonio Alatorre">Auditorio Antonio Alatorre</option>
+        <option value="Departamento de Ingeniería Industrial">Departamento de Ingeniería Industrial</option>
+        <option value="Departamento de Ciencias Computacionales">Departamento de Ciencias Computacionales</option>
+        <option value="Departamento de Ingeniería Civil y Topográfica">Departamento de Ingeniería Civil y Topográfica</option>
+        <option value="Departamento de Ingeniería Mecánica Eléctrica">Departamento de Ingeniería Mecánica Eléctrica</option>
+        <option value="División de Electrónica y Computación">División de Electrónica y Computación</option>
+        <option value="División Ingenierías">División Ingenierías</option>
+        <option value="Sala de maestros de electrónica y computación">Sala de maestros de electrónica y computación</option>
+        <option value="Maestría en Ciencias en Ingeniería Electrónica y Computación">Maestría en Ciencias en Ingeniería Electrónica y Computación</option>
+        <option value="Oficinas de investigadores">Oficinas de investigadores</option>
+        <option value="Oficinas del STAUdeG">Oficinas del STAUdeG</option>
+        <option value="Aula de posgrados en Ciencias de la Hidrometeorología">Aula de posgrados en Ciencias de la Hidrometeorología</option>
+        <option value="Departamento de Matemáticas">Departamento de Matemáticas</option>
+        <option value="Maestría en Ciencias en Química">Maestría en Ciencias en Química</option>
+        <option value="Salas audiovisuales">Salas audiovisuales</option>
+        <option value="Sala de lectura de Matemáticas">Sala de lectura de Matemáticas</option>
+        <option value="Comité de Computación">Comité de Computación</option>
+        <option value="Comité de Física">Comité de Física</option>
+        <option value="Comité de Informática">Comité de Informática</option>
+        <option value="Comité de Matemáticas">Comité de Matemáticas</option>
+        <option value="Oficina 1">Oficina 1</option>
+        <option value="Oficinas del servicio social">Oficinas del servicio social</option>`,
     "Coordinacion":
-    `<option value="" selected>Seleccionar</option>
-     <option value="1">Computación</option>
-     <option value="2">Electrónica</option>
-     <option value="3"></option>`,
+        `<option value="" selected>Seleccionar</option>
+        <option value="Computación">Computación</option>
+        <option value="Electrónica">Electrónica</option>
+        <option value="Coordinación de Comisiones del Consejo de Centro">Coordinación de Comisiones del Consejo de Centro</option>
+        <option value="Coordinación de Control Escolar">Coordinación de Control Escolar</option>
+        <option value="Coordinación de Extensión">Coordinación de Extensión</option>
+        <option value="Coordinación de Finanzas">Coordinación de Finanzas</option>
+        <option value="Coordinación de Personal">Coordinación de Personal</option>
+        <option value="Coordinación de Servicios Académicos">Coordinación de Servicios Académicos</option>
+        <option value="Coordinación de Servicios Generales">Coordinación de Servicios Generales</option>
+        <option value="Coordinación de la licenciatura de Ingeniería Química">Coordinación de la licenciatura de Ingeniería Química</option>
+        <option value="Coordinacion de la maestría en Sistemas de Calidad">Coordinacion de la maestría en Sistemas de Calidad</option>
+        <option value="Coordinación de licenciatura en Ingeniería en Computación">Coordinación de licenciatura en Ingeniería en Computación</option>
+        <option value="Coordinación de licenciatura en Informática">Coordinación de licenciatura en Informática</option>
+        <option value="Coordinación de licenciatura en Ingeniería Biomédica">Coordinación de licenciatura en Ingeniería Biomédica</option>
+        <option value="Coordinación de licenciatura en Ingeniería en Comunicaciones y Electrónica">Coordinación de licenciatura en Ingeniería en Comunicaciones y Electrónica</option>
+        <option value="Coordinación de Ingeniería Mecánica Eléctrica">Coordinación de Ingeniería Mecánica Eléctrica</option>
+        <option value="Coordinación de licenciatura en Ingeniería Industrial">Coordinación de licenciatura en Ingeniería Industrial</option>
+        <option value="Coordinación de licenciatura en Ingeniería Topográfica">Coordinación de licenciatura en Ingeniería Topográfica</option>
+        <option value="Coordinación de la licenciatura en Física">Coordinación de la licenciatura en Física</option>
+        <option value="Coordinación de la licenciatura en Matemáticas">Coordinación de la licenciatura en Matemáticas</option>`,
+
 }
 
 /**
