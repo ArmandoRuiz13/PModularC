@@ -74,44 +74,107 @@ Array.from(document.querySelectorAll('tr')).forEach(function (element) {
 
         // Extraer información usando expresiones regulares
         const regex = /Su problema (.+?) \| (.+?) con el ID#(\d+) fue (.+?) por el administrador (.+?)\. El mensaje enviado fue: "(.*)"/;
-            const match = mensajeCompleto.match(regex);
+        const match = mensajeCompleto.match(regex);
 
-            if (match) {
-                const tipoEdificio = match[1]; // Tipo de edificio
-                const tipoProblema = match[2]; // Tipo de problema
-                const id = match[3]; // ID
-                const estado = match[4]; // Estado
-                const administrador = match[5]; // Administrador
-                const mensajeEnviado = match[6]; // Mensaje enviado
+        if (match) {
+            const tipoEdificio = match[1]; // Tipo de edificio
+            const tipoProblema = match[2]; // Tipo de problema
+            const id = match[3]; // ID
+            const estado = match[4]; // Estado
+            const administrador = match[5]; // Administrador
+            const mensajeEnviado = match[6]; // Mensaje enviado
 
-                // Definir el color según el estado
-                let color;
-                switch (estado) {
-                    case 'Completado':
-                        color = 'blue';
-                        break;
-                    case 'Aceptado':
-                        color = 'green';
-                        break;
-                    case 'Rechazado':
-                        color = 'red';
-                        break;
-                    default:
-                        color = 'black'; // Color por defecto
-                }
+            // Definir el color según el estado
+            let color;
+            switch (estado) {
+                case 'Completado':
+                    color = 'blue';
+                    break;
+                case 'Aceptado':
+                    color = 'green';
+                    break;
+                case 'Rechazado':
+                    color = 'red';
+                    break;
+                default:
+                    color = 'black'; // Color por defecto
+            }
 
-                // Crear el mensaje formateado
-                const contenido = `
-                    <div>
-                        <p><strong> Mensaje: </strong><br> Su problema <strong>${tipoEdificio}</strong> | <strong>${tipoProblema}</strong> con el <strong>ID#${id}</strong> fue <strong style="color: ${color};">${estado}</strong> por el administrador <strong>${administrador}</strong>.<br> El mensaje enviado fue: "<em>${mensajeEnviado}</em>"</p>
-                    </div>`;
+            // Crear el mensaje formateado
+            const contenido = `
+                <div>
+                    <p><strong> Mensaje: </strong><br> Su problema <strong>${tipoEdificio}</strong> | <strong>${tipoProblema}</strong> con el <strong>ID#${id}</strong> fue <strong style="color: ${color};">${estado}</strong> por el administrador <strong>${administrador}</strong>.<br> El mensaje enviado fue: "<em>${mensajeEnviado}</em>"</p>
+                </div>`;
 
             // Asignar el mensaje al cuerpo del modal
             modal_mostrar.querySelector('.modal-body-mostrar').innerHTML = contenido;
+
         } else {
             // Manejar el caso donde no se encontró el formato esperado
             modal_mostrar.querySelector('.modal-body-mostrar').innerHTML = mensajeCompleto;
         }
+
+        // Personalización de mensajes según tipo
+        let mensajePersonalizado = "";
+
+// Expresiones regulares para reemplazar los placeholders
+const usuarioRegex = /Usuario/g;
+const adminRegex = /admin/g;
+const razonRegex = /Razón/g;
+
+const saludoConLinea = mensajeCompleto
+    .replace(/:/, ': <br>') // Reemplaza ':' con '<br>: '
+    .replace(/Razón:/, '<br>Razón:') // Reemplaza ':' con '<br>: '
+    .replace(/Saludos,/, '<br><strong>Saludos,</strong>'); // Reemplaza 'Saludos,' con '<br><strong>Saludos,</strong>'
+
+// Reemplaza los placeholders con HTML apropiado
+const mensajeHTML = saludoConLinea
+    .replace(usuarioRegex, '<span class="usuario">Usuario</span>')
+    .replace(adminRegex, '<span class="admin">admin</span>')
+    .replace(razonRegex, '<span class="razon">Razón</span>');
+
+// Formato HTML basado en el tipo de mensaje
+switch (tipoMensaje) {
+    case 'Promoción':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Degradación':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Notificacion':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Advertencia':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Anuncio':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Confirmacion':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Alerta':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Solicitud':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Instruccion':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Felicitacion':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    case 'Recomendacion':
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`;
+        break;
+    default:
+        mensajePersonalizado = `<p><em>${mensajeHTML}</em></p>`; // Si no coincide con ningún tipo
+        break;
+}
+
+        // Asignar el mensaje personalizado al cuerpo del modal
+        modal_mostrar.querySelector('.modal-body-mostrar').innerHTML = mensajePersonalizado;
     });
 });
 

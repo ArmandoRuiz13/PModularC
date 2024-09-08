@@ -1470,10 +1470,10 @@ async function cambiarEstatusAdmin(idUsuario, nuevoEstatus, problemaInfo) {
           "X-CSRFToken": getCookie("csrftoken"),
       },
       body: JSON.stringify({
-          message: razon.value,
-          user: idUsuario,
-          type: "Promoción",
-          title: (nuevoEstatus ? "Promover a" : "Quitar") + " administrador",
+      message: razon.value,
+      user: idUsuario,
+      type: nuevoEstatus ? "Promoción" : "Degradación",
+      title: (nuevoEstatus ? "Promover a" : "Quitar") + " administrador",
       }),
     });
 
