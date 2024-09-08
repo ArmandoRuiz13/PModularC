@@ -67,6 +67,119 @@ class NotificacionesAPIView(APIView):
                 Saludos,
                 {admin_u}
             """
+        elif(type == "Degradación"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0] + " " + user.last_name.split(" ")[0]}:
+
+                Queremos informarte que has sido degradado de la posición de administrador por {admin_u}.
+                Si tienes alguna duda o deseas obtener más información sobre esta decisión, por favor contáctanos.
+
+                {"Razón: " + message if message is not None and message != "" else ""}
+
+                Lamentamos cualquier inconveniente.
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Notificacion"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una notificación con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Alerta"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una alerta con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Advertencia"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una advertencia con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Anuncio"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió un anuncio con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Confirmacion"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una confirmación con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Solicitud"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una solicitud de información con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Instruccion"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una instrucción con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Felicitacion"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una felicitación con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
+        elif(type == "Recomendacion"):
+            message = f"""
+                Hola {user.first_name.split(" ")[0]}:
+
+                Se te envió una recomendación con el siguiente mensaje:
+
+                "{message if message is not None and message != "" else "No se proporcionó un mensaje adicional."}"
+
+                Saludos,
+                {admin_u}
+            """
         if type is not None and title is not None and message is not None:
             try:
                 instance = Notification.objects.create(
