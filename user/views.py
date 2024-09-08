@@ -56,7 +56,7 @@ def change_password(request):
 
 @login_required(login_url='/')
 def crear_reportes(request):
-    crear_reportes_falsos(100)
+    crear_reportes_falsos(10)
     return JsonResponse({'message': 'Reportes creados exitosamente'}, status=200)
 
 @login_required(login_url='/')
@@ -69,8 +69,9 @@ def export_reportes_csv(request):
     writer = csv.writer(response)
     
     # Escribir la cabecera del CSV
-    writer.writerow(['ID', 'Usuario', 'Tipo Edificio', 'Estatus Problemática', 'Tipo Problema', 'Gravedad Problema', 'Descripción Problema', 'Fecha Reporte', 'Tipo Baño', 'Edificio Baño', 'Piso Baño', 'Tipo Área', 'Ubicación Área', 'Tipo Edificio Departamento', 'Ubicación Departamento'])
-    
+    # writer.writerow(['id', 'usuario', 'tipo_edificio', 'estatus_problematica', 'tipo_problema', 'gravedad_problema', 'fecha', 'letra_edificio', 'numero_salon', 'tipo_bano', 'edificio_bano', 'piso_bano', 'tipo_area', 'tipo_departamento', 'tipo_edificio_departamento'])
+
+    writer.writerow(['id', 'usuario', 'tipo_edificio', 'tipo_problema', 'gravedad_problema', 'fecha', 'letra_edificio', 'numero_salon', 'tipo_bano', 'edificio_bano', 'piso_bano', 'tipo_area', 'tipo_departamento', 'tipo_edificio_departamento', 'problem_occurred']) 
     # Consultar todos los reportes
     reportes = Problema.objects.all()
     
@@ -79,18 +80,19 @@ def export_reportes_csv(request):
             reporte.id,
             reporte.id_usuario.username if reporte.id_usuario else 'N/A',
             reporte.tipo_edificio,
-            reporte.estatus_problematica,
+            # reporte.estatus_problematica,
             reporte.tipo_problema,
             reporte.gravedad_problema,
-            reporte.descripcion_problema,
-            reporte.fecha if hasattr(reporte, 'fecha') else 'N/A',
+            reporte.fecha_creacion if hasattr(reporte, 'fecha_creacion') else 'N/A',
+            reporte.letra_edificio if hasattr(reporte, 'letra_edificio') else 'N/A',
+            reporte.numero_salon if hasattr(reporte, 'numero_salon') else 'N/A',
             reporte.tipo_baño if hasattr(reporte, 'tipo_baño') else 'N/A',
             reporte.edificio_baño if hasattr(reporte, 'edificio_baño') else 'N/A',
             reporte.piso_baño if hasattr(reporte, 'piso_baño') else 'N/A',
             reporte.tipo_area if hasattr(reporte, 'tipo_area') else 'N/A',
-            reporte.ubicacion_area if hasattr(reporte, 'ubicacion_area') else 'N/A',
+            reporte.tipo_departamento if hasattr(reporte, 'tipo_departamento') else 'N/A',
             reporte.tipo_edificio_departamento if hasattr(reporte, 'tipo_edificio_departamento') else 'N/A',
-            reporte.ubicacion_departamento if hasattr(reporte, 'ubicacion_departamento') else 'N/A',
+            1
         ])
     
     return response

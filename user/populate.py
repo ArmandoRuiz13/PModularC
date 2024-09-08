@@ -11,7 +11,7 @@ from login.models import CustomUser
 faker = Faker()
 
 # Lista de valores posibles para los campos
-tipo_edificio = ['Académico', 'Baño', 'Área Común', 'Departamento']
+tipo_edificio = ['Academico', 'Baños', 'Áreas comunes', 'Departamento']
 tipos_problema = ['Eléctrico', 'Físico', 'Humedad', 'Ventilación', 'Electrodomésticos']
 gravedad_problemas = ['Menor', 'Moderado', 'Serio', 'Crítico']
 
@@ -166,6 +166,11 @@ def crear_reportes_falsos(num_reportes):
             })
         elif tipo_edificio_actual == 'Departamento':
             tipo_departamento = random.choice(['Administrativos', 'Coordinacion', 'Cubiculos', 'Biblioteca'])
+             # Añadir el tipo_departamento al diccionario problema_data
+            problema_data.update({
+                'tipo_departamento': tipo_departamento
+            })
+    
             if tipo_departamento in ['Administrativos', 'Coordinacion']:
                 problema_data.update({
                     'tipo_edificio_departamento': random.choice(get_departamento_data(tipo_departamento)),
