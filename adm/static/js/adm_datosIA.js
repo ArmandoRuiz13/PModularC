@@ -26,8 +26,6 @@ async function getPredictions() {
             return arrayMeses[date.getMonth()]; 
         });
 
-
-
         // Uncomment if you want to display the chart
         const dashboardChart = new Chart(ctxDashboard, {
             type: 'line',
@@ -58,6 +56,155 @@ async function getPredictions() {
 
 
 getPredictions();
+
+async function getSimulation13Months() {
+    try {
+        const response = await fetch(`${url}/api/problems?group_month=true&last_13_months=true&group_problem_type=true`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        // Array de meses en español para usarlos en las etiquetas del eje X
+        const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Enero'];
+
+        // Inicializar un objeto para almacenar los reportes por tipo de problema
+        const reportesPorProblema = {
+            'Humedad': new Array(13).fill(0),
+            'Eléctrico': new Array(13).fill(0),
+            'Físico': new Array(13).fill(0),
+            'Ventilación': new Array(13).fill(0),
+            'Electrodomésticos': new Array(13).fill(0)
+        };
+
+        // Recorrer los datos y agrupar por tipo de problema y mes
+        data.forEach((item) => {
+            const mes = item.mes; // Ejemplo: "2023-09"
+            const tipoProblema = item.tipo_problema;
+            const cantidad = item.cantidad_reportes;
+
+            // Obtener el índice del mes en el array de meses
+            const [year, month] = mes.split('-').map(Number);
+            const mesIndex = (year === 2024 && month === 1) ? 12 : (month - 1);
+
+            // Asignar la cantidad de reportes al índice correspondiente si existe en los problemas predefinidos
+            if (reportesPorProblema[tipoProblema]) {
+                reportesPorProblema[tipoProblema][mesIndex] += cantidad;
+            }
+        });
+
+        // Sustituir los datos de las gráficas por los obtenidos del servidor
+        const ctxSimulacion = document.getElementById('simulacionChart').getContext('2d');
+        const lineasPuntosChart = new Chart(ctxSimulacion, {
+            type: 'line',
+            data: {
+                labels: arrayMeses, // Meses para el eje X
+                datasets: [
+                    {
+                        label: 'Humedad',
+                        data: reportesPorProblema['Humedad'],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)', // Color de fondo debajo de la línea
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false // Desactiva el fondo
+                    },
+                    {
+                        label: 'Eléctrico',
+                        data: reportesPorProblema['Eléctrico'],
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        backgroundColor: 'rgba(255, 206, 86, 0.1)', // Color de fondo debajo de la línea
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(255, 206, 86, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false // Desactiva el fondo
+                    },
+                    {
+                        label: 'Físico',
+                        data: reportesPorProblema['Físico'],
+                        borderColor: '#795757',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+                        borderWidth: 2,
+                        pointBackgroundColor: '#795757',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false // Desactiva el fondo
+                    },
+                    {
+                        label: 'Ventilación',
+                        data: reportesPorProblema['Ventilación'],
+                        borderColor: 'rgb(152, 255, 152)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgb(152, 255, 152)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false // Desactiva el fondo
+                    },
+                    {
+                        label: 'Electrodomésticos',
+                        data: reportesPorProblema['Electrodomésticos'],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false // Desactiva el fondo
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Reportes'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Tipos de Problemas a lo Largo del Año'
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching predictions:', error);
+    }
+}
+
+getSimulation13Months();
+
+
+
+
 
 // const dashboardChart = new Chart(ctxDashboard, {
 //     type: 'line',
@@ -180,107 +327,103 @@ const frecuenciaReportesChart = new Chart(ctxFrecuenciaReportes, {
         }
     }
 });
-
-
-const ctxSimulacion = document.getElementById('simulacionChart').getContext('2d');
-
-const lineasPuntosChart = new Chart(ctxSimulacion, {
-    type: 'line',
-    data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        datasets: [
-            {
-                label: 'Humedad',
-                data: [5, 10, 15, 8, 6, 12, 18, 14, 9, 11, 7, 10],
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.1)', // Color de fondo debajo de la línea
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                fill: false // Desactiva el fondo
-            },
-            {
-                label: 'Eléctrico',
-                data: [7, 8, 10, 15, 12, 11, 16, 13, 8, 9, 14, 11],
-                borderColor: 'rgba(255, 206, 86, 1)',
-                backgroundColor: 'rgba(255, 206, 86, 0.1)', // Color de fondo debajo de la línea
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(255, 206, 86, 1)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                fill: false // Desactiva el fondo
-            },
-            {
-                label: 'Físico',
-                data: [3, 5, 8, 2, 5, 9, 10, 5, 2, 7, 2, 3],
-                borderColor: '#795757',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
-                borderWidth: 2,
-                pointBackgroundColor: '#795757',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                fill: false // Desactiva el fondo
-            },
-            {
-                label: 'Ventilación',
-                data: [1, 6, 5, 2, 5, 9, 10, 5, 2, 7, 2, 3],
-                borderColor: 'rgb(152, 255, 152)',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
-                borderWidth: 2,
-                pointBackgroundColor: 'rgb(152, 255, 152)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                fill: false // Desactiva el fondo
-            },
-            {
-                label: 'Electrodomésticos',
-                data: [3, 6, 9, 7, 5, 8, 12, 10, 6, 8, 5, 9],
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                fill: false // Desactiva el fondo
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Meses'
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Número de Reportes'
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Tipos de Problemas a lo Largo del Año'
-            }
-        }
-    }
-});
+// const lineasPuntosChart = new Chart(ctxSimulacion, {
+//     type: 'line',
+//     data: {
+//         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Enero'],
+//         datasets: [
+//             {
+//                 label: 'Humedad',
+//                 data: [5, 10, 15, 8, 6, 12, 18, 14, 9, 11, 7, 10],
+//                 borderColor: 'rgba(54, 162, 235, 1)',
+//                 backgroundColor: 'rgba(54, 162, 235, 0.1)', // Color de fondo debajo de la línea
+//                 borderWidth: 2,
+//                 pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+//                 pointBorderColor: '#fff',
+//                 pointBorderWidth: 2,
+//                 pointRadius: 5,
+//                 pointHoverRadius: 7,
+//                 fill: false // Desactiva el fondo
+//             },
+//             {
+//                 label: 'Eléctrico',
+//                 data: [7, 8, 10, 15, 12, 11, 16, 13, 8, 9, 14, 11],
+//                 borderColor: 'rgba(255, 206, 86, 1)',
+//                 backgroundColor: 'rgba(255, 206, 86, 0.1)', // Color de fondo debajo de la línea
+//                 borderWidth: 2,
+//                 pointBackgroundColor: 'rgba(255, 206, 86, 1)',
+//                 pointBorderColor: '#fff',
+//                 pointBorderWidth: 2,
+//                 pointRadius: 5,
+//                 pointHoverRadius: 7,
+//                 fill: false // Desactiva el fondo
+//             },
+//             {
+//                 label: 'Físico',
+//                 data: [3, 5, 8, 2, 5, 9, 10, 5, 2, 7, 2, 3],
+//                 borderColor: '#795757',
+//                 backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+//                 borderWidth: 2,
+//                 pointBackgroundColor: '#795757',
+//                 pointBorderColor: '#fff',
+//                 pointBorderWidth: 2,
+//                 pointRadius: 5,
+//                 pointHoverRadius: 7,
+//                 fill: false // Desactiva el fondo
+//             },
+//             {
+//                 label: 'Ventilación',
+//                 data: [1, 6, 5, 2, 5, 9, 10, 5, 2, 7, 2, 3],
+//                 borderColor: 'rgb(152, 255, 152)',
+//                 backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+//                 borderWidth: 2,
+//                 pointBackgroundColor: 'rgb(152, 255, 152)',
+//                 pointBorderColor: '#fff',
+//                 pointBorderWidth: 2,
+//                 pointRadius: 5,
+//                 pointHoverRadius: 7,
+//                 fill: false // Desactiva el fondo
+//             },
+//             {
+//                 label: 'Electrodomésticos',
+//                 data: [3, 6, 9, 7, 5, 8, 12, 10, 6, 8, 5, 9],
+//                 borderColor: 'rgba(255, 99, 132, 1)',
+//                 backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+//                 borderWidth: 2,
+//                 pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+//                 pointBorderColor: '#fff',
+//                 pointBorderWidth: 2,
+//                 pointRadius: 5,
+//                 pointHoverRadius: 7,
+//                 fill: false // Desactiva el fondo
+//             }
+//         ]
+//     },
+//     options: {
+//         responsive: true,
+//         scales: {
+//             x: {
+//                 title: {
+//                     display: true,
+//                     text: 'Meses'
+//                 }
+//             },
+//             y: {
+//                 beginAtZero: true,
+//                 title: {
+//                     display: true,
+//                     text: 'Número de Reportes'
+//                 }
+//             }
+//         },
+//         plugins: {
+//             title: {
+//                 display: true,
+//                 text: 'Tipos de Problemas a lo Largo del Año'
+//             }
+//         }
+//     }
+// });
 
 
 
