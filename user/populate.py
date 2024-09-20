@@ -132,7 +132,7 @@ def crear_reportes_falsos(num_reportes):
         }
 
         # Agregar campos específicos según el tipo de edificio
-        if tipo_edificio_actual == 'Académico':
+        if tipo_edificio_actual == 'Academico':
             edificio_actual = faker.random_element(elements=list(salon_count.keys()))
             salones_asignados = get_salon_count(edificio_actual)
             max_salon = 25 - salones_asignados  # Calcula el máximo de salones permitidos
@@ -141,7 +141,7 @@ def crear_reportes_falsos(num_reportes):
                 'letra_edificio': edificio_actual,
                 'numero_salon': faker.random_int(min=1, max=max_salon) if max_salon > 0 else 0,
             })
-        elif tipo_edificio_actual == 'Baño':
+        elif tipo_edificio_actual == 'Baños':
             tipo_bano = random.choice(['HOMBRE', 'MUJER'])
             edificios_disponibles = get_bano_data(tipo_bano)
             if edificios_disponibles:
@@ -159,7 +159,7 @@ def crear_reportes_falsos(num_reportes):
                     'edificio_baño': 'Desconocido',
                     'piso_baño': 0,
                 })
-        elif tipo_edificio_actual == 'Área Común':
+        elif tipo_edificio_actual == 'Áreas comunes':
             problema_data.update({
                 'tipo_area': random.choice(tipos_area_comun),
                 'ubicacion_area': faker.address(),

@@ -4,28 +4,83 @@ reportar.id = 'MenuPicked';
 
 // Gráfica Dashboard
 const ctxDashboard = document.getElementById('dashboardChart').getContext('2d');
-const dashboardChart = new Chart(ctxDashboard, {
-    type: 'line',
-    data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-        datasets: [{
-            label: 'Probabilidad de Problemas',
-            data: [5, 10, 15, 20, 30, 35],
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-            fill: true
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+
+const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
+    'Octubre', 'Noviembre', 'Diciembre'];
+
+// const url = 'https://iasimulacion-gaffbnd7atazcag2.mexicocentral-01.azurewebsites.net'; // Add 'http://' protocol
+const url = 'http://localhost:5000'; // Add 'http://' protocol
+async function getPredictions() {
+    try {
+        const response = await fetch(`${url}/api/problems/predict`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const data = await response.json();
+        // console.log(Math.round(data.forecast[0].problemas));
+        const problemas = data.forecast.map((item) => Math.round(item.problemas));
+        const fechas = data.forecast.map((item) => {
+            const date = new Date(item.date);
+            return arrayMeses[date.getMonth()]; 
+        });
+
+
+
+        // Uncomment if you want to display the chart
+        const dashboardChart = new Chart(ctxDashboard, {
+            type: 'line',
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Cantidad de Problemas esperados',
+                    data: problemas,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching predictions:', error);
     }
-});
+}
+
+
+getPredictions();
+
+// const dashboardChart = new Chart(ctxDashboard, {
+//     type: 'line',
+//     data: {
+//         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+//         datasets: [{
+//             label: 'Probabilidad de Problemas',
+//             data: [5, 10, 15, 20, 30, 35],
+//             backgroundColor: 'rgba(75, 192, 192, 0.6)',
+//             borderColor: 'rgba(75, 192, 192, 1)',
+//             borderWidth: 1,
+//             fill: true
+//         }]
+//     },
+//     options: {
+//         responsive: true,
+//         scales: {
+//             y: {
+//                 beginAtZero: true
+//             }
+//         }
+//     }
+// });
 
 
 const ctxTopLugares = document.getElementById('topLugaresChart').getContext('2d');
@@ -135,7 +190,7 @@ const lineasPuntosChart = new Chart(ctxSimulacion, {
         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
             {
-                label: 'Inundaciones',
+                label: 'Humedad',
                 data: [5, 10, 15, 8, 6, 12, 18, 14, 9, 11, 7, 10],
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.1)', // Color de fondo debajo de la línea
@@ -148,7 +203,7 @@ const lineasPuntosChart = new Chart(ctxSimulacion, {
                 fill: false // Desactiva el fondo
             },
             {
-                label: 'Problemas de Humedad',
+                label: 'Eléctrico',
                 data: [7, 8, 10, 15, 12, 11, 16, 13, 8, 9, 14, 11],
                 borderColor: 'rgba(255, 206, 86, 1)',
                 backgroundColor: 'rgba(255, 206, 86, 0.1)', // Color de fondo debajo de la línea
@@ -161,7 +216,33 @@ const lineasPuntosChart = new Chart(ctxSimulacion, {
                 fill: false // Desactiva el fondo
             },
             {
-                label: 'Problemas Eléctricos',
+                label: 'Físico',
+                data: [3, 5, 8, 2, 5, 9, 10, 5, 2, 7, 2, 3],
+                borderColor: '#795757',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+                borderWidth: 2,
+                pointBackgroundColor: '#795757',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                fill: false // Desactiva el fondo
+            },
+            {
+                label: 'Ventilación',
+                data: [1, 6, 5, 2, 5, 9, 10, 5, 2, 7, 2, 3],
+                borderColor: 'rgb(152, 255, 152)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea
+                borderWidth: 2,
+                pointBackgroundColor: 'rgb(152, 255, 152)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                fill: false // Desactiva el fondo
+            },
+            {
+                label: 'Electrodomésticos',
                 data: [3, 6, 9, 7, 5, 8, 12, 10, 6, 8, 5, 9],
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.1)', // Color de fondo debajo de la línea

@@ -8,6 +8,8 @@ from login.models import CustomUser
 from django.core.exceptions import ObjectDoesNotExist
 import json
 from .populate import crear_reportes_falsos
+from django.core.paginator import Paginator
+
 import csv
 
 # Create your views here.
@@ -56,7 +58,7 @@ def change_password(request):
 
 @login_required(login_url='/')
 def crear_reportes(request):
-    crear_reportes_falsos(10)
+    crear_reportes_falsos(100)
     return JsonResponse({'message': 'Reportes creados exitosamente'}, status=200)
 
 @login_required(login_url='/')
@@ -69,30 +71,34 @@ def export_reportes_csv(request):
     writer = csv.writer(response)
     
     # Escribir la cabecera del CSV
-    # writer.writerow(['id', 'usuario', 'tipo_edificio', 'estatus_problematica', 'tipo_problema', 'gravedad_problema', 'fecha', 'letra_edificio', 'numero_salon', 'tipo_bano', 'edificio_bano', 'piso_bano', 'tipo_area', 'tipo_departamento', 'tipo_edificio_departamento'])
-
-    writer.writerow(['id', 'usuario', 'tipo_edificio', 'tipo_problema', 'gravedad_problema', 'fecha', 'letra_edificio', 'numero_salon', 'tipo_bano', 'edificio_bano', 'piso_bano', 'tipo_area', 'tipo_departamento', 'tipo_edificio_departamento', 'problem_occurred']) 
+    writer.writerow(['id', 'usuario', 'tipo_edificio', 'tipo_problema', 'gravedad_problema', 'fecha', 'letra_edificio', 'numero_salon', 'tipo_bano', 'edificio_bano', 'piso_bano', 'tipo_area', 'tipo_departamento', 'tipo_edificio_departamento'])
+    
     # Consultar todos los reportes
     reportes = Problema.objects.all()
     
-    for reporte in reportes:
-        writer.writerow([
-            reporte.id,
-            reporte.id_usuario.username if reporte.id_usuario else 'N/A',
-            reporte.tipo_edificio,
-            # reporte.estatus_problematica,
-            reporte.tipo_problema,
-            reporte.gravedad_problema,
-            reporte.fecha_creacion if hasattr(reporte, 'fecha_creacion') else 'N/A',
-            reporte.letra_edificio if hasattr(reporte, 'letra_edificio') else 'N/A',
-            reporte.numero_salon if hasattr(reporte, 'numero_salon') else 'N/A',
-            reporte.tipo_baño if hasattr(reporte, 'tipo_baño') else 'N/A',
-            reporte.edificio_baño if hasattr(reporte, 'edificio_baño') else 'N/A',
-            reporte.piso_baño if hasattr(reporte, 'piso_baño') else 'N/A',
-            reporte.tipo_area if hasattr(reporte, 'tipo_area') else 'N/A',
-            reporte.tipo_departamento if hasattr(reporte, 'tipo_departamento') else 'N/A',
-            reporte.tipo_edificio_departamento if hasattr(reporte, 'tipo_edificio_departamento') else 'N/A',
-            1
-        ])
+    # Paginar los reportes en lotes de 100
+    paginator = Paginator(reportes, 100)  # Dividir en lotes de 100 reportes
+
+    # Recorrer las páginas y escribir los reportes en el CSV
+    for page_number in paginator.page_range:
+        page = paginator.page(page_number)
+        for reporte in page.object_list:
+            writer.writerow([
+                reporte.id,
+                reporte.id_usuario.username if reporte.id_usuario else 'N/A',
+                reporte.tipo_edificio,
+                reporte.tipo_problema,
+                reporte.gravedad_problema,
+                reporte.fecha_creacion if hasattr(reporte, 'fecha_creacion') else 'N/A',
+                reporte.letra_edificio if hasattr(reporte, 'letra_edificio') else 'N/A',
+                reporte.numero_salon if hasattr(reporte, 'numero_salon') else 'N/A',
+                reporte.tipo_baño if hasattr(reporte, 'tipo_baño') else 'N/A',
+                reporte.edificio_baño if hasattr(reporte, 'edificio_baño') else 'N/A',
+                reporte.piso_baño if hasattr(reporte, 'piso_baño') else 'N/A',
+                reporte.tipo_area if hasattr(reporte, 'tipo_area') else 'N/A',
+                reporte.tipo_departamento if hasattr(reporte, 'tipo_departamento') else 'N/A',
+                reporte.tipo_edificio_departamento if hasattr(reporte, 'tipo_edificio_departamento') else 'N/A',
+            ])
     
     return response
+
