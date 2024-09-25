@@ -12,14 +12,17 @@ const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Juli
 const url = 'http://localhost:5000'; // Add 'http://' protocol
 async function getPredictions() {
     try {
-        const response = await fetch(`${url}/api/problems/predict`);
+        const response = await fetch(`${url}/api/problems/predict?month=true&forecast_steps=6`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+
+
         const data = await response.json();
-        // console.log(Math.round(data.forecast[0].problemas));
+
+        console.log(data);
         const problemas = data.forecast.map((item) => Math.round(item.problemas));
         const fechas = data.forecast.map((item) => {
             const date = new Date(item.date);
@@ -66,8 +69,7 @@ async function getSimulation13Months() {
         }
 
         const data = await response.json();
-        console.log(data);
-
+  
         // Array de meses en español para usarlos en las etiquetas del eje X
         const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Enero'];
 
@@ -195,39 +197,264 @@ async function getSimulation13Months() {
                 }
             }
         });
+        
+        await getSimulation13MonthsForBuilding();
     } catch (error) {
         console.error('Error fetching predictions:', error);
     }
 }
 
+
+async function getSimulation13MonthsForBuilding() {
+    try {
+        const response = await fetch(`${url}/api/problems?group_month=true&last_13_months=true&group_problem_type=true&group_building_type=true`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+       
+
+        // Obtener el mes actual y calcular el mes de octubre del año pasado
+        const now = new Date();
+
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth(); // Mes actual (0 es enero, 11 es diciembre)
+        let currentYear = currentDate.getFullYear();
+    
+
+        const lastYearOctober = new Date(now.getFullYear() - 1, currentMonth); // Mes 9 es Octubre
+
+        // Filtrar los datos para obtener solo los reportes de Octubre del año pasado
+        const filteredData = data.filter(item => {
+            const reportDate = new Date(item.mes);
+            return reportDate.getFullYear() === lastYearOctober.getFullYear() && reportDate.getMonth() === lastYearOctober.getMonth();
+        });
+
+        // Inicializar objetos para cada tipo de problema
+        const problemasPorTipo = {
+            'Humedad': {
+                'Academico': 0,
+                'Baños': 0,
+                'Áreas comunes': 0,
+                'Departamento': 0
+            },
+            'Ventilación': {
+                'Academico': 0,
+                'Baños': 0,
+                'Áreas comunes': 0,
+                'Departamento': 0
+            },
+            'Físico': {
+                'Academico': 0,
+                'Baños': 0,
+                'Áreas comunes': 0,
+                'Departamento': 0
+            },
+            'Electrodomésticos': {
+                'Academico': 0,
+                'Baños': 0,
+                'Áreas comunes': 0,
+                'Departamento': 0
+            },
+            'Eléctrico': {
+                'Academico': 0,
+                'Baños': 0,
+                'Áreas comunes': 0,
+                'Departamento': 0
+            }
+        };
+
+        // Agrupar los datos por tipo de problema y tipo de edificio
+        filteredData.forEach((item) => {
+            const tipoProblema = item.tipo_problema;
+            const tipoEdificio = item.tipo_edificio;
+            const cantidad = item.cantidad_reportes;
+
+            if (problemasPorTipo[tipoProblema] && problemasPorTipo[tipoProblema][tipoEdificio] !== undefined) {
+                problemasPorTipo[tipoProblema][tipoEdificio] += cantidad;
+            }
+        });
+
+        // Función para generar la tabla
+
+
+        function generarTablaProblemas(tipoProblema) {
+            return `
+                <h3>${tipoProblema}</h3>
+    
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Edificio</th>
+                            <th>Reportes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Académico</td><td>${problemasPorTipo[tipoProblema]['Academico']}</td></tr>
+                        <tr><td>Baños</td><td>${problemasPorTipo[tipoProblema]['Baños']}</td></tr>
+                        <tr><td>Áreas comunes</td><td>${problemasPorTipo[tipoProblema]['Áreas comunes']}</td></tr>
+                        <tr><td>Departamento</td><td>${problemasPorTipo[tipoProblema]['Departamento']}</td></tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Generar las 5 tablas y colocarlas en el HTML
+        currentYear = currentMonth === 11 ? currentYear : currentYear - 1;
+        
+        const contenedorTablas = document.getElementById('reportTablesContainer');
+        contenedorTablas.insertAdjacentHTML('afterbegin', `<div class="text-center fs-3 my-5 pb-4"> Reportes     
+        ${(currentMonth + 1) > 11 ? 'Enero' : arrayMeses[(currentMonth + 1)]}
+        ${currentYear} por edificio y tipo de problema
+        </div>`);
+
+        document.getElementById('tablaHumedad').innerHTML = generarTablaProblemas('Humedad');
+        document.getElementById('tablaVentilacion').innerHTML = generarTablaProblemas('Ventilación');
+        document.getElementById('tablaFisico').innerHTML = generarTablaProblemas('Físico');
+        document.getElementById('tablaElectrodomesticos').innerHTML = generarTablaProblemas('Electrodomésticos');
+        document.getElementById('tablaElectrico').innerHTML = generarTablaProblemas('Eléctrico');
+        
+        currentMonth = currentMonth == 12 ? 1 : currentMonth + 1;
+        currentMonth = currentMonth < 9 ? `0${currentMonth + 1}` : currentMonth + 1;
+
+
+        let topReportedProblem;
+        let topReportedBuildingType;
+
+        const orderedEntries = Object.entries(problemasPorTipo).sort((a, b) => {
+                const totalReportesA = Object.entries(a[1]).reduce((acc, curr) => acc + curr[1], 0);
+                const totalReportesB = Object.entries(b[1]).reduce((acc, curr) => acc + curr[1], 0);
+                return totalReportesB - totalReportesA;
+        });
+
+        const orderedBuldings = Object.entries(orderedEntries[0][1]).sort((a, b) =>{
+            return b[1] - a[1];
+            
+        });
+    
+        // console.log(orderedEntries[0][0], orderedBuldings[0][0]);
+        // Test, se va a cambiar
+        await getSimulation13MonthsForMostReportedBuildings(orderedEntries[0][0], orderedBuldings[0][0], `${currentYear}-${currentMonth}`);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+
+
+
+
+
+async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem, mostReportedTBuildingType, month) {
+    try {
+        const response = await fetch(`${url}/api/problems?group_month=true&last_13_months=true&group_problem_type=true
+            &group_building_type=true&problem_type=${mostReportedProblem}&building_type=${mostReportedTBuildingType}&month=${month}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const reportes = await response.json();
+        
+        // Agrupar por letra_edificio y sumar cantidad_reportes
+        const reportesAgrupados = reportes.reduce((acc, reporte) => {
+            const letra = reporte.letra_edificio;
+            if (!acc[letra]) {
+                acc[letra] = 0;
+            }
+            acc[letra] += reporte.cantidad_reportes;
+            return acc;
+        }, {});
+
+        // Convertir el objeto en un array y ordenar de mayor a menor por total_reportes
+        const top3Reportes = Object.keys(reportesAgrupados)
+            .map(letra => ({
+                letra_edificio: letra,
+                total_reportes: reportesAgrupados[letra]
+            }))
+            .sort((a, b) => b.total_reportes - a.total_reportes).slice(0, 3); // Tomar los primeros 3
+
+            // Crear la tabla HTML
+            let tablaHTML = `
+                <h3>Edificios  de academicos con más reportes de ${mostReportedProblem} en ${month}</h3>
+                <table border="1">
+               
+                <tr>
+                    <th>Letra del Edificio</th>
+                    <th>Cantidad de Reportes</th>
+                </tr>`;
+            
+            top3Reportes.forEach(reporte => {
+                tablaHTML += `
+                <tr>
+                    <td>${reporte.letra_edificio}</td>
+                    <td>${reporte.total_reportes}</td>
+                </tr>`;
+            });
+            
+            tablaHTML += `</table>`; // Ordenar de mayor a menor
+            document.getElementById('tablaTopEdificios').innerHTML = tablaHTML;
+
+            const topReportesSalones = reportes.filter(reporte => reporte.letra_edificio === top3Reportes[0].letra_edificio) 
+                                       .sort((a, b) => b.total_reportes - a.total_reportes).slice(0, 3);
+
+            tablaHTML = `
+                <h3>Salones de academicos con más reportes de ${mostReportedProblem} en ${month}</h3>
+                <table border="1">
+               
+                <tr>
+                    <th>Número de salón</th>
+                    <th>Cantidad de Reportes</th>
+                </tr>`;
+      
+            topReportesSalones.forEach(reporte => {
+                tablaHTML += `
+                <tr>
+                    <td>${reporte.numero_salon}</td>
+                    <td>${reporte.cantidad_reportes}</td>
+                </tr>`;
+            });
+            
+            tablaHTML += `</table>`; // Ordenar de mayor a menor
+            document.getElementById('tablaTopSalones').innerHTML = tablaHTML;
+            
+            const response2 = await fetch(`${url}/api/problems/predict?month=true&forecast_steps=12&problem_type=${mostReportedProblem}&building_type=${mostReportedTBuildingType}`);
+
+            const predictions = await response2.json();
+
+            const nextMonth = predictions.forecast[0].problemas;
+
+            const average = predictions.forecast.reduce((acc, curr) => acc + curr.problemas, 0) / predictions.forecast.length;
+
+            const increasePercentage = Math.round((nextMonth / average) * 100);
+            
+            const simulacionConclusiones = document.querySelector('#simulacion-conclusiones');
+
+            simulacionConclusiones.innerHTML = ` Se espera un ${increasePercentage}% más que el promedio de reportes de ${mostReportedProblem} en los edificios de ${mostReportedTBuildingType} 
+            en el mes de ${arrayMeses[Number.parseInt(month.split("-")[1]) - 1]}`;
+
+          
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+
+         
+
+
+
+    } catch (error) {
+        console.error('Error fetching predictions:', error);
+    }
+}
+
+
 getSimulation13Months();
 
 
-
-
-
-// const dashboardChart = new Chart(ctxDashboard, {
-//     type: 'line',
-//     data: {
-//         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-//         datasets: [{
-//             label: 'Probabilidad de Problemas',
-//             data: [5, 10, 15, 20, 30, 35],
-//             backgroundColor: 'rgba(75, 192, 192, 0.6)',
-//             borderColor: 'rgba(75, 192, 192, 1)',
-//             borderWidth: 1,
-//             fill: true
-//         }]
-//     },
-//     options: {
-//         responsive: true,
-//         scales: {
-//             y: {
-//                 beginAtZero: true
-//             }
-//         }
-//     }
-// });
 
 
 const ctxTopLugares = document.getElementById('topLugaresChart').getContext('2d');
