@@ -8,8 +8,8 @@ const ctxDashboard = document.getElementById('dashboardChart').getContext('2d');
 const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
     'Octubre', 'Noviembre', 'Diciembre'];
 
-// const url = 'https://iasimulacion-gaffbnd7atazcag2.mexicocentral-01.azurewebsites.net'; // Add 'http://' protocol
-const url = 'http://localhost:5000'; // Add 'http://' protocol
+const url = 'https://iasimulacion-gaffbnd7atazcag2.mexicocentral-01.azurewebsites.net'; // Add 'http://' protocol
+// const url = 'http://localhost:5000'; // Add 'http://' protocol
 async function getPredictions() {
     try {
         const response = await fetch(`${url}/api/problems/predict?month=true&forecast_steps=6`);
@@ -336,7 +336,7 @@ async function getSimulation13MonthsForBuilding() {
     
         // console.log(orderedEntries[0][0], orderedBuldings[0][0]);
         // Test, se va a cambiar
-        await getSimulation13MonthsForMostReportedBuildings(orderedEntries[0][0], orderedBuldings[0][0], `${currentYear}-${currentMonth}`);
+        await getSimulation13MonthsForMostReportedBuildings(orderedEntries[0][0], orderedBuldings[0][0], `${currentYear}-${currentMonth}`, orderedBuldings[0][1]);
 
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -348,8 +348,10 @@ async function getSimulation13MonthsForBuilding() {
 
 
 
-async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem, mostReportedTBuildingType, month) {
+async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem, mostReportedTBuildingType, month, totalReportesPorTipoEdificio) {
     try {
+
+
         const response = await fetch(`${url}/api/problems?group_month=true&last_13_months=true&group_problem_type=true
             &group_building_type=true&problem_type=${mostReportedProblem}&building_type=${mostReportedTBuildingType}&month=${month}`);
         
@@ -440,6 +442,18 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+
+            console.log(`${url}/api/problems/simulation?
+                tipo_problema=${mostReportedProblem}&tipo_edificio=${mostReportedTBuildingType}&
+                cantidad_reportes=${totalReportesPorTipoEdificio}`);
+            const response3 = await fetch(`${url}/api/problems/simulation?tipo_problema=${mostReportedProblem}&tipo_edificio=${mostReportedTBuildingType}&cantidad_reportes=${totalReportesPorTipoEdificio}`);
+        
+            if (!response3.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const recomendacion = await response3.json();
+            simulacionConclusiones.innerHTML += `<br> ${recomendacion.recomendacion}`;
     
 
          
