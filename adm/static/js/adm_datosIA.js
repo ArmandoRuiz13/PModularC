@@ -8,8 +8,8 @@ const ctxDashboard = document.getElementById('dashboardChart').getContext('2d');
 const arrayMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
     'Octubre', 'Noviembre', 'Diciembre'];
 
-const url = 'https://iasimulacion-gaffbnd7atazcag2.mexicocentral-01.azurewebsites.net'; // Add 'http://' protocol
-// const url = 'http://localhost:5000'; // Add 'http://' protocol
+// const url = 'https://iasimulacion-gaffbnd7atazcag2.mexicocentral-01.azurewebsites.net'; // Add 'http://' protocol
+const url = 'http://localhost:5000'; // Add 'http://' protocol
 async function getPredictions() {
     try {
         const response = await fetch(`${url}/api/problems/predict?month=true&forecast_steps=6`);

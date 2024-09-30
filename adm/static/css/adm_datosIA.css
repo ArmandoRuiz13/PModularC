@@ -1,14 +1,27 @@
 @import url("../css/styles.css");
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+body {
+    background-color: #1a1a2e; /* Fondo oscuro futurista */
+}
+
+/* Estilo del header */
+.bg-gradient-futuristic {
+    background: linear-gradient(135deg, #00f260, #0575e6); /* Degradado futurista */
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3); /* Sombra con efecto neón */
+}
 
 body {
     background-color: var(--tertiary-color);
 }
  
 .filtros {
-    background-color: #aaa;
+    background-color: #3a3a3a;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Efecto neón suave */
     margin-top: 2rem;
+    padding: 1rem;
+    transition: all 0.3s ease-in-out;
 }
 
 .reportes {
@@ -74,4 +87,16 @@ body {
 
 canvas{
     max-height: 70vh;
+}
+
+/* Espaciado entre las filas de tablas */
+#reportTablesContainer .row {
+    margin-bottom: 20px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .table-card {
+        margin-bottom: 20px;
+    }
 }

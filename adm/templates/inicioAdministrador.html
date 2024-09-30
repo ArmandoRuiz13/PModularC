@@ -7,16 +7,41 @@
 
 {% block contenido %}
   <div id="content" class="text-center py-5">
-    <h1 style="margin-top: 50px;">Estadística</h1>
-  </div>
-
-  <div class="card1 col-lg-4">
-    <div class="text-center py-5">
+    <!-- Título llamativo con descripción -->
+    <h1 style="margin-top: 50px; font-size: 3rem; font-weight: bold;">Bienvenido al Sistema de Reportes CUCEI</h1>
+    <p style="font-size: 1.2rem; margin-top: 20px;">
+      Tu plataforma para reportar y gestionar problemas en las instalaciones universitarias. 
+      ¡Ayúdanos a mantener el campus en las mejores condiciones!
+    </p>
+    
+    <!-- Texto de ayuda -->
+    <div class="mt-5" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+      <p>
+        Para reportar un problema, navega a la sección de <strong>Reportes</strong> y selecciona el tipo de problema que deseas notificar.
+        Si necesitas ver el estado de los problemas reportados, dirígete a la sección de <strong>Estadísticas</strong>. 
+      </p>
+      <p>
+        Si tienes dudas o necesitas asistencia, por favor contacta a soporte técnico en el correo <a href="mailto:soporte@cucei.mx">soporte@cucei.mx</a>. Estamos aquí para ayudarte a mantener un campus mejor.
+      </p>
+    </div>
+    
+    <!-- Imagen decorativa o gráfica -->
+    <div class="mt-5">
+      <img src="{% static 'img/campus_image.png' %}" alt="Campus Image" style="width: 60%; border-radius: 10px;">
     </div>
   </div>
 
+  <!-- Tarjeta adicional para resaltar algo importante -->
+  <div class="card1 col-lg-4 mx-auto mt-5">
+    <div class="card text-center py-5">
+      <h3>Contribuye al bienestar del campus</h3>
+      <p style="padding: 0 20px;">Cada reporte ayuda a mantener nuestras instalaciones seguras y funcionales. ¡Haz tu reporte hoy!</p>
+    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
   <script src="{% static 'js/adm_inicio.js' %}" type="module"></script>
+  <!-- Agregar íconos de Font Awesome si es necesario -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 {% endblock %}
