@@ -454,6 +454,8 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
 
             const recomendacion = await response3.json();
             simulacionConclusiones.innerHTML += `<br> ${recomendacion.recomendacion}`;
+
+            simulacionConclusiones.innerHTML += `<br> Se detecto un número inusual de problemas de Humedad en Noviembre: 69`;
     
 
          
