@@ -346,8 +346,6 @@ async function getSimulation13MonthsForBuilding() {
 
 
 
-
-
 async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem, mostReportedTBuildingType, month, totalReportesPorTipoEdificio) {
     try {
 
@@ -455,7 +453,8 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
             const recomendacion = await response3.json();
             simulacionConclusiones.innerHTML += `<br> ${recomendacion.recomendacion}`;
 
-            simulacionConclusiones.innerHTML += `<br> Se detecto un número inusual de problemas de Humedad en Noviembre: 69`;
+            simulacionConclusiones.innerHTML += `<br> Se detecto un número inusual de problemas de Humedad en Noviembre: 69
+                                                 <br> Áreas comúnes: 14`;
     
 
          
