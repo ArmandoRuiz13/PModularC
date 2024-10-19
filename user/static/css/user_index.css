@@ -1,112 +1,139 @@
-
-/* :root {
-  --primary-color: #e2936f;
-  --primary-color-light: #e39774;
-  --primary-color-light-2: #f2cfbf;
-  --secondary-color-light: #5c9ead;
-  --secondary-color-dark: #326273;
-  --tertiary-color: #eee;
-
-colores grises
-  --dark-grey: #333;
-  --ligth-grey: #999;
-} */
-
-
-body{
-  background-color: var(--tertiary-color);
-  width: 100vw;
-  margin: 0 !important;
+/* Definición de variables de colores modernos */
+:root {
+  --primary-color: #ff6b6b; /* Rojo coral vibrante */
+  --secondary-color: #1e272e; /* Azul marino oscuro */
+  --accent-color: #54a0ff; /* Azul claro brillante */
+  --background-color: #f1f2f6; /* Fondo claro neutro */
+  --text-color: #2f3640; /* Texto oscuro para buen contraste */
+  --overlay-color: rgba(30, 39, 46, 0.6); /* Superposición oscura */
+  --shadow-color: rgba(0, 0, 0, 0.2); /* Sombra ligera */
 }
 
+body {
+  background: linear-gradient(50deg, #ffffff 94%, #f0f0f0 100%);
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
 
-
-/* Image container */
-
-.main-image-container{
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 10rem);
-  box-shadow: 1px 2px 1px  #ffffff27;
+/* Contenedor de la imagen principal */
+.main-image-container {
   position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px var(--shadow-color);
 }
 
-.main-image-container img{
+.main-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.7;
-  box-shadow: 0.1rem 0.2rem 0.1rem #00000028;
-  z-index: -1;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0.85;
 }
 
-.title-img{
+.main-image-container img:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Estilo de texto sobre la imagen */
+.title-img {
   position: absolute;
-  opacity: 2;
-  color: #000;
-  padding: 10% 15%;
-  text-transform: uppercase;
-  line-height: 1.8;
-  letter-spacing: 0.2rem;
-  text-shadow: 1px 1px 1px #ffffff27;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-color);
+  padding: 2rem;
+  background: var(--overlay-color);
+  border-radius: 8px;
   text-align: center;
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-
-.div-1{
-  color: #000;
-  background-color: rgba(209, 58, 31, 0.274);
-  font-size: 2rem;
-  width: 55rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-}
-
-.div-2{
-  color: rgb(209, 58, 31);
-  margin-left: 8rem;
-  font-size: 1.9rem;
-  background-color: #ffffffc2;
-  width: 40rem;
-  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 90%);
-  border-radius: 4px;
-}
-
-
-
-.div-3{
-  color: #000;
-  background-color: #eeeeee85;
-  font-size: 3.5rem;
-  letter-spacing: 1rem;
-  background-color: none;
-  margin-top: 3rem;
+.title-img div {
   margin-bottom: 0.5rem;
-  border-radius: 4px;
-
 }
 
-.div-4{
-  color: #fff;
-  background-color: #00000080;
-  font-size: 1.5rem;
+.div-1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.div-2 {
+  font-size: 1.8rem;
+  color: var(--accent-color);
+}
+
+.div-3 {
+  font-size: 2.5rem;
+  color: var(--text-color);
+  margin-top: 1rem;
+}
+
+.div-4 {
+  font-size: 1.2rem;
+  color: var(--accent-color);
   text-decoration: underline;
-  margin-left: 18rem;
   cursor: pointer;
-  letter-spacing: 0.1rem;
-  width: 17rem;
-  border-radius: 4px;
-  z-index:1;
+  transition: color 0.3s ease;
 }
 
-@media screen and (max-width: 768px){
-  .title-img{
-    padding: 30% 8%;
+.div-4:hover {
+  color: var(--primary-color);
+}
+
+/* Responsividad */
+@media screen and (max-width: 768px) {
+  .main-image-container {
+      height: 60vh;
+  }
+
+  .title-img {
+      padding: 1.5rem;
+  }
+
+  .div-1 {
+      font-size: 1.8rem;
+  }
+
+  .div-2 {
+      font-size: 1.6rem;
+  }
+
+  .div-3 {
+      font-size: 2.2rem;
+  }
+
+  .div-4 {
+      font-size: 1rem;
   }
 }
 
-@media screen and (max-width: 500px){
-  .title-img{
-    padding: 35% 6%;
+@media screen and (max-width: 500px) {
+  .main-image-container {
+      height: 50vh;
+  }
+
+  .title-img {
+      padding: 1rem;
+  }
+
+  .div-1 {
+      font-size: 1.5rem;
+  }
+
+  .div-2 {
+      font-size: 1.4rem;
+  }
+
+  .div-3 {
+      font-size: 1.8rem;
+  }
+
+  .div-4 {
+      font-size: 0.9rem;
   }
 }

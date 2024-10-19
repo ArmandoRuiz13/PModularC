@@ -7,7 +7,7 @@
     border: 0.1rem solid #f8f8f8;
   }
   #MenuPicked{
-  background: linear-gradient(50deg, #ddd 0%, #fff 100%);
+  background: linear-gradient(50deg, #e6edf0 0%, #dee0e0 100%); 
   color: black !important;
   opacity: 0.9;
   border-radius: 4px;

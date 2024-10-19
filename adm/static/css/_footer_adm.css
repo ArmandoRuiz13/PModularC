@@ -3,6 +3,15 @@
     border-radius: 50%;
 }
 #botfooter{
-    background-color: var(--primary-color)!important;
-    margin-top: 2rem !important;
+    background: linear-gradient(45deg, #e0e0e0 0%, #ffffff 100%); /* Gris claro a blanco */
+    border: 2px solid #cccccc; /* Gris oscuro */
+       
+}
+
+@media screen and (max-width: 1000px){
+    .row{
+        text-align: center !important;
+        padding-left: 0 !important;
+    }
+    
 }

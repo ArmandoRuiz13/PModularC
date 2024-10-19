@@ -12,51 +12,99 @@ colores grises
   --ligth-grey: #999;
 } */
 
-
-body{
-  background-color: var(--tertiary-color);
+body {
+  background-color: #F0F0F0; /* Fondo gris claro */
 }
 
-#mireportes{
-  background-color: var(--primary-color-light-2);
+#mireportes {
+  background: linear-gradient(45deg, #C0D6E4 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
   padding: 2rem;
   margin: 2rem auto !important;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   justify-content: center;
   align-items: center;
   height: 90vh;
   overflow: auto;
+  border: 2px solid #C0D6E4; /* Bordes gris azulado */
+  color: #444; /* Texto oscuro */
 }
 
+body {
+  background-color: #F0F0F0; /* Fondo gris claro */
+}
+
+#mireportes {
+  background: linear-gradient(45deg, #e4dfcf 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
+  padding: 2rem;
+  margin: 2rem auto !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  overflow: auto;
+  border: 2px solid #C0D6E4; /* Bordes gris azulado */
+  color: #444; /* Texto oscuro */
+}
 .estatus-en-proceso {
-  background-color: #fff59d; /* Amarillo moderado */
+  border-radius: 50%;
+  color: #6d6125; /* Amarillo más intenso */
+  font-weight: bold; /* Negritas */
+  text-align: center;
+  width: 1rem;
 }
 
 .estatus-aceptado {
-  background-color: #a5d6a7; /* Verde moderado */
-  color: #1a441c;
+  background-color: transparent; /* Sin fondo */
+  color: #388e3c; /* Verde más intenso */
+  font-weight: bold; /* Negritas */
 }
- 
+
 .estatus-rechazado {
-  background-color: #ef9a9a; /* Rojo moderado */
-  color: #6e1818;
+  background-color: transparent; /* Sin fondo */
+  color: #d32f2f; /* Rojo más intenso */
+  font-weight: bold; /* Negritas */
 }
 
 .estatus-completado {
-  background-color: #90caf9; /* Azul moderado */
-  color: #0f3663;
+  background-color: transparent; /* Sin fondo */
+  color: #1976d2; /* Azul más intenso */
+  font-weight: bold; /* Negritas */
 }
+
 .selecionable {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .selecionable:hover {
-  background-color: var(--primary-color-light-1); /* o el color que prefieras para el hover */
+  background: linear-gradient(45deg, #d0cfc0 0%, #e1e1e1 100%);
+  border-radius: 3px;
 }
 
 .selecionable:active {
   transform: scale(0.98);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.seguimiento_p {
+  background: linear-gradient(45deg, #d0cfc0 0%, #e1e1e1 100%); /* Gradiente suave */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 0.4rem 0.8rem; /* Espaciado interno */
+  color: #444; /* Color del texto oscuro */
+  font-weight: bold; /* Negritas */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambiar cursor al pasar */
+  transition: background 0.3s ease, transform 0.3s ease; /* Transición suave */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  margin-left: 3rem;
+}
+
+.seguimiento_p:hover {
+  background: linear-gradient(45deg, #b8b8a5 0%, #d1d1d1 100%); /* Hover más oscuro */
+  transform: scale(1.05); /* Aumentar tamaño ligeramente al pasar el ratón */
+}
+.seguimiento_p i{
+  font-size: small;
 }
