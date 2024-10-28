@@ -1,5 +1,6 @@
 'use strict';
 
+
 // Select current page on menú to add class 'MenuPicked'
 const reportar = document.querySelectorAll('.nav-item a').item(2);
 const boton_reportar = document.querySelector('#mandar_reporte_btn');
@@ -41,6 +42,14 @@ const btnAbrirModal = document.getElementById('btn-abrir-modal');
 const datosEdificioModal = document.getElementById('datos_edificio_modal');
 const datosProblemaModal = document.getElementById('datos_problema_modal');
 let BodyModal = document.querySelector('.modal-body');
+
+
+// Opciones edificio
+
+const btnNext = document.getElementById('btn-next');
+const btnPreviews = document.getElementById('btn-previews');
+const mireportes = document.querySelector('.mireportes');
+const mireportes1 = document.querySelector('.mireportes1');
 
 // Opciones edificio departamento 
 
@@ -141,7 +150,7 @@ function resetBuildingElements() {
  * Reset values of all building form.
 */
 function resetAllElements() {
-    Array.from(document.querySelectorAll('textarea, select')).forEach(input => input.value = "");
+    Array.from(document.querySelectorAll('textarea, select', 'input')).forEach(input => input.value = "");
 }
 
 
@@ -193,15 +202,29 @@ function handleInputChange(elementsToUnhide) {
 }
 
 // Event listener for the 'change' event on the tipoEdificioInput select element
-tipoEdificioInput.addEventListener('change', function () {
+tipoEdificioInput.addEventListener('click', function (e) {
     let elementsToUnhide;
-    if (tipoEdificioInput.value === 'Academico') {
+
+    if (e.target?.value === undefined)  return;
+
+    
+    this.querySelectorAll('label').forEach((element) => {
+        if (element !== e.target) {
+            element.classList.remove('btn-tipo-1__selected');
+        } else{
+            element.classList.add('btn-tipo-1__selected');
+        }
+    });
+
+    // e.target.classList.add('btn-tipo-1__selected');
+
+    if (e.target.value === 'Academico') {
         elementsToUnhide = [letraEdificio, numeroSalon]; // Additional element to unhide for Academicos
-    } else if (tipoEdificioInput.value === 'Baños') {
+    } else if (e.target.value === 'Baños') {
         elementsToUnhide = [edificioBaño, pisoBaño, tipoBaño]; // Additional element to unhide for Baños
-    } else if (tipoEdificioInput.value === 'Áreas comunes') {
+    } else if (e.target.value === 'Áreas comunes') {
         elementsToUnhide = [tipoAreaComun]; // Additional element to unhide for AreasComunes
-    } else if (tipoEdificioInput.value === 'Departamento') {
+    } else if (e.target.value === 'Departamento') {
         elementsToUnhide = [tipoDepartamento]; // Additional element to unhide for Departamento
     }
     handleInputChange(elementsToUnhide); // Call the handleInputChange function
@@ -278,3 +301,14 @@ else if (qValue === 'false'){
     myModalConfirmation.show();  
     window.history.replaceState({}, document.title, url.pathname);
 }
+
+btnNext.addEventListener('click', function () {
+    mireportes.classList.add('hidden');
+    mireportes1.classList.remove('hidden');
+
+});
+
+btnPreviews.addEventListener('click', function () {
+    mireportes1.classList.add('hidden');
+    mireportes.classList.remove('hidden');
+});

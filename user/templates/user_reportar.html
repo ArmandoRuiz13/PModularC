@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/modal_user-reportar.css' %}" />
 {% endblock %}
 
-
+ 
 
 {% block contenido %}
   <section>
@@ -15,184 +15,226 @@
       <div class="container losreportes"> 
         <div class="container mireportes">
           <h1 class="fw-bold display-5 TReportes pt-4 fs-1" id="newarrivals">Edificios</h1>
-          <div class="row opciones">
-            <h2 class="TOpciones fs-3">Selecciona el tipo de edificio</h2>
-            <select name="tipo_edificio" data-titulo="Tipo: " id="tipo_edificio" class="form-select fs-3 OSelect" aria-label="Large select example" required>
-              <option value="" selected>Seleccionar</option>
-              <option value="Academico">Academico</option>
-              <option value="Baños">Baños</option>
-              <option value="Áreas comunes">Áreas comunes</option>
-              <option value="Departamento">Departamento</option>
-            </select>
-          </div>
-          <!-- Aqui entran las opciones de Academicos -->
-          <!-- Letra edificio -->
-          <div class="row opciones" id="letraEdificio-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el edificio</h2>
-            <select name="letra_edificio" data-titulo="Edificio: " id="letra_edificio" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="E">E</option>
-              <option value="F">F</option>
-              <option value="G">G</option>
-              <option value="I">I</option>
-              <option value="K">K</option>
-              <option value="P">P</option>
-              <option value="Q">Q</option>
-              <option value="R">R</option>
-              <option value="U">U</option>
-              <option value="V1">V1</option>
-              <option value="V2">V2</option>
-              <option value="W">W</option>
-              <option value="X">X</option>
-              <option value="ALFA">ALFA</option>
-              <option value="BETA">BETA</option>
-            </select>
-          </div>
-          <!-- Número de salón -->
-          <div class="row opciones" id="numeroSalon-container" hidden="true">
-            <h2 class="TOpciones">Número</h2>
-            <select id="numero_salon" data-titulo="Número: " name="numero_salon" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-              <option value="21">21</option>
-              <option value="22">22</option>
-              <option value="23">23</option>
-              <option value="24">24</option>
-              <option value="25">25</option>
-            </select>
-          </div>
+          <div class="row opciones d-flex">
+            <h2 class="TOpciones fs-4 mb-5">Tipo de Edificio</h2>
+            <div class="btn-group d-flex flex-wrap" id="tipo_edificio" role="group" aria-label="Tipo de edificio">
+              <input type="radio" class="btn-check" name="tipo_edificio" id="academico" value="Academico" autocomplete="off" required>
+              <label class="btn btn-tipo-1 m-1" for="academico">
+                <i class="fas fa-school"></i> Académico
+              </label>
+            
+              <input type="radio" class="btn-check" name="tipo_edificio" id="banos" value="Baños" autocomplete="off">
+              <label class="btn btn-tipo-1 m-1" for="banos">
+                <i class="fas fa-restroom"></i> Baños
+              </label>
+            
+              <input type="radio" class="btn-check" name="tipo_edificio" id="areas_comunes" value="Áreas comunes" autocomplete="off">
+              <label class="btn btn-tipo-1 m-1" for="areas_comunes">
+                <i class="fas fa-users"></i> Áreas comunes
+              </label>
+            
+              <input type="radio" class="btn-check" name="tipo_edificio" id="departamento" value="Departamento" autocomplete="off">
+              <label class="btn btn-tipo-1 m-1" for="departamento">
+                <i class="fas fa-building"></i> Departamento
+              </label>
+            </div>
+            
           
-          <!-- Aqui entran las opciones de baños -->
-          <div class="row opciones" id="tipoBaño-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el tipo de baño</h2>
-            <select id="tipo_baño" data-titulo="Género: " name="tipo_baño" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="Hombres">Hombres</option>
-              <option value="Mujeres">Mujeres</option>
-            </select>
           </div>
-          <!-- Edificio baño -->
-          <div class="row opciones" id="edificioBaño-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el edificio del baño</h2>
-            <select id="edificio_baño" data-titulo="Edificio: " name="edificio_baño" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="A">A</option>
-              <option value="C">C</option>
-              <option value="E">E</option>
-              <option value="S2">S2</option>
-              <option value="V2">V2</option>
-              <option value="X">X</option>
-              <option value="ALFA">ALFA</option>
-              <option value="BETA">BETA</option>
-              <!-- Opciones para Mujeres -->
-              <option value="I">I</option>
-              <option value="T">T</option>
-              <option value="V1">V1</option>
-              <option value="Y">Y</option>
-            </select>
+          <div class="d-flex justify-content-center">
+            <!-- Aqui entran las opciones de Academicos -->
+            <!-- Letra edificio -->
+            <div class="row opciones" id="letraEdificio-container" hidden="true">
+              <h2 class="TOpciones fs-4">Edificio</h2>
+              <select name="letra_edificio" data-titulo="Edificio: " id="letra_edificio" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="I">I</option>
+                <option value="K">K</option>
+                <option value="P">P</option>
+                <option value="Q">Q</option>
+                <option value="R">R</option>
+                <option value="U">U</option>
+                <option value="V1">V1</option>
+                <option value="V2">V2</option>
+                <option value="W">W</option>
+                <option value="X">X</option>
+                <option value="ALFA">ALFA</option>
+                <option value="BETA">BETA</option>
+              </select>
+            </div>
+            <!-- Número de salón -->
+            <div class="row opciones" id="numeroSalon-container" hidden="true">
+              <h2 class="TOpciones fs-4">Número de Salón</h2>
+              <select id="numero_salon" data-titulo="Número: " name="numero_salon" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+              </select>
+            </div>
+            
+            <!-- Aqui entran las opciones de baños -->
+            <div class="row opciones" id="tipoBaño-container" hidden="true">
+              <h2 class="TOpciones fs-4">Tipo de Baño</h2>
+              <select id="tipo_baño" data-titulo="Género: " name="tipo_baño" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="Hombres">Hombres</option>
+                <option value="Mujeres">Mujeres</option>
+              </select>
+            </div>
+            <!-- Edificio baño -->
+            <div class="row opciones" id="edificioBaño-container" hidden="true">
+              <h2 class="TOpciones fs-4">Edificio</h2>
+              <select id="edificio_baño" data-titulo="Edificio: " name="edificio_baño" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="A">A</option>
+                <option value="C">C</option>
+                <option value="E">E</option>
+                <option value="S2">S2</option>
+                <option value="V2">V2</option>
+                <option value="X">X</option>
+                <option value="ALFA">ALFA</option>
+                <option value="BETA">BETA</option>
+                <!-- Opciones para Mujeres -->
+                <option value="I">I</option>
+                <option value="T">T</option>
+                <option value="V1">V1</option>
+                <option value="Y">Y</option>
+              </select>
+            </div>
+            <!-- Planta baño --> 
+            <div class="row opciones" id="pisoBaño-container" hidden="true">
+              <h2 class="TOpciones fs-4">Piso</h2>
+              <select id="piso_baño" data-titulo="Piso: " name="piso_baño" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="1">3</option>
+              </select>
+            </div>
+            <!--Aqui entran las opciones areas comunes -->
+            <div class="row opciones"  id="tipoAreaComun-container" hidden="true">
+              <h2 class="TOpciones fs-4">Tipo de Área Común</h2>
+              <select id="tipo_area_comun" data-titulo="Área: " name="tipo_area_comun" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="Área Verde">Área Verde</option>
+                <option value="Comedor">Comedor</option>
+                <option value="Estacionamiento">Estacionamiento</option>
+              </select>
+            </div>
+            <!-- Ubicación  Área-->
+            <div class="row opciones" id="ubicacion_area-container" hidden="true">
+              <h2 class="TOpciones fs-4">Ubicación: </h2>
+              <textarea data-titulo="Ubicación: " id="ubicacion_area" name="ubicacion_area" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
+            </div>
+            <!-- Aqui entran las opciones de departamento -->
+            <div class="row opciones" id="tipoDepartamento-container" hidden="true">
+              <h2 class="TOpciones fs-4">Tipo de departamento</h2>
+              <select data-titulo="Departamento: " name="tipo_departamento" class="select fs-4 OSelect" id="tipo_departamento" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="Administrativos">Administrativos</option>
+                <option value="Cubiculos">Cubiculo</option>
+                <option value="Biblioteca">Biblioteca</option>
+                <option value="Coordinacion">Coordinacion</option>
+              </select>
+            </div>
+            <!-- Ubicación  Departamento-->
+            <div class="row opciones" id="ubicacionDepartamento-container" hidden="true">
+              <h2 class="TOpciones fs-4">Escribe la ubicación: </h2>
+              <textarea data-titulo="Ubicación: " id="ubicacion_departamento" name="ubicacion_departamento" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
+            </div>
+            <div class="row opciones" id="tipoEdificioDepartamento-container" hidden="true">
+              <h2 class="TOpciones fs-4">Edificio del departamento</h2>
+              <select data-titulo="Edificio: " id="tipo_edificio_departamento" name="tipo_edificio_departamento" class="select fs-4 OSelect" aria-label="Large select example">
+              </select>
+            </div>
+
           </div>
-          <!-- Planta baño --> 
-          <div class="row opciones" id="pisoBaño-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona en que piso esta el baño</h2>
-            <select id="piso_baño" data-titulo="Piso: " name="piso_baño" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="1">3</option>
-            </select>
-          </div>
-          <!--Aqui entran las opciones areas comunes -->
-          <div class="row opciones"  id="tipoAreaComun-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el tipo de área común</h2>
-            <select id="tipo_area_comun" data-titulo="Área: " name="tipo_area_comun" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="Área Verde">Área Verde</option>
-              <option value="Comedor">Comedor</option>
-              <option value="Estacionamiento">Estacionamiento</option>
-            </select>
-          </div>
-          <!-- Ubicación  Área-->
-          <div class="row opciones" id="ubicacion_area-container" hidden="true">
-            <h2 class="TOpciones fs-3">Escribe la ubicación: </h2>
-            <textarea data-titulo="Ubicación: " id="ubicacion_area" name="ubicacion_area" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
-          </div>
-          <!-- Aqui entran las opciones de departamento -->
-          <div class="row opciones" id="tipoDepartamento-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el tipo de departamento</h2>
-            <select data-titulo="Departamento: " name="tipo_departamento" class="form-select fs-3 OSelect" id="tipo_departamento" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="Administrativos">Administrativos</option>
-              <option value="Cubiculos">Cubiculo</option>
-              <option value="Biblioteca">Biblioteca</option>
-              <option value="Coordinacion">Coordinacion</option>
-            </select>
-          </div>
-          <!-- Ubicación  Departamento-->
-          <div class="row opciones" id="ubicacionDepartamento-container" hidden="true">
-            <h2 class="TOpciones fs-3">Escribe la ubicación: </h2>
-            <textarea data-titulo="Ubicación: " id="ubicacion_departamento" name="ubicacion_departamento" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
-          </div>
-          <div class="row opciones" id="tipoEdificioDepartamento-container" hidden="true">
-            <h2 class="TOpciones fs-3">Selecciona el edificio del departamento</h2>
-            <select data-titulo="Edificio: " id="tipo_edificio_departamento" name="tipo_edificio_departamento" class="form-select fs-3 OSelect" aria-label="Large select example">
-            </select>
+
+          <div class="container  btn-next-container">
+            <button type="button" id="btn-next" class="btn btn-next">Siguiente</button>
           </div>
         </div>
+       
         <!-- Campos del problema  -->
-        <div class="container mireportes1">
+        <div class="container mireportes1 hidden">
+
+          
           <h1 class="fw-bold display-5 TReportes pt-4 fs-1" id="newarrivals">Problema</h1>
-          <div class="row opciones">
-            <h2 class="TOpciones fs-3">Tipo de problema</h2>
-            <select required data-titulo="Tipo: " id="tipo_problema" name="tipo_problema" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="Eléctrico">Eléctrico</option>
-              <option value="Físico">Físico</option>
-              <option value="Humedad">Humedad</option>
-              <option value="Ventilación">Ventilación</option>
-              <option value="Electrodomésticos">Electrodomésticos</option>
-            </select>            
+          <div class="options__container d-flex w-100 mt-5"> 
+            <div class="row opciones flex-grow-1 w-100">
+              <h2 class="TOpciones fs-4">Tipo de problema</h2>
+              <select required data-titulo="Tipo: " id="tipo_problema" name="tipo_problema" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="Eléctrico">Eléctrico</option>
+                <option value="Físico">Físico</option>
+                <option value="Humedad">Humedad</option>
+                <option value="Ventilación">Ventilación</option>
+                <option value="Electrodomésticos">Electrodomésticos</option>
+              </select>            
+            </div>
+            <div class="row opciones flex-grow-1 w-100">
+              <h2 class="TOpciones fs-4">Gravedad del problema</h2>
+              <select required data-titulo="Gravedad: " id="gravedad_problema" name="gravedad_problema" class="select fs-4 OSelect" aria-label="Large select example">
+                <option value="" selected>Seleccionar</option>
+                <option value="Menor">Menor</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Serio">Serio</option>
+                <option value="Crítico">Critico</option>
+              </select>
+            </div>
+            <div class="row opciones flex-grow-1 w-100">
+              <h2 class="TOpciones fs-4">Describe el problema</h2>
+              <textarea required data-titulo="Descripción" id="descripcion_problema" name="descripcion_problema" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+            </div>
+            <div class="row opciones flex-grow-1 w-100">
+              <h2 class="TOpciones fs-4">Ubicación exacta (Opcional)</h2>
+              <textarea data-titulo="Ubicación: " id="ubicacion_exacta" name="ubicacion_exacta" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>  
+            </div>
+         
+
           </div>
-          <div class="row opciones">
-            <h2 class="TOpciones fs-3">Gravedad del problema</h2>
-            <select required data-titulo="Gravedad: " id="gravedad_problema" name="gravedad_problema" class="form-select fs-3 OSelect" aria-label="Large select example">
-              <option value="" selected>Seleccionar</option>
-              <option value="Menor">Menor</option>
-              <option value="Moderado">Moderado</option>
-              <option value="Serio">Serio</option>
-              <option value="Crítico">Critico</option>
-            </select>
+
+          <div class="container  btn-previews-container">
+            <button id="btn-abrir-modal" class="btn enviar px-4 py-2" type="button"><span class="">Enviar</span></button>
+            <button type="button" id="btn-previews" class="btn btn-previews">Anterior</button>
           </div>
-          <div class="row opciones">
-            <h2 class="TOpciones fs-3">Describe el problema</h2>
-            <textarea required data-titulo="Descripción" id="descripcion_problema" name="descripcion_problema" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
-          </div>
-          <div class="row opciones">
-            <h2 class="TOpciones fs-3">Ubicación exacta (Opcional)</h2>
-            <textarea data-titulo="Ubicación: " id="ubicacion_exacta" name="ubicacion_exacta" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>  
-          </div>
-          <button id="btn-abrir-modal" class="btn enviar px-4 py-2" type="button"><span class="fs-3">Enviar</span></button>
+         
         </div>
+
+        <div class="d-flex img-form">
+          {% comment %} <img src="{% static 'assets/test.jpg' %}" class="img-fluid" alt="Responsive image"> {% endcomment %}
+        </div>
+        {% comment %} <div class="container decoration">
+          
+        </div> {% endcomment %}
       </div>
       {% include 'partials/modal_user-reportar.html'%}
     </form>
