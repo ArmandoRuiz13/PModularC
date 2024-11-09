@@ -57,7 +57,7 @@ const statusColors = {
     "Rechazado": 'bg-danger text-white',
     "Procesando": 'bg-warning text-dark',
     "Completado": 'bg-info text-white'
-};
+}; 
 
 thIdReporte.addEventListener('click', (e) => {
     let orden = e.target.dataset.orden;
@@ -294,7 +294,7 @@ function addEvents() {
     Array.from(document.getElementsByClassName('seguimiento_p')).forEach(function(element) {
         element.addEventListener('click', function() {
             let datosUser = this.closest('tr');
-            let statusProblema = datosUser.querySelectorAll('td').item(3).textContent;
+            let statusProblema = datosUser.querySelectorAll('td').item(3).querySelector('span').textContent;
             const divAdminInfo = document.createElement("div");
             const divProblemaInfo = document.createElement("div");
             divAdminInfo.classList.add("AdminInfo", "col");
@@ -674,14 +674,16 @@ function mostrarProblemas(pagina=1, problemas=problemasFiltrados, problemasPorPa
             claseEstatus = 'estatus-completado';
         }
  
-        tr.classList.add(claseEstatus);
-
+        
         tr.innerHTML = `
            <th scope="row row-9">${p.id}</th>
               <td>${p.user_name}#${p.id_usuario} </td>
               <td>${p.tipo_edificio} | ${p.tipo_problema}</td>
               <td>${p.gravedad_problema}</td>
-              <td class="estatus_problematica">${p.estatus_problematica}</td>
+              <td class="contentstatus"> 
+              <span class="textostatus ">${p.estatus_problematica}</span>
+              <span class="statuscircle ${claseEstatus}"> <i class="fa-solid fa-circle-notch"></i></span>
+              </td> 
               <td>${p.fecha_actualizado}</td>
               <td>
                 <button id="p.${p.id}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes"> 

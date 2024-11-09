@@ -129,7 +129,7 @@ Array.from(document.getElementsByClassName('seguimiento_p')).forEach(function (e
                             <div class='row h3'><span class='col border border-2'><strong>Fecha de aceptado</strong></span> <span class='col border border-2 text-center bg-success text-white'>${data.fecha_aceptado.slice(0, 10)}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Información adicional</strong></span> <span class='col border border-2 text-center'>${data.info_adicional}</span></div>
                             <div class='row h3'><span class='col border border-2'><strong>Fecha de completado</strong></span> <span class='col border border-2 text-center ${colorEstatus}'>${data.fecha_completado.slice(0, 10)}</span></div>
-                            <div class='row h3'><span class='col border border-2'><strong>Información sobre completado</strong></span> <span class='col border border-2 text-center text-success'>${data.comentario_completado}</span></div>
+                            <div class='row h3'><span class='col border border-2'><strong>Información sobre completado</strong></span> <span class='col border border-2 text-center'>${data.comentario_completado}</span></div>
                         
 
                         `;

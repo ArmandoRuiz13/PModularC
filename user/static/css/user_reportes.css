@@ -16,26 +16,14 @@ body {
   background-color: #F0F0F0; /* Fondo gris claro */
 }
 
-#mireportes {
-  background: linear-gradient(45deg, #C0D6E4 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
-  padding: 2rem;
-  margin: 2rem auto !important;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  overflow: auto;
-  border: 2px solid #C0D6E4; /* Bordes gris azulado */
-  color: #444; /* Texto oscuro */
-}
+
 
 body {
   background-color: #F0F0F0; /* Fondo gris claro */
 }
 
 #mireportes {
-  background: linear-gradient(45deg, #e4dfcf 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
+  background: linear-gradient(45deg, #E6F0F4 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
   padding: 2rem;
   margin: 2rem auto !important;
   border-radius: 10px;
@@ -79,7 +67,7 @@ body {
 }
 
 .selecionable:hover {
-  background: linear-gradient(45deg, #d0cfc0 0%, #e1e1e1 100%);
+  background: linear-gradient(45deg, #c0d7e0 0%, #e1e1e1 100%);
   border-radius: 3px;
 }
 
@@ -89,7 +77,7 @@ body {
 }
 
 .seguimiento_p {
-  background: linear-gradient(45deg, #d0cfc0 0%, #e1e1e1 100%); /* Gradiente suave */
+  background: linear-gradient(45deg, #c0d7e0 0%, #e1e1e1 100%); /* Gradiente suave */
   border-radius: 5px; /* Bordes redondeados */
   padding: 0.4rem 0.8rem; /* Espaciado interno */
   color: #444; /* Color del texto oscuro */
@@ -102,7 +90,7 @@ body {
 }
 
 .seguimiento_p:hover {
-  background: linear-gradient(45deg, #b8b8a5 0%, #d1d1d1 100%); /* Hover más oscuro */
+  background: linear-gradient(45deg, #99c7da 0%, #d1d1d1 100%); /* Hover más oscuro */
   transform: scale(1.05); /* Aumentar tamaño ligeramente al pasar el ratón */
 }
 .seguimiento_p i{

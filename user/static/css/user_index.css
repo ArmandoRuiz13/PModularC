@@ -10,7 +10,7 @@
 }
 
 body {
-  background: linear-gradient(50deg, #ffffff 94%, #f0f0f0 100%);
+  background: linear-gradient(45deg, #E6F0F4 0%, #FFFFFF 100%); /* Gradiente gris azulado a blanco */
   margin: 0;
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
@@ -40,8 +40,7 @@ body {
   width: 100%;
   height: 100%;
   content: '';
-  background-color: #96550b7a;
-  z-index: 1000;
+  z-index: 1;
   
 }
 .main-image-container img:hover {
@@ -52,15 +51,15 @@ body {
 /* Estilo de texto sobre la imagen */
 .title-img {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--text-color);
+  top: 0;
+  right: 0;
+  transform: translate(-10%, 10%);
+  color: #ffffff; /* Blanco para buen contraste con el gradiente */
   padding: 2rem;
-  background: var(--overlay-color);
+  background: linear-gradient(135deg, #262767, #4f4e8f); /* Gradiente de azul oscuro a un azul más suave */
   border-radius: 8px;
   text-align: center;
-  z-index: 10000;
+  z-index: 10;
   box-shadow: 0 4px 10px var(--shadow-color);
 }
 
@@ -71,30 +70,30 @@ body {
 .div-1 {
   font-size: 2rem;
   font-weight: bold;
-  color: #eee;
+  color: #f3f3f3; /* Color claro para destacar sobre el fondo oscuro */
 }
 
 .div-2 {
   font-size: 1.8rem;
-  color: rgba(240, 141, 105, 0.721)
+  color: #c0c0c0; /* Gris claro para un contraste suave, pero legible */
 }
 
 .div-3 {
   font-size: 2.5rem;
-  color: #eee;
   margin-top: 1rem;
+  color: #ffffff; /* Blanco para destacar los títulos principales */
 }
 
 .div-4 {
   font-size: 1.2rem;
-  color: rgb(152, 190, 234);
+  color: #a2c8f0; /* Color más suave y frío para un enlace */
   text-decoration: underline;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .div-4:hover {
-  color: var(--primary-color);
+  color: #5d89c6; /* Un tono más fuerte de azul para el efecto hover */
 }
 
 /* Responsividad */

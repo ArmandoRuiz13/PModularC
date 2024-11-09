@@ -133,17 +133,20 @@
         </thead>
         <tbody id='contenedor_problemas'>
           {% for p in problemas %}
-          <tr class="
-              {% if p.estatus_problematica == 'Procesando' %}estatus-en-proceso{% endif %}
-              {% if p.estatus_problematica == 'Aceptado' %}estatus-aceptado{% endif %}
-              {% if p.estatus_problematica == 'Rechazado' %}estatus-rechazado{% endif %}
-              {% if p.estatus_problematica == 'Completado' %}estatus-completado{% endif %}
-          ">
+          <tr class=>
             <th scope="row">{{p.id}}</th>
             <td>{{p.id_usuario.first_name}}#{{p.id_usuario.id}} </td>
             <td>{{p.tipo_edificio}} | {{p.tipo_problema}}</td>
             <td>{{p.gravedad_problema}}</td>
-            <td class='estatus_problematica'>{{p.estatus_problematica}}</td>
+            <td class="contentstatus"> 
+              <span class="textostatus ">{{p.estatus_problematica}}</span>
+              <span class="statuscircle
+              {% if p.estatus_problematica == 'Procesando' %}estatus-en-proceso{% endif %}
+              {% if p.estatus_problematica == 'Aceptado' %}estatus-aceptado{% endif %}
+              {% if p.estatus_problematica == 'Rechazado' %}estatus-rechazado{% endif %}
+              {% if p.estatus_problematica == 'Completado' %}estatus-completado{% endif %}
+            "> <i class="fa-solid fa-circle-notch"></i></span>
+            </td>            
             <td>{{p.fecha_actualizado|timezone:"America/Mexico_City"|date:"d/m/Y H:i:s" }}</td>
             <td>
               <button id="p.{{p.id}}" class="seguimiento_p btn btn-secondary" href="#!" data-bs-toggle="modal" data-bs-target="#InformacionReportes">
