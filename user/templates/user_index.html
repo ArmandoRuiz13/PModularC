@@ -9,14 +9,14 @@
 {% block contenido %}
     <main class="container my-5">
         <div class="row">
-            <div class="main-image-container col-12"> 
+            <div class="main-image-container col-12">
                 <div class="title-img">
                     <div class="div-1">Tu mano en el mantenimiento escolar,</div>
                     <div class="div-2">hagamos la diferencia juntos.</div>
                     <div class="div-3">¡Informa y transforma!</div>
-                    <div class="div-4">Aprende más aquí.</div>
+                    <div class="div-4"><a class="nav-link active menu fs-4" href="{%url 'user_reportar'%}">Reporta aquí.</a></div>
                 </div>
-                <img src="{% static 'assets/background.jpeg' %}" alt="tornillos" />
+                <img src="{% static 'assets/background.jpg' %}" alt="tornillos" />
             </div>
         </div>
     </main>
