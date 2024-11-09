@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:latest
+FROM  python:3.12.7-bookworm
 
 # Expose the port that the Django development server will run on
 EXPOSE 8000
@@ -11,6 +11,8 @@ WORKDIR /usr/src/app
 ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt requirements.txt
+
+
 
 # Install Django and any other dependencies
 RUN  python -m pip install --upgrade pip \ 
