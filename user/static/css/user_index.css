@@ -17,12 +17,12 @@ body {
 
 /* Contenedor de la imagen principal */
 .main-image-container {
-  position: relative;
   width: 100%;
   height: 80vh;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 15px var(--shadow-color);
+  position: relative;
 }
 
 .main-image-container img {
@@ -33,6 +33,17 @@ body {
   opacity: 0.85;
 }
 
+.main-image-container::after{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background-color: #96550b7a;
+  z-index: 1000;
+  
+}
 .main-image-container img:hover {
   transform: scale(1.05);
   opacity: 1;
@@ -49,6 +60,7 @@ body {
   background: var(--overlay-color);
   border-radius: 8px;
   text-align: center;
+  z-index: 10000;
   box-shadow: 0 4px 10px var(--shadow-color);
 }
 
@@ -59,23 +71,23 @@ body {
 .div-1 {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: #eee;
 }
 
 .div-2 {
   font-size: 1.8rem;
-  color: var(--accent-color);
+  color: rgba(240, 141, 105, 0.721)
 }
 
 .div-3 {
   font-size: 2.5rem;
-  color: var(--text-color);
+  color: #eee;
   margin-top: 1rem;
 }
 
 .div-4 {
   font-size: 1.2rem;
-  color: var(--accent-color);
+  color: rgb(152, 190, 234);
   text-decoration: underline;
   cursor: pointer;
   transition: color 0.3s ease;
