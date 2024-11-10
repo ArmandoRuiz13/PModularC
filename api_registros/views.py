@@ -18,6 +18,10 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 from django.db.models import Count, Q, F
 
+import cloudinary.uploader
+from rest_framework.response import Response
+from rest_framework import status
+
 # Zona horaria de México
 timezone = pytz.timezone('America/Mexico_City')
 
@@ -363,7 +367,7 @@ class ProblemasAPIView(APIView):
         tipoEdificio = request.POST.get("tipo_edificio")
 
         if tipoEdificio == "Academico":
-            form = formAcademicos(request.POST)
+            form = formAcademicos(request.POST, request.FILES)
         elif tipoEdificio == "Baños":
             form = formBaños(request.POST)
         elif tipoEdificio == "Áreas comunes":
@@ -371,7 +375,26 @@ class ProblemasAPIView(APIView):
         elif tipoEdificio == "Departamento":
             form = formDepartamento(request.POST)
         
+
         if form.is_valid():
+            
+            if "ubicacion_exacta" in request.FILES:
+                pass
+                # file = request.FILES["ubicacion_exacta"]
+                # # Configuration       
+                # cloudinary.config( 
+                #     cloud_name = "ddtcisnd8", 
+                #     api_key = "198492183157911", 
+                #     api_secret = "uer3QQQHJFBGfxmsEAiRYhYwxQE", # Click 'View API Keys' above to copy your API secret
+                #     secure=True
+                # )
+
+                # # Upload an image
+                # upload_result = cloudinary.uploader.upload(file,
+                #                                         public_id="image1")
+                # print(upload_result["secure_url"])
+
+
 
             data = form.cleaned_data
             data['id_usuario'] = request.user.id

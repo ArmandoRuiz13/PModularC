@@ -5,7 +5,7 @@ class formProblemData(forms.Form):
     tipo_problema = forms.CharField(label="tipo_problema", max_length=100)
     gravedad_problema = forms.CharField(label="gravedad_problema", max_length=100)
     descripcion_problema = forms.CharField(label="descripcion_problema", max_length=100)
-    ubicacion_exacta = forms.CharField(label="ubicacion_exacta", max_length=100, required = False)
+    ubicacion_exacta = forms.FileField(label="Ubicación Exacta", required=False)
    
 class formAcademicos(formProblemData):
     letra_edificio = forms.CharField(label="letra_edificio", max_length=1)

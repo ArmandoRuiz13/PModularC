@@ -23,15 +23,18 @@ section{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 1px;
   border-radius: 2rem;
+
+  height: 90vh;
 }
 
 .TReportes{
   display: block;
   text-align: center;
   margin: 0 auto;
+  
 }
 .losreportes{
   display: flex;

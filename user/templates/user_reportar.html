@@ -10,7 +10,7 @@
 
 {% block contenido %}
   <section>
-    <form action="{% url 'problema'%}" method="POST">
+    <form action="{% url 'problema'%}" method="POST", enctype="multipart/form-data">
       {% csrf_token %}
       <div class="container losreportes"> 
         <div class="container mireportes">
