@@ -23,7 +23,7 @@
     color: #fff !important;
   }
 
-  .exclamacion {
+  .exclamacion { 
     position: absolute;
     top: 0rem;
     right: 1.6rem;
@@ -46,34 +46,118 @@
     margin-left: -0.5rem;
     padding: 0 !important;
   }
-
+  
   .notifications .dropdown-toggle::after {
     display: none !important;
   }
-
+  
   .notification {
     width: 25rem;
-    padding: 0.10rem;
-    padding-left: 1rem;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: linear-gradient(50deg, #e6edf0 0%, #dee0e0 100%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, background 0.3s ease;
   }
-
+  
   .notification:hover {
-    background-color: #e2e6ea;
+    background: #d8dbdf; /* Color ligeramente más oscuro en hover */
+    transform: translateY(-3px); /* Efecto de elevación */
   }
-
+  
   .notification h3 {
     margin: 0;
-    font-size: 1.25em;
+    font-size: 1.3em;
     color: #343a40;
+    font-weight: bold;
+  }
+  
+  .notification p {
+    margin: 6px 0 12px;
+    color: #5c636a;
+    line-height: 1.5;
+  }  
+
+  .dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: linear-gradient(50deg, #e6edf0 0%, #dee0e0 100%);
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background: #d0d3d3; /* Un color ligeramente más oscuro en el hover */
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  .dropdown-item i {
+    color: #555; /* Color sutil para el icono */
+  }
+  
+  /*------ Settings ------*/
+.containert {
+  --color: #a5a5b0;
+  --size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+}
+
+.containert .bell-regular {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.containert .bell-solid {
+  position: absolute;
+  display: none;
+  animation: keyframes-fill .5s;
+}
+
+/* ------ On check event ------ */
+.containert input:checked ~ .bell-regular {
+  display: none;
+}
+
+.containert input:checked ~ .bell-solid {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.containert input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    opacity: 0;
   }
 
-  .notification p {
-    margin: 5px 0 10px;
-    color: #6c757d;
-    text-decoration: none !important;
+  25% {
+    transform: rotate(25deg);
   }
+
+  50% {
+    transform: rotate(-20deg) scale(1.2);
+  }
+
+  75% {
+    transform: rotate(15deg);
+  }
+}

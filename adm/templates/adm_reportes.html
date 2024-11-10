@@ -16,28 +16,28 @@
         <div class="col flex-grow-0 ">
           <h2 class="fw-bold display-5 fs-3">Estatus</h2>
           <div class="form-check w-75 m-auto mt-4 fs-5">
-              <input class="form-check-input" type="checkbox" value="Procesando" id="estatusProcesando" checked>
-              <label class="form-check-label" for="estatusProcesando">
-                  Procesando
+              <label class="switch">
+                <input class="form-check-input" type="checkbox" value="Procesando" id="estatusProcesando" checked>
+                <span class="slider"></span> <span class="TextoCheckbox">Procesando</span>
               </label>
           </div>
           <div class="form-check w-75 m-auto mt-2 fs-5">
+            <label class="switch">
               <input class="form-check-input" type="checkbox" value="Aceptado" id="estatusAceptado">
-              <label class="form-check-label" for="estatusAceptado">
-                  Aceptado
-              </label>
+              <span class="slider"></span> <span class="TextoCheckbox">Aceptado</span>
+            </label>
           </div>
           <div class="form-check w-75 m-auto mt-2 fs-5">
-              <input class="form-check-input" type="checkbox" value="Rechazado" id="estatusRechazado">
-              <label class="form-check-label" for="estatusRechazado">
-                  Rechazado
-              </label>
+            <label class="switch">
+              <input class="form-check-input" type="checkbox" value="Rechazado" id="estatusAceptado">
+              <span class="slider"></span> <span class="TextoCheckbox">Rechazado</span>
+            </label>
           </div>
           <div class="form-check w-75 m-auto mt-2 fs-5">
-              <input class="form-check-input" type="checkbox" value="Completado" id="estatusCompletado">
-              <label class="form-check-label" for="estatusCompletado">
-                  Completado
-              </label>
+            <label class="switch">
+              <input class="form-check-input" type="checkbox" value="Completado" id="estatusAceptado">
+              <span class="slider"></span> <span class="TextoCheckbox">Completado</span>
+            </label>
           </div>
         </div>
         <div class="col">
@@ -154,7 +154,7 @@
               </button>
             </td>
             <td>
-              <input class="form-check-input" type="checkbox" name="option1" value="something">
+              <input class="form-check-input checkaction" type="checkbox" name="option1" value="something">
               {% comment %} <label class="form-check-label">Option 1</label> {% endcomment %}
             </td>
           </tr>

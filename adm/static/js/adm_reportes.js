@@ -691,7 +691,7 @@ function mostrarProblemas(pagina=1, problemas=problemasFiltrados, problemasPorPa
                 </button>
               </td>
               <td>
-                <input class="form-check-input" type="checkbox" name="option1" value="something">
+                <input class="form-check-input checkaction" type="checkbox" name="option1" value="something">
                 
               </td>
         `;

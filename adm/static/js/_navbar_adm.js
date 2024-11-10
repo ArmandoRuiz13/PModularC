@@ -22,7 +22,7 @@ function fetchNotifications() {
         });
 }
 
-function getCookie(name) {
+function getCookie(name) { 
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -44,21 +44,32 @@ function displayNotifications(notifications) {
     // Limpiar el contenedor de notificaciones
     notificationsContainer.innerHTML = ` 
             <li>
-                <a class="dropdown-item fs-3 d-flex justify-content-between"
-                    style="background-color: #aaa"
-                    href="/adm/notificaciones">
-                    <span class="ml-3"> Notificaciones </span>
-                    <span class="mr-3"><i class="fa-solid fa-arrow-right"></i></span>
-                </a>
+                <a
+                    class="dropdown-item fs-3 d-flex justify-content-between align-items-center"
+                    href="/adm/notificaciones"
+                    style="
+                        background: linear-gradient(50deg, #e6edf0, #dee0e0);
+                        color: #333;
+                        border-radius: 8px;
+                        padding: 0.8rem 1rem;
+                        transition: background 0.3s ease, transform 0.2s ease;
+                    "
+                    >
+                    <span class="ml-3">Notificaciones</span>
+                    <span class="mr-3">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                    </a>
+
             </li>`;
 
     if (notifications.length === 0) {
         const notificationElement = document.createElement('li');
         notificationElement.classList.add('notification', 'list-group-item');
         notificationElement.innerHTML = `
-            <a href='#'>
+            <h3>
                 <h3 class='fs-4'>No hay notificaciones</h3>
-            </a>`;
+            </h3>`;
         notificationsContainer.appendChild(notificationElement);
         return;
     }

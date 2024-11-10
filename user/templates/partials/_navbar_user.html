@@ -50,7 +50,6 @@
         >
           <span class="fs-8 p-2 pt-3 rounded bg-gradient me-2 bell">
             <i class="fs-3 fa-regular fa-bell"></i>
-            <i class="exclamacion fa-solid fa-exclamation"></i>
           </span>
         </button>
         <ul
@@ -60,13 +59,21 @@
         >
           <li>
             <a
-              class="dropdown-item fs-3 d-flex justify-content-between"
-              style="background-color: #aaa"
-              href="{% url 'notificaciones' %}"
-            >
-              <span class="ml-3"> Notificaciones </span>
-              <span class="mr-3"><i class="fa-solid fa-arrow-right"></i></span>
+                class="dropdown-item fs-3 d-flex justify-content-between align-items-center"
+                href="/user/notificaciones"
+                style="
+                  background: linear-gradient(135deg, #e6edf0, #e0f7fa);
+                  color: #333;
+                  border-radius: 8px;
+                  padding: 0.8rem 1rem;
+                  transition: background 0.3s ease, transform 0.2s ease;
+                  ">
+                <span class="ml-3">Notificaciones</span>
+                <span class="mr-3">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
             </a>
+
           </li>
         </ul>
       </div>
@@ -75,13 +82,13 @@
         <h1 class="fs-4 pt-2 px-3">
           <span
             class="fs-8 p-2 rounded bg-gradient"
-            style="background-color: #dadaff"
+            style="background: linear-gradient(50deg, #b8b8b8 0%, #cfdbe0 100%);"
             ><i class="fa-solid fa-user"></i
           ></span>
           <span class="ms-4">{{user.first_name}} {{user.last_name}}</span>
         </h1>
       </div>
-  
+   
       <div class="collapse navbar-collapse d-block menuconfig flex-grow-0 pe-4" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
@@ -94,7 +101,7 @@
             >
               <i class="fa-solid fa-gear"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-start dropdown-menu-end position-absolute">
+            <ul class="dropdown-menu dropdown-menu-end p-2">
               <li>
                 <a class="fs-3 dropdown-item menu" href="{%url 'user_cuenta'%}"
                   >Cuenta</a

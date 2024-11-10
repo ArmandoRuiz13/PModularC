@@ -37,7 +37,6 @@
           >
             <span class="fs-8 p-2 pt-3 rounded bg-gradient me-2 bell">
               <i class="fs-3 fa-regular fa-bell"></i>
-              <i class="exclamacion fa-solid fa-exclamation"></i>
             </span>
           </button>
           <ul
@@ -47,11 +46,21 @@
           >
             <li>
               <a
-                class="dropdown-item fs-3 d-flex justify-content-between"
-                style="background-color: #aaa"
-                href="
-                #"
+                class="dropdown-item fs-3 d-flex justify-content-between align-items-center"
+                href="/adm/notificaciones"
+                style="
+                  background: linear-gradient(50deg, #e6edf0, #dee0e0);
+                  color: #333;
+                  border-radius: 8px;
+                  padding: 0.8rem 1rem;
+                  transition: background 0.3s ease, transform 0.2s ease;
+                "
               >
+                <span class="ml-3">Notificaciones</span>
+                <span class="mr-3">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </a>
                 <span class="ml-3"> Notificaciones </span>
                 <span class="mr-3"><i class="fa-solid fa-arrow-right"></i></span>
               </a>
@@ -60,7 +69,7 @@
         </div>
         <div class="Lnombre px-4 m-1">
           <h1 class="fs-4 pt-2 px-3">
-            <span class="fs-8 p-2 rounded bg-gradient" style="background-color: #dadaff">
+            <span class="fs-8 p-2 rounded bg-gradient" style="background: #d8dbdf;">
               <i class="fa-solid fa-user"> </i>
             </span>
             <span class="ms-4 text-light">{{ user.first_name }} {{ user.last_name }}</span>
@@ -71,7 +80,7 @@
           <a class="nav-link dropdown-toggle menu fs-4"  style="color: #000 !important;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-gear "  style="color: #000 !important;"> </i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
+          <ul class="dropdown-menu dropdown-menu-end p-2">
             <li><a class="fs-3 dropdown-item menu" href="{% url 'cuentaAdmin' %}">Cuenta</a></li>
             <li><a class="fs-3 dropdown-item menu" href="{% url 'logout' %}">Salir</a></li>
             <li><hr class="dropdown-divider"></li>
