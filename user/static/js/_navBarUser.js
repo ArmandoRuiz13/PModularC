@@ -44,11 +44,20 @@ function displayNotifications(notifications) {
     // Limpiar el contenedor de notificaciones
     notificationsContainer.innerHTML = ` 
             <li>
-                <a class="dropdown-item fs-3 d-flex justify-content-between"
-                    style="background-color: #aaa"
-                    href="/user/notificaciones">
-                    <span class="ml-3"> Notificaciones </span>
-                    <span class="mr-3"><i class="fa-solid fa-arrow-right"></i></span>
+                <a
+                class="dropdown-item fs-3 d-flex justify-content-between align-items-center"
+                href="/user/notificaciones"
+                style="
+                  background: linear-gradient(135deg, #e6edf0, #e0f7fa);
+                  color: #333;
+                  border-radius: 8px;
+                  padding: 0.8rem 1rem;
+                  transition: background 0.3s ease, transform 0.2s ease;
+                  ">
+                <span class="ml-3">Notificaciones</span>
+                <span class="mr-3">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
                 </a>
             </li>`;
 
@@ -56,9 +65,9 @@ function displayNotifications(notifications) {
         const notificationElement = document.createElement('li');
         notificationElement.classList.add('notification', 'list-group-item');
         notificationElement.innerHTML = `
-            <a href='#'>
+            <h3>
                 <h3 class='fs-4'>No hay notificaciones</h3>
-            </a>`;
+            </h3>`;
         notificationsContainer.appendChild(notificationElement);
         return;
     }

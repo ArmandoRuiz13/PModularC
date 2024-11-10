@@ -27,7 +27,7 @@
 .menu {
   transition: all 0.3s;
   text-decoration: none;
-  color: #f0f0f0; /* Blanco claro para contrastar */
+  color: #0e0c0c; /* Blanco claro para contrastar */
   font-size: 18px;
   width: 100%;
   margin: 2px;
@@ -87,30 +87,43 @@
 
 .notification {
   width: 25rem;
-  padding: 0.10rem;
-  padding-left: 1rem;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f7f9fa, #e6edf0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .notification:hover {
-  background-color: #eaeaea;
+  background: #e0f7fa;
+  transform: translateY(-2px); /* Agrega un efecto de elevación */
 }
 
 .notification h3 {
   margin: 0;
-  font-size: 1.25em;
-  color: #333333;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.notification:hover h3 {
+  color: #007ea7; /* Resalta el título al pasar el ratón */
 }
 
 .notification p {
-  margin: 5px 0 10px;
-  color: #777777;
+  margin: 0.5rem 0 0;
+  font-size: 1em;
+  color: #555;
   text-decoration: none !important;
 }
+
+.notification p:hover {
+  color: #007ea7;
+  text-decoration: underline; /* Añade un subrayado ligero al texto */
+}
+
 
 .navbar-toggler {
   transition: all 2s;
@@ -156,3 +169,25 @@
     pointer-events: none;
   }
 }
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  font-weight: 500;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e6edf0, #e0f7fa);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: #cde4e8; /* Un color ligeramente más oscuro al hacer hover */
+  transform: translateY(-2px); /* Efecto de elevación para un toque moderno */
+}
+
+.dropdown-item i {
+  color: #007ea7; /* Añade un color destacado al icono para hacerlo llamativo */
+}
+
+

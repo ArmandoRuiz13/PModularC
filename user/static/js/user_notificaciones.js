@@ -188,7 +188,7 @@ function isNumber(value) {
 }
 
 if (qValue && isNumber(qValue)) {
-    document.querySelector('.vista' + qValue).click();
+    document.querySelector('.vistar' + qValue).click();
 }
 
 function getCookie(name) {

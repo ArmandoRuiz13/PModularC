@@ -1,18 +1,3 @@
-
-/* :root {
-  --primary-color: #e2936f;
-  --primary-color-light: #e39774;
-  --primary-color-light-2: #f2cfbf;
-  --secondary-color-light: #5c9ead;
-  --secondary-color-dark: #326273;
-  --tertiary-color: #eee;
-
-colores grises
-  --dark-grey: #333;
-  --ligth-grey: #999;
-} */
-
-
 body{
   background-color: var(--tertiary-color);
   width: 100%;
