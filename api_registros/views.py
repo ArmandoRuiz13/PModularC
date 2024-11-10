@@ -528,8 +528,8 @@ class ProblemasEnCursoAPIView(APIView):
     )
     def get(self, request, *args, **kwargs):
         # Listar todos los objetos
-        queryset = ProblemaEnCurso.objects.all().order_by('id')
-        serializer = ProblemaEnCursoSerializer(queryset, many=True)
+        queryset = ProblemaEnCurso.objects.all().order_by('id').iterator()
+       
         # Procesar la consulta para formatear las fechas y agregar el nombre de usuario si el usuario es personal
         problemas = []
         for problema in queryset:
