@@ -1,30 +1,119 @@
-
 <style>
-    .modal-content {
-      width: 90rem;
-    }
-    .spinner-border {
-      width: 3rem;
-      height: 3rem;
-      border-width: .3rem;
-    }
-    .loading-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-    .hidden {
-      display: none;
-    }
+  /* Modal principal */
+  .modal-content {
+    width: 90rem; /* Mantiene las dimensiones establecidas */
+    background: linear-gradient(45deg, #e4dfcf 0%, #FFFFFF 100%); /* Fondo degradado */
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    color: #444; /* Color de texto */
+    border: 2px solid #535353b0; /* Bordes gris azulado */
+  }
+
+  /* Spinner de carga */
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: .3rem;
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* Estilo de los encabezados */
+  .modal-header {
+    border-bottom: 2px solid #D1B28C; /* Borde suave color beige cálido */
+    padding-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #444;
+    text-align: center;
+  }
+
+  /* Botón de cerrar */
+  .modal-header .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #6B4F31; /* Color café */
+    border-radius: 50%;
+    color: #444444; /* Color del texto */
+    font-size: 1.5rem;
+    border: none;
+    padding: 0.75rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    z-index: 20;
+  }
+
+  .modal-header .btn-close:hover {
+    background-color: #8A5A3B; /* Color café más oscuro al pasar el ratón */
+    transform: scale(1.1);
+  }
+
+  .modal-header .btn-close:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(182, 159, 106, 0.8);
+  }
+
+  /* Estilo de la sección del cuerpo */
+  .modal-body {
+    padding: 1.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    color: #444;
+    font-size: 1.1rem;
+  }
+
+  /* Estilo del pie del modal */
+  .modal-footer {
+    border-top: 2px solid #D1B28C;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.5rem;
+  }
+
+  .modal-footer .btn-secondary {
+    background-color: #6B4F31; /* Color café */
+    color: #fff;
+    border: 2px solid #6B4F31;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .modal-footer .btn-secondary:hover {
+    background-color: #8A5A3B; /* Color café más oscuro al pasar el ratón */
+    transform: scale(1.05);
+  }
+
+  .modal-footer .btn-secondary:active {
+    transform: scale(0.98);
+  }
+
 </style>
 
 <div
-class="modal fade"
-id="SeguimientoUsuario"
-tabindex="-1"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true"
+  class="modal fade"
+  id="SeguimientoUsuario"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
 >
   <div class="modal-dialog modal-password">
     <div class="modal-content">
@@ -35,9 +124,9 @@ aria-hidden="true"
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body row blockquote">
+        <!-- Contenido del modal -->
       </div>
       <div class="modal-footer modal-buttons">
-        
         <button type="button" id="btnCerrarModal" class="btn btn-secondary fs-5" data-bs-dismiss="modal">
           Cerrar
         </button>

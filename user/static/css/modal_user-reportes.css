@@ -15,3 +15,64 @@ justify-content: center;
 align-items: center;
 height: 100%;
 }
+
+/* Fondo general */
+body {
+    background-color: #F0F0F0; /* Gris claro de fondo */
+  }
+  
+  /* Estilo del modal */
+  .modal-content {
+    background: linear-gradient(45deg, #E6F0F4 0%, #FFFFFF 100%); /* Gradiente suave */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    color: #444; /* Texto oscuro */
+  }
+  
+  /* Estilo del encabezado del modal */
+  .modal-header {
+    border-bottom: 2px solid #C0D6E4; /* Línea separadora suave */
+  }
+  
+  .modal-title {
+    color: #1976d2; /* Azul más intenso */
+    font-weight: bold; /* Negritas */
+  }
+  
+  /* Estilo del botón de cerrar */
+  .btn-close {
+    color: #C0D6E4; /* Gris suave */
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+  }
+  
+  /* Estilo del cuerpo del modal */
+  .modal-body {
+    font-size: 1rem;
+    color: #444; /* Texto oscuro */
+    padding: 1.5rem 0;
+    line-height: 1.6; /* Mayor legibilidad */
+  }
+  
+  /* Estilo de los botones del modal */
+  .modal-footer .btn {
+    background: linear-gradient(45deg, #c0d7e0 0%, #e1e1e1 100%); /* Gradiente suave */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 0.4rem 1rem; /* Espaciado del botón */
+    font-weight: bold; /* Negritas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    transition: background 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+  }
+  
+  .modal-footer .btn:hover {
+    background: linear-gradient(45deg, #99c7da 0%, #d1d1d1 100%); /* Hover más oscuro */
+    transform: scale(1.05); /* Aumentar el tamaño al hacer hover */
+  }
+  
+  .modal-footer .btn:active {
+    transform: scale(0.98); /* Reducir el tamaño cuando el botón es presionado */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Sombra sutil al presionar */
+  }
+  

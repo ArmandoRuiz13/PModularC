@@ -152,7 +152,7 @@
             <!-- Ubicación  Área-->
             <div class="row opciones" id="ubicacion_area-container" hidden="true">
               <h2 class="TOpciones fs-4">Ubicación: </h2>
-              <textarea data-titulo="Ubicación: " id="ubicacion_area" name="ubicacion_area" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
+              <textarea data-titulo="Ubicación: " id="ubicacion_area" name="ubicacion_area" class="form-control TSelect" id="exampleFormControlTextarea1" rows="7"></textarea>  
             </div>
             <!-- Aqui entran las opciones de departamento -->
             <div class="row opciones" id="tipoDepartamento-container" hidden="true">
@@ -168,7 +168,7 @@
             <!-- Ubicación  Departamento-->
             <div class="row opciones" id="ubicacionDepartamento-container" hidden="true">
               <h2 class="TOpciones fs-4">Escribe la ubicación: </h2>
-              <textarea data-titulo="Ubicación: " id="ubicacion_departamento" name="ubicacion_departamento" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>  
+              <textarea data-titulo="Ubicación: " id="ubicacion_departamento" name="ubicacion_departamento" class="form-control TSelect" id="exampleFormControlTextarea1" rows="7"></textarea>  
             </div>
             <div class="row opciones" id="tipoEdificioDepartamento-container" hidden="true">
               <h2 class="TOpciones fs-4">Edificio del departamento</h2>
@@ -179,7 +179,7 @@
           </div>
 
           <div class="container  btn-next-container">
-            <button type="button" id="btn-next" class="btn btn-next">Siguiente</button>
+            <button type="button" id="btn-next" class="btn btn-next"><i class="fa-solid fa-arrow-right"></i></button>
           </div>
         </div>
        
@@ -212,7 +212,7 @@
             </div>
             <div class="row opciones flex-grow-1 w-100">
               <h2 class="TOpciones fs-4">Describe el problema</h2>
-              <textarea required data-titulo="Descripción" id="descripcion_problema" name="descripcion_problema" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+              <textarea required data-titulo="Descripción" id="descripcion_problema" name="descripcion_problema" class="form-control TSelect" id="exampleFormControlTextarea1" rows="7"></textarea>
             </div>
             <div class="row opciones flex-grow-1 w-100">
               <h2 class="TOpciones fs-4">Ubicación exacta (Opcional)</h2>
@@ -225,7 +225,8 @@
                   <div class="back-side cover"></div>
                 </div>
                 <label class="custom-file-upload">
-                  <input type="file" data-titulo="Ubicación: " id="ubicacion_exacta" name="ubicacion_exacta" class="title form-control" id="exampleFormControlTextarea1" rows="5" />
+                  <input type="file" data-titulo="Ubicación: " id="ubicacion_exacta" name="ubicacion_exacta" class="title form-control 
+                  " id="exampleFormControlTextarea1" rows="5" />
                   Choose a file
                 </label>
               </div> 
@@ -235,8 +236,24 @@
           </div>
 
           <div class="container  btn-previews-container">
-            <button id="btn-abrir-modal" class="btn enviar px-4 py-2" type="button"><span class="">Enviar</span></button>
-            <button type="button" id="btn-previews" class="btn btn-previews">Anterior</button>
+            <button id="btn-abrir-modal" class="enviar cssbuttons-io-button" type="button">
+              Enviar
+              <div class="icon">
+                <svg
+                  height="24"
+                  width="24"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                  <path
+                    d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button type="button" id="btn-previews" class="btn btn-previews"><i class="fa-solid fa-arrow-left"></i></button>
           </div>
          
         </div>

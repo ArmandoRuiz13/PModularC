@@ -292,16 +292,16 @@ const bodyModalConfirmation = document.querySelector('#sendConfirmationModal .mo
 const url = new URL(window.location);
 url.searchParams.delete('qValue'); // Elimina el parámetro 'qValue'
     
-if (qValue === 'true'){
-    bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Reporte enviado con éxito!</div>`;
+if (qValue === 'true') {
+    bodyModalConfirmation.innerHTML = `<div class="fs-4 success-message">¡Reporte enviado con éxito!</div>`;
     myModalConfirmation.show();   
     window.history.replaceState({}, document.title, url.pathname);
-}
-else if (qValue === 'false'){
-    bodyModalConfirmation.innerHTML = `<div class="fs-4">¡Error en el envío!</div>`;
+} else if (qValue === 'false') {
+    bodyModalConfirmation.innerHTML = `<div class="fs-4 error-message">¡Error en el envío!</div>`;
     myModalConfirmation.show();  
     window.history.replaceState({}, document.title, url.pathname);
 }
+
 
 btnNext.addEventListener('click', function () {
     mireportes.classList.add('hidden');

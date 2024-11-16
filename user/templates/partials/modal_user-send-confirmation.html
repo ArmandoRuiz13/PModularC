@@ -35,3 +35,95 @@
     </div>
   </div>
 </div>
+<style>/* Modal General */
+  .modal-content {
+    width: 100%;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  /* Estilo para el modal en pantallas pequeñas */
+  @media screen and (max-width: 992px) {
+    .modal-content {
+      width: 100%;
+    }
+  }
+  
+  /* Estilo para el fondo y el cuerpo del modal */
+  .modal-header, .modal-body, .modal-footer {
+    background: linear-gradient(135deg, #f0f2f8, #e3e6f1); /* Fondo suave */
+    border-radius: 8px;
+  }
+  
+  /* Estilo para el botón de cierre (X) */
+/* Estilo para el botón de cierre (X) */
+.modal-content .btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #1d2b56; /* Color de cierre */
+  transition: color 0.3s ease, transform 0.3s ease; /* Transición suave */
+  cursor: pointer;
+  padding: 5px 10px; /* Tamaño del botón */
+}
+
+/* Efecto hover en el botón de cerrar */
+.modal-content .btn-close:hover {
+  color: #004e8e; /* Un color azul más oscuro */
+  transform: scale(1.1); /* Aumento de tamaño */
+}
+
+  
+  /* Estilos para los botones */
+  .btn-secondary {
+    background-color: #e4e7f3; /* Azul claro */
+    color: #1d2b56; /* Color oscuro para el texto */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Tamaño del botón */
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Efecto hover en el botón */
+  .btn-secondary:hover {
+    background-color: #5a6fd9; /* Azul suave para el hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    transform: scale(1.05); /* Leve aumento de tamaño en hover */
+  }
+  
+  /* Estilo para el mensaje de éxito */
+  .success-message {
+    background: linear-gradient(135deg, #a0d8ef, #8ecae6); /* Degradado suave de azul claro */
+    color: #1d2b56; /* Texto oscuro */
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para el mensaje de error */
+  .error-message {
+    background: linear-gradient(135deg, #f8c9d1, #f4a5b9); /* Degradado suave de rosa claro */
+    color: #660000; /* Texto rojo oscuro */
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Efecto hover en los mensajes */
+  .success-message:hover, .error-message:hover {
+    transform: scale(1.05); /* Aumento de tamaño ligeramente en hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    cursor: pointer;
+  }
+  
+  /* Estilo del footer del modal */
+  .modal-footer {
+    background: linear-gradient(135deg, #f0f2f8, #e3e6f1); /* Fondo suave */
+    border-radius: 8px;
+  }
+  </style>

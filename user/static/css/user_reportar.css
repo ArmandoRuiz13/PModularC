@@ -35,25 +35,25 @@ section{
   position: relative;
 }
 
-.mireportes{
-  background-color: #ddddee;
+.mireportes {
+  background: linear-gradient(135deg, #ddddee, #c2c8f0);
   margin: 0;
   padding: 1px;
   width: 100%;
   align-items: start;
-  flex:1;
+  flex: 1;
   border-radius: 2rem 0 0 2rem;
   height: 100%;
-  
 }
-.mireportes1{
-  background-color:#ddddee;
+
+.mireportes1 {
+  background: linear-gradient(135deg, #ddddee, #c2c8f0);
   margin: 0;
   padding: 1px;
   width: 100%;
-  flex:1;
+  flex: 1;
   border-radius: 2rem 0 0 2rem;
-  height: 100%; 
+  height: 100%;
   overflow: auto;
 }
 
@@ -98,38 +98,86 @@ section{
   margin: 15px;
   padding: 20px;
 }
-.TOpciones{
-  display: block ;
+.TOpciones {
+  display: block;
   text-align: center;
-  margin-bottom: 10px;
-  /* tamano letra */
-  font-size: 25px;
-  color: var(--dark-grey);
-
+  margin-bottom: 15px;
+  font-size: 24px; /* Tamaño de fuente moderado */
+  color: var(--dark-grey); /* Mantengo el color gris oscuro */
+  font-weight: 500; /* No tan pesado, pero suficiente para destacar */
 }
-.OSelect{
+
+.OSelect {
   text-align: center;
-  margin: 5px;
+  margin: 8px;
   font-size: 16px;
-  padding: 2px;
-  background-color: var(--tertiary-color);
-}
-.form-control{
-  background-color: var(--tertiary-color);
-  font-size: 16px;
-}
-.enviar{
-
-  transition-duration: 0.4s;
+  padding: 10px;
+  background: linear-gradient(50deg, #a0d8ef 0%, #8ecae6 100%); /* Degradado suave */
+  border: 1px solid #ccc; /* Borde sutil */
+  border-radius: 5px; /* Bordes redondeados suaves */
+  color: #333; /* Texto en un gris oscuro */
+  box-shadow: none; /* Sin sombras, para mantener el estilo minimalista */
+  transition: background 0.3s ease, border-color 0.3s ease; /* Transición suave */
 }
 
-.btn-tipo-1{
-  background-color: #0202022c;
+.OSelect:focus {
+  background-color: #ffffff; /* Fondo blanco cuando se selecciona */
+  border-color: #7b8fd2; /* Borde suave de color azul al enfocar */
+  outline: none; /* Eliminar el borde de enfoque predeterminado */
+}
+
+.OSelect:hover {
+  background: linear-gradient(50deg, #8ecae6 0%, #a0d8ef 100%); /* Inversión del degradado en hover */
+  border-color: #b1b8d9; /* Ligera variación en el borde al hacer hover */
+}
+
+/* Hover sobre las opciones del select */
+.OSelect option:hover {
+  background-color: #d1e3f3; /* Fondo más claro al pasar el ratón sobre una opción */
+  color: #1d2b56; /* Texto más oscuro para mayor contraste */
+}
+
+
+/* Estilo base del botón */
+.btn-tipo-1 {
+  background: linear-gradient(135deg, #a5b9e8, #b0c4f1); /* Degradado más destacado */
   font-size: 1.2rem;
+  color: #2d2d2d; /* Texto oscuro para contraste */
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más visible */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
-.btn-tipo-1__selected{
-  background-color: blue;
+/* Efecto hover para el botón */
+.btn-tipo-1:hover {
+  background: linear-gradient(135deg, #9baee7, #a1b7e8); /* Un tono más saturado en hover */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Sombra más fuerte para resaltar */
+}
+
+/* Estilo cuando el botón está seleccionado */
+.btn-tipo-1__selected {
+  background-color: #5a6fd9; /* Azul suave pero más saturado */
+  color: white; /* Texto blanco para contraste */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte */
+  transform: scale(1.05); /* Leve aumento de tamaño para indicar selección */
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover en el estado seleccionado */
+.btn-tipo-1__selected:hover {
+  background-color: #4a5bcf; /* Azul más oscuro al hacer hover */
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+}
+
+.btn-check:checked + .btn-tipo-1 {
+  background-color: #9faeed; /* Tono más resaltado y visible */
+  color: white; /* Mantiene el texto blanco */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada para destacar */
+  border: 2px solid #8a98d9; /* Borde más visible */
+  transition: all 0.3s ease;
 }
 
 
@@ -169,72 +217,133 @@ section{
 
 }
 
-.btn-next{
-  background-color: #C0D6E4 ;
-  padding: 0.4rem 0.8rem;
-  border-radius: 3px;
+.btn-next {
+  background: linear-gradient(135deg, #a5bce3, #768cc7);
+  padding: 1rem 2rem; /* Incrementa el espacio interno */
+  border-radius: 5px; /* Suaviza más los bordes */
   border: none;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.6rem; /* Texto más grande */
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  transition-duration: 0.4s;
+  transition: background 0.4s, transform 0.2s, box-shadow 0.4s;
   position: absolute;
-  bottom: 2rem;
-  right: 12rem;
-  font-weight: 500;
+  bottom: 3rem; /* Ajusta la posición si es necesario */
+  right: 12rem; /* Ajusta la posición si es necesario */
+  font-weight: 600; /* Más peso en el texto */
+  color: #1f2937; /* Texto oscuro para mayor contraste */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
 }
 
-.btn-previews-container{
+/* Efecto hover */
+.btn-next:hover {
+  background: linear-gradient(135deg, #768cc7, #5b6aa5);
+  transform: translateY(-3px) scale(1.2); /* Desplaza hacia arriba y aumenta el tamaño */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4); /* Sombra más intensa */
+}
+
+
+
+
+.btn-previews-container {
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: end;
-  
+  justify-content: flex-end; /* Alineado al final */
 }
 
-.btn-previews{
-  background-color: #C0D6E4 ;
-  padding: 0.4rem 0.8rem;
-  border-radius: 3px;
+.btn-previews {
+  background: linear-gradient(135deg, #a5bce3, #768cc7); /* Degradado igual al btn-next */
+  padding: 1rem 2rem; /* Tamaño aumentado */
+  border-radius: 5px; /* Bordes más redondeados */
   border: none;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.6rem; /* Texto más grande */
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  transition-duration: 0.4s;
+  transition: background 0.4s, transform 0.2s, box-shadow 0.4s; /* Transiciones suavizadas */
   position: absolute;
-  bottom: 2rem;
-  left: 3rem;
-  font-weight: 500;
+  bottom: 3rem; /* Ajustado para mayor tamaño */
+  left: 3rem; /* Mantener posición relativa */
+  font-weight: 600; /* Texto más fuerte */
+  color: #1f2937; /* Color de texto oscuro */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
 }
 
-#btn-abrir-modal{
-  background-color: #BBB ;
-  padding: 0.4rem 0.8rem;
-  border-radius: 3px;
+/* Efecto hover */
+.btn-previews:hover {
+  background: linear-gradient(135deg, #768cc7, #5b6aa5); /* Cambiar el degradado en hover */
+  transform: translateY(-3px) scale(1.2); /* Desplaza hacia arriba y agranda */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4); /* Sombra más intensa */
+}
+
+
+/* From Uiverse.io by adamgiebl */ 
+.cssbuttons-io-button {
+  background: linear-gradient(135deg, #a5bce3, #768cc7); /* Degradado similar al botón next */
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
   border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #768cc7; /* Sombra adaptada al degradado */
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
   cursor: pointer;
-  font-size: 1.3rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  transition-duration: 0.4s;
   position: absolute;
   bottom: 2rem;
   right: 12rem;
   font-weight: 500;
 }
 
-.btn-check:checked + .btn-tipo-1 {
-  background-color: #bbbbee; /* Un poco más resaltado */
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border: 2px solid #a7a7e7;
-  transition: all 0.3s ease;
+.cssbuttons-io-button .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+  right: 0.3em;
+  transition: all 0.3s;
 }
+
+.cssbuttons-io-button:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+  transform: scale(0.95);
+}
+
+.cssbuttons-io-button:hover {
+  background: linear-gradient(135deg, #768cc7, #5b6aa5); /* Cambio en el hover */
+  box-shadow: inset 0 0 1.6em -0.6em #5b6aa5; /* Ajuste de sombra en hover */
+}
+
 
 /* From Uiverse.io by 3bdel3ziz-T */ 
 .containerss {
@@ -361,4 +470,28 @@ section{
   }
 }
 
-  
+.TSelect {
+  width: 100%; /* Para que ocupe el ancho completo */
+  padding: 10px;
+  font-size: 16px;
+  background: linear-gradient(50deg, #a0d8ef 0%, #8ecae6 100%); /* Fondo con degradado suave */
+  border: 1px solid #ccc; /* Borde sutil */
+  border-radius: 5px; /* Bordes redondeados */
+  color: #333; /* Texto oscuro */
+  box-shadow: none; /* Sin sombras adicionales */
+  transition: background 0.3s ease, border-color 0.3s ease; /* Transición suave para los cambios */
+  resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+/* Efecto cuando el textarea está enfocado */
+.TSelect:focus {
+  background-color: #ffffff; /* Fondo blanco cuando está enfocado */
+  border-color: #7b8fd2; /* Borde azul suave al enfocar */
+  outline: none; /* Elimina el borde de enfoque predeterminado */
+}
+
+/* Efecto hover en el textarea */
+.TSelect:hover {
+  background: linear-gradient(50deg, #8ecae6 0%, #a0d8ef 100%); /* Inversión del degradado en hover */
+  border-color: #b1b8d9; /* Ligera variación del borde en hover */
+}

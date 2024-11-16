@@ -7,17 +7,18 @@ body {
 
 /* Estilo del header */
 .bg-gradient-futuristic {
-    background: linear-gradient(135deg, #00f260, #0575e6); /* Degradado futurista */
+    background: linear-gradient(135deg, #00f260, #0b75d9); /* Degradado futurista con azul más oscuro */
     box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3); /* Sombra con efecto neón */
 }
 
+/* Fondo principal */
 body {
     background-color: var(--tertiary-color);
- 
 }
- 
+
+/* Estilo para las cajas de filtros */
 .filtros {
-    background-color: #3a3a3a;
+    background-color: #424242; /* Fondo gris oscuro para los filtros */
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Efecto neón suave */
     margin-top: 2rem;
@@ -25,6 +26,7 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+/* Caja de reportes */
 .reportes {
     min-height: calc(100vh - 5rem);
 }
@@ -43,25 +45,7 @@ body {
     align-items: center;
 }
 
-.estatus-en-proceso {
-    background-color: #fff59d; /* Amarillo moderado */
-}
-
-.estatus-aceptado {
-    background-color: #a5d6a7; /* Verde moderado */
-    color: #1a441c;
-}
-
-.estatus-rechazado {
-    background-color: #ef9a9a; /* Rojo moderado */
-    color: #6e1818;
-}
-
-.estatus-completado {
-    background-color: #90caf9; /* Azul moderado */
-    color: #0f3663;
-}
-
+/* Elementos seleccionables con efecto hover */
 .selecionable {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
@@ -76,20 +60,20 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Cursor tipo pointer */
 .cursor-pointer {
     cursor: pointer;
 }
 
-
+/* Estilo para las tablas */
 .dynamic-table {
     max-height: 150px;
     overflow-y: auto;
-    
 }
 
-canvas{
+/* Estilo para gráficos */
+canvas {
     max-height: 70vh;
-
 }
 
 /* Espaciado entre las filas de tablas */
@@ -97,18 +81,142 @@ canvas{
     margin-bottom: 20px;
 }
 
-/* Responsividad */
+/* Estilo de los botones */
+.btn {
+    background: linear-gradient(135deg, #00f260, #36c4b7); /* Variación en verde/agua */
+    color: #fff;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #0575e6, #36c4b7); /* Hover con azul claro */
+}
+
+.btn:active, .btn:focus {
+    background: linear-gradient(135deg, #36c4b7, #00f260); /* Cambio al seleccionarlo */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Agregar efecto de neón al estar seleccionado */
+    transform: scale(0.98); /* Levemente más pequeño para efecto de presión */
+}
+
+/* Responsividad para pantallas pequeñas */
 @media (max-width: 768px) {
     .table-card {
         margin-bottom: 20px;
     }
 }
 
+/* Estilo para el pie de página */
 #botfooter {
     margin-top: 10rem;
     width: 100vw !important;
-    position: relative; /* Changes from fixed to relative */
+    position: relative;
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
+}
+
+.nav-tabs .nav-link {
+    background: linear-gradient(135deg, #00f260, #0b75d9); /* Fondo predeterminado */
+    color: white;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #0575e6, #36c4b7); /* Fondo diferente cuando está activo */
+    color: white; /* Mantiene el color de texto blanco */
+    transform: scale(1.05); /* Efecto de escala al estar activo */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Sombra de neón para destacar el tab activo */
+}
+
+.nav-tabs .nav-link:hover {
+    background: linear-gradient(135deg, #0575e6, #36c4b7); /* Cambio de fondo en hover */
+    transform: scale(1.02); /* Efecto de escala sutil al pasar el mouse */
+}
+
+/* Estilo de las tablas dentro de las pestañas */
+.dynamic-table {
+    background-color: #f1f1f1; /* Fondo claro para contraste */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background: linear-gradient(135deg, #4e9e9b, #00f260); /* Degradado más suave */
+    color: white;
+    border-radius: 8px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:hover {
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+
+/* Estilo para los gráficos (canvas) */
+canvas {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+    border-radius: 10px;
+}
+
+/* Card para tablas dentro de la simulación */
+.table-card {
+    background-color: #f8f8f8; /* Fondo claro, más fresco */
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para las filas de tablas en la simulación */
+.table-responsive {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+/* Fondo general */
+.container {
+    margin-top: 30px;
+}
+
+/* Botones de acción */
+.btn {
+    background: linear-gradient(135deg, #00f260, #36c4b7); /* Variación en verde/agua */
+    color: white;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #0575e6, #36c4b7); /* Hover con azul claro */
+}
+
+/* Agregar espacio y margen a las tablas en la simulación */
+.row.g-4 {
+    margin-top: 20px;
+}
+
+.row.g-4 .col-md-6, .row.g-4 .col-lg-4 {
+    margin-bottom: 30px;
+}
+
+/* Estilo para las tablas dentro de la simulación */
+.table-responsive {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }

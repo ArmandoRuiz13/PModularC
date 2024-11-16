@@ -8,9 +8,9 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg"> <!-- Modal grande -->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background: linear-gradient(135deg, #ddddee, #c2c8f0);">
         <h1 class="modal-title fs-3" id="staticBackdropLabel">
           Datos del Reporte
         </h1>
@@ -21,19 +21,23 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body row">
-        <div id="datos_edificio_modal" class="datos_modal col fs-4"></div>
-        <div id="datos_problema_modal" class="datos_modal col fs-4"></div>
+      <div class="modal-body row" style="background: linear-gradient(135deg, #ddddee, #c2c8f0);">
+        <div id="datos_edificio_modal" class="datos_modal col fs-4" style="background: linear-gradient(135deg, #f0f2f8, #e3e6f1); padding: 15px; border-radius: 8px;">
+          <!-- Datos edificio -->
+        </div>
+        <div id="datos_problema_modal" class="datos_modal col fs-4" style="background: linear-gradient(135deg, #f0f2f8, #e3e6f1); padding: 15px; border-radius: 8px;">
+          <!-- Datos problema -->
+        </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" style="background: linear-gradient(135deg, #ddddee, #c2c8f0);">
         <button
           type="button"
-          class="fs-4 btn btn-secondary"
+          class="fs-4 btn btn-secondary custom-btn"
           data-bs-dismiss="modal"
         >
           Cerrar
         </button>
-        <button type="submit" class="fs-4 btn btn-dark" id="mandar_reporte_btn">
+        <button type="submit" class="fs-4 btn btn-dark custom-btn" id="mandar_reporte_btn">
           Reportar
         </button>
       </div>

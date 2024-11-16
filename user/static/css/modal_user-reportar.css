@@ -20,3 +20,112 @@ justify-content: center;
 align-items: center;
 height: 100%;
 }
+
+/* Variación de color suave en las secciones de datos */
+.datos_modal {
+    background: linear-gradient(135deg, #f0f2f8, #e3e6f1); /* Fondo suave y claro */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Estilo para los botones */
+  .custom-btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  
+  .custom-btn:hover {
+    background-color: #5a6fd9; /* Azul suave para el hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    transform: scale(1.05); /* Leve aumento de tamaño en hover */
+  }
+  
+  .custom-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(90, 111, 217, 0.5); /* Sombra de enfoque con color azul */
+  }
+  
+  /* Estilo para el botón 'Cerrar' (btn-secondary) */
+  .btn-secondary.custom-btn {
+    background-color: #e4e7f3; /* Azul claro */
+    color: #1d2b56; /* Color oscuro para el texto */
+    border: none;
+  }
+  
+  .btn-dark.custom-btn {
+    background-color: #6c7df5; /* Azul más oscuro para el botón 'Reportar' */
+    color: white;
+    border: none;
+  }
+  /* Estilos comunes para los mensajes dentro del modal */
+.success-message, .error-message {
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+  
+  /* Estilo para el mensaje de éxito */
+  .success-message {
+    background: linear-gradient(135deg, #a0d8ef, #8ecae6); /* Degradado suave de azul claro */
+    color: #1d2b56; /* Texto oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para el mensaje de error */
+  .error-message {
+    background: linear-gradient(135deg, #f8c9d1, #f4a5b9); /* Degradado suave de rosa claro */
+    color: #660000; /* Texto rojo oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Efecto hover en los mensajes */
+  .success-message:hover, .error-message:hover {
+    transform: scale(1.05); /* Aumentar el tamaño ligeramente en hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    cursor: pointer;
+  }
+
+  /* Estilos comunes para los botones del modal */
+.modal-content .btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #1d2b56; /* Color de cierre en tonos oscuros */
+  transition: color 0.3s ease, transform 0.3s ease; /* Transición suave */
+  cursor: pointer;
+  padding: 5px 10px; /* Tamaño del botón */
+}
+
+/* Estilo para cuando el modal tiene mensaje de éxito */
+.success-message + .modal-footer .btn-close {
+  color: #1d2b56; /* Color adecuado para el botón cuando hay mensaje de éxito */
+}
+
+.success-message + .modal-footer .btn-close:hover {
+  color: #004e8e; /* Un color azul más oscuro al pasar el ratón */
+  transform: scale(1.1); /* Aumento de tamaño al hacer hover */
+}
+
+/* Estilo para cuando el modal tiene mensaje de error */
+.error-message + .modal-footer .btn-close {
+  color: #660000; /* Color rojo para el botón cuando hay mensaje de error */
+}
+
+.error-message + .modal-footer .btn-close:hover {
+  color: #b20000; /* Color rojo más oscuro al pasar el ratón */
+  transform: scale(1.1); /* Aumento de tamaño al hacer hover */
+}
+
+/* Asegurarse de que el botón de cerrar también se vea bien al estar en hover */
+.modal-footer .btn-close:hover {
+  transform: scale(1.1); /* Leve aumento de tamaño para interacción */
+  opacity: 0.8; /* Reduce la opacidad para hacerlo un poco más sutil */
+}
+
+  
