@@ -367,7 +367,7 @@ class ProblemasAPIView(APIView):
         tipoEdificio = request.POST.get("tipo_edificio")
 
         if tipoEdificio == "Academico":
-            form = formAcademicos(request.POST, request.FILES)
+            form = formAcademicos(request.POST)
         elif tipoEdificio == "Baños":
             form = formBaños(request.POST)
         elif tipoEdificio == "Áreas comunes":
@@ -379,25 +379,28 @@ class ProblemasAPIView(APIView):
         if form.is_valid():
             
             if "ubicacion_exacta" in request.FILES:
-                pass
-                # file = request.FILES["ubicacion_exacta"]
-                # # Configuration       
-                # cloudinary.config( 
-                #     cloud_name = "ddtcisnd8", 
-                #     api_key = "198492183157911", 
-                #     api_secret = "uer3QQQHJFBGfxmsEAiRYhYwxQE", # Click 'View API Keys' above to copy your API secret
-                #     secure=True
-                # )
+            
+                file = request.FILES["ubicacion_exacta"]
+                # Configuration       
+                cloudinary.config( 
+                    cloud_name = "ddtcisnd8", 
+                    api_key = "198492183157911", 
+                    api_secret = "uer3QQQHJFBGfxmsEAiRYhYwxQE", # Click 'View API Keys' above to copy your API secret
+                    secure=True
+                )
 
-                # # Upload an image
-                # upload_result = cloudinary.uploader.upload(file,
-                #                                         public_id="image1")
-                # print(upload_result["secure_url"])
+                # Upload an image
+                upload_result = cloudinary.uploader.upload(file,
+                                                        public_id=f"{request.user.id}_{datetime.now()}")
+                
+             
+                print(upload_result["secure_url"])
 
 
 
             data = form.cleaned_data
             data['id_usuario'] = request.user.id
+            data['ubicacion_exacta'] = upload_result["secure_url"]
             serializer = ProblemaSerializer(data=data)
             if serializer.is_valid():
                 report = serializer.save()

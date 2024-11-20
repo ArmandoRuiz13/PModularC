@@ -8,7 +8,7 @@ class formProblemData(forms.Form):
     ubicacion_exacta = forms.FileField(label="Ubicación Exacta", required=False)
    
 class formAcademicos(formProblemData):
-    letra_edificio = forms.CharField(label="letra_edificio", max_length=1)
+    letra_edificio = forms.CharField(label="letra_edificio", max_length=10)
     numero_salon = forms.CharField(label="numero_salon")
 
 

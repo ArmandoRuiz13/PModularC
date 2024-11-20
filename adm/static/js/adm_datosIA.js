@@ -22,7 +22,7 @@ async function getPredictions() {
 
         const data = await response.json();
 
-        console.log(data);
+     
         const problemas = data.forecast.map((item) => Math.round(item.problemas));
         const fechas = data.forecast.map((item) => {
             const date = new Date(item.date);
@@ -334,7 +334,7 @@ async function getSimulation13MonthsForBuilding() {
             
         });
     
-        // console.log(orderedEntries[0][0], orderedBuldings[0][0]);
+        
         // Test, se va a cambiar
         await getSimulation13MonthsForMostReportedBuildings(orderedEntries[0][0], orderedBuldings[0][0], `${currentYear}-${currentMonth}`, orderedBuldings[0][1]);
 
@@ -359,67 +359,149 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
 
         const reportes = await response.json();
         
+        let parametroAgrupamiento, row1, row2;
+        if(mostReportedTBuildingType === 'Academico'){
+            parametroAgrupamiento = 'letra_edificio';
+            row1 = 'Letra del Edificio';
+            row2 = "Número de Salón";
+
+        } else if(mostReportedTBuildingType === 'Baños'){
+            parametroAgrupamiento = 'edificio_bano';
+            row1 = 'Edificio';
+            row2 = "Tipo de Baño";
+        } else if(mostReportedTBuildingType === 'Áreas comunes'){
+            parametroAgrupamiento = 'tipo_area';
+            row1 = 'Tipo Área Común';
+            row2 = "";
+        } else if(mostReportedTBuildingType === 'Departamento'){
+            parametroAgrupamiento = 'tipo_departamento';
+            row1 = 'Tipo de Departamento';
+            row2 = "Departamento";
+        }
+        
         // Agrupar por letra_edificio y sumar cantidad_reportes
         const reportesAgrupados = reportes.reduce((acc, reporte) => {
-            const letra = reporte.letra_edificio;
-            if (!acc[letra]) {
-                acc[letra] = 0;
+            if(reporte.letra_edificio){
+                const letra = reporte.letra_edificio;
+                if (!acc[letra]) {
+                    acc[letra] = 0;
+                }
+                acc[letra] += reporte.cantidad_reportes;
+            } else if(reporte.tipo_departamento){
+                const tipo_departamento = reporte.tipo_departamento;
+                if (!acc[tipo_departamento]) {
+                    acc[tipo_departamento] = 0;
+                }
+                acc[tipo_departamento] += reporte.cantidad_reportes;
             }
-            acc[letra] += reporte.cantidad_reportes;
+
             return acc;
         }, {});
 
         // Convertir el objeto en un array y ordenar de mayor a menor por total_reportes
+
+     
+
+   
+
         const top3Reportes = Object.keys(reportesAgrupados)
             .map(letra => ({
-                letra_edificio: letra,
+                [parametroAgrupamiento]: letra,
                 total_reportes: reportesAgrupados[letra]
             }))
             .sort((a, b) => b.total_reportes - a.total_reportes).slice(0, 3); // Tomar los primeros 3
 
             // Crear la tabla HTML
             let tablaHTML = `
-                <h3>Edificios  de academicos con más reportes de ${mostReportedProblem} en ${month}</h3>
+                <h3>Edificios  de ${mostReportedTBuildingType} con más reportes de ${mostReportedProblem} en ${month}</h3>
                 <table border="1">
                
                 <tr>
-                    <th>Letra del Edificio</th>
+                    <th>${row1}</th>
                     <th>Cantidad de Reportes</th>
                 </tr>`;
+
+         
             
             top3Reportes.forEach(reporte => {
+
+                let tableContent;
+
+                if(mostReportedTBuildingType === 'Academico'){
+                    tableContent = reporte.letra_edificio;
+                } else if(mostReportedTBuildingType === 'Baños'){
+                    tableContent = reporte.edificio_bano;
+                } else if(mostReportedTBuildingType === 'Áreas comunes'){
+                    tableContent = reporte.tipo_area;
+                } else if(mostReportedTBuildingType === 'Departamento'){
+                    tableContent = reporte.tipo_departamento;
+                }
+                
                 tablaHTML += `
                 <tr>
-                    <td>${reporte.letra_edificio}</td>
+                    <td>${tableContent}</td>
                     <td>${reporte.total_reportes}</td>
                 </tr>`;
             });
             
             tablaHTML += `</table>`; // Ordenar de mayor a menor
+
+
             document.getElementById('tablaTopEdificios').innerHTML = tablaHTML;
 
-            const topReportesSalones = reportes.filter(reporte => reporte.letra_edificio === top3Reportes[0].letra_edificio) 
+
+
+            const topReportesSalones = reportes.filter(reporte => {
+                let condition;
+                if(mostReportedTBuildingType === 'Academico'){
+                    condition = reporte.letra_edificio === top3Reportes[0].letra_edificio;
+                } else if(mostReportedTBuildingType === 'Baños'){
+                    condition = reporte.numero_salon === top3Reportes[0].numero_salon;
+                } else if(mostReportedTBuildingType === 'Áreas comunes'){
+                    condition = reporte.tipo_departamento === top3Reportes[0].tipo_departamento;
+                } else if(mostReportedTBuildingType === 'Departamento'){
+                    condition = reporte.tipo_edificio_departamento === top3Reportes[0].tipo_edificio_departamento;
+                }
+
+                return reporte.letra_edificio === top3Reportes[0].letra_edificio
+            }) 
                                        .sort((a, b) => b.total_reportes - a.total_reportes).slice(0, 3);
 
             tablaHTML = `
-                <h3>Salones de academicos con más reportes de ${mostReportedProblem} en ${month}</h3>
+                <h3>${mostReportedTBuildingType} con más reportes de ${mostReportedProblem} en ${month}</h3>
                 <table border="1">
                
                 <tr>
-                    <th>Número de salón</th>
+                    <th>${row2}</th>
                     <th>Cantidad de Reportes</th>
                 </tr>`;
       
             topReportesSalones.forEach(reporte => {
+
+                let tableContent
+
+                if(mostReportedTBuildingType === 'Academico'){
+                    tableContent = reporte.numero_salon;
+                } else if(mostReportedTBuildingType === 'Baños'){
+                    tableContent = reporte.numero_salon;
+                } else if(mostReportedTBuildingType === 'Áreas comunes'){
+                    tableContent = reporte.tipo_departamento;
+                } else if(mostReportedTBuildingType === 'Departamento'){
+                    tableContent = reporte.tipo_edificio_departamento;
+                }
+
                 tablaHTML += `
                 <tr>
-                    <td>${reporte.numero_salon}</td>
+                    <td>${tableContent}</td>
                     <td>${reporte.cantidad_reportes}</td>
                 </tr>`;
             });
             
             tablaHTML += `</table>`; // Ordenar de mayor a menor
-            document.getElementById('tablaTopSalones').innerHTML = tablaHTML;
+
+            if(mostReportedTBuildingType != 'Áreas comunes'){
+                document.getElementById('tablaTopSalones').innerHTML = tablaHTML;
+            }
             
             const response2 = await fetch(`${url}/api/problems/predict?month=true&forecast_steps=12&problem_type=${mostReportedProblem}&building_type=${mostReportedTBuildingType}`);
 
@@ -441,9 +523,7 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            console.log(`${url}/api/problems/simulation?
-                tipo_problema=${mostReportedProblem}&tipo_edificio=${mostReportedTBuildingType}&
-                cantidad_reportes=${totalReportesPorTipoEdificio}`);
+           
             const response3 = await fetch(`${url}/api/problems/simulation?tipo_problema=${mostReportedProblem}&tipo_edificio=${mostReportedTBuildingType}&cantidad_reportes=${totalReportesPorTipoEdificio}`);
         
             if (!response3.ok) {
@@ -453,8 +533,25 @@ async function getSimulation13MonthsForMostReportedBuildings(mostReportedProblem
             const recomendacion = await response3.json();
             simulacionConclusiones.innerHTML += `<br> ${recomendacion.recomendacion}`;
 
-            simulacionConclusiones.innerHTML += `<br> Se detecto un número inusual de problemas de Humedad en Noviembre: 69
-                                                 <br> Áreas comúnes: 14`;
+            const postData = {
+                tipo_problema: mostReportedProblem,
+            };
+
+            const postResponse = await fetch(`${url}/api/anomalies/detect`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (!postResponse.ok) {
+                throw new Error(`HTTP error! Status: ${postResponse.status}`);
+            }
+
+            const postResult = await postResponse.json();
+            console.log('Post request successful:', postResult);
+            simulacionConclusiones.innerHTML += `<br> Se detecto un número inusual de problemas de Humedad en Noviembre: 69`;
     
 
          
